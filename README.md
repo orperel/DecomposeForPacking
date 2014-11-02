@@ -1,3 +1,3 @@
 DecomposeForPacking
 ===================
-This is the work of MPG.
+This is the work of MPG

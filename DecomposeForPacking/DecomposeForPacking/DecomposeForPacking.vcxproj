@@ -64,11 +64,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="IsFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Part.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CImg.h" />
+    <ClInclude Include="Decompose.h" />
+    <ClInclude Include="IsFitVisitor.h" />
+    <ClInclude Include="IWorldVisitor.h" />
+    <ClInclude Include="Part.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

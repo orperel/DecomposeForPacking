@@ -9,6 +9,6 @@ public:
 	IsFitVisitor();
 	virtual ~IsFitVisitor();
 	
-	virtual void visit(WorldPtr worldPtr, Point point);
+	virtual void visit(WorldPtr worldPtr, PointPtr point);
 };
 

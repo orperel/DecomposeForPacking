@@ -6,7 +6,7 @@ class Decompose
 {
 public:
 	// Runs on the part list, for each part 
-	Decompose(World world, PartList partList);
+	Decompose(WorldPtr world, PartList partList);
 	virtual ~Decompose();
 
 	void decompose();

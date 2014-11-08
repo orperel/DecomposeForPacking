@@ -1,7 +1,7 @@
 #include "Decompose.h"
 
 
-Decompose::Decompose(World world, PartList partList)
+Decompose::Decompose(WorldPtr world, PartList partList)
 {
 }
 

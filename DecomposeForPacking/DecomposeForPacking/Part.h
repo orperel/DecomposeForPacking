@@ -1,6 +1,7 @@
 #pragma once
 #include "Point.h"
 #include <vector>
+#include <memory>
 
 class Part
 {
@@ -11,4 +12,5 @@ public:
 	PointList getPointList();
 };
 
-typedef std::vector<Part> PartList;
+typedef std::shared_ptr<Part> PartPtr;
+typedef std::vector<PartPtr> PartList;

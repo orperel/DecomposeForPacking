@@ -28,6 +28,8 @@ WorldPtr imageToWorld() {
 	//	cout << pixel << " ";
 	//}
 
+	new CImgDisplay(src);
+
 	return WorldPtr(new World());
 }
 

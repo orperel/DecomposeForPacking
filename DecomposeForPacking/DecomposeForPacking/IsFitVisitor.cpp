@@ -10,7 +10,7 @@ IsFitVisitor::~IsFitVisitor()
 {
 }
 
-void IsFitVisitor::visit(World world, Point point)
+void IsFitVisitor::visit(WorldPtr world, Point point)
 {
 
 }

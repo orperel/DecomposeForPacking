@@ -1,12 +1,15 @@
 #pragma once
 
+#include <memory>
 #include "Point.h"
 
 class World;
+typedef std::shared_ptr<World> WorldPtr;
 
 class IWorldVisitor
 {
 public:
-	void visit(World world, Point point);
+	virtual void visit(WorldPtr worldPtr, Point point) = 0;
 };
 
+typedef std::shared_ptr<IWorldVisitor> IWorldVisitorPtr;

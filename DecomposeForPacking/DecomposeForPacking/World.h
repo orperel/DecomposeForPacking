@@ -4,7 +4,7 @@
 
 /* Represents the world to be decompose or packed into, i.e. the spatial in which we locate the parts that assemble
    the object. The world is composed of transparent and non-transparent pixels; the non-transparents are the pixels
-   of the object/pack itself. */
+   of the object/pack istself. */
 class World
 {
 
@@ -12,7 +12,7 @@ public:
 	World();
 	virtual ~World();
 
-	void accept(IWorldVisitor visitor);
+	void accept(IWorldVisitorPtr visitor);
 };
 
 typedef std::shared_ptr<World> WorldPtr;

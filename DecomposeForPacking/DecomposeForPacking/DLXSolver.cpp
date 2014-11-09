@@ -112,13 +112,29 @@ void DLXSolver::cover(shared_ptr<DLXColHeader> column)
 	// Remove each row that contains a value for this column
 	for (auto rowNode = column->down(); rowNode != column; rowNode = rowNode->down())
 	{
-
+		// To remove a row - we iterate each of the nodes in the row and detach them from their columns
+		// (the links within the detached row remain intact, to be able to reattach it when backtracking)
+		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode->right())
+		{
+			detachNodeFromCol(horzNode);
+		}
 	}
 }
 
-void DLXSolver::uncover(shared_ptr<DLXColHeader>)
+void DLXSolver::uncover(shared_ptr<DLXColHeader> column)
 {
+	// Reattach each row that contains a value for this column
+	for (auto rowNode = column->up(); rowNode != column; rowNode = rowNode->up())
+	{
+		// To reattach a row - we iterate each of the nodes in the row and attach them back to their columns
+		for (auto horzNode = rowNode->left(); horzNode != rowNode; horzNode->left())
+		{
+			reattachNodeToCol(horzNode);
+		}
+	}
 
+	// Reattach the column back to the columns row
+	reattachNodeToRow(column);
 }
 
 /** Creates a new "Exact Cover Problem" solver, using "Full Cover" mode.
@@ -156,7 +172,7 @@ DLXSolver::~DLXSolver()
 *  Partial cover mode - (optional columns indexed first, mandatory columns following immediatly afterwards) -
 *  [0 .. numberOfOptionalColumns - 1, numberOfOptionalColumns, numberOfOptionalColumns + 1 .. numberOfOptionalColumns + numberOfMandatoryColumns]
 */
-void DLXSolver::addRow(unique_ptr<DLX_VALUES_SET> row)
+void DLXSolver::addRow(shared_ptr<DLX_VALUES_SET> row)
 {
 	if (row->empty())
 		return;
@@ -189,5 +205,10 @@ void DLXSolver::addRow(unique_ptr<DLX_VALUES_SET> row)
 /** Solves the cover problem and returns the possible solutions found. */
 vector<DLX_SOLUTION> DLXSolver::solve()
 {
-	return vector<DLX_SOLUTION>();
+	vector<DLX_SOLUTION> solutions = vector<DLX_SOLUTION>();
+
+	shared_ptr<DLXColHeader> chosenHeader = chooseNextColumn();
+
+
+	return solutions;
 }

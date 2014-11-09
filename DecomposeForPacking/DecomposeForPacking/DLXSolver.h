@@ -75,7 +75,7 @@ public:
 	 *  Partial cover mode - (optional columns indexed first, mandatory columns following immediatly afterwards) -
 	 *  [0 .. numberOfOptionalColumns - 1, numberOfOptionalColumns, numberOfOptionalColumns + 1 .. numberOfOptionalColumns + numberOfMandatoryColumns]
 	 */
-	void addRow(unique_ptr<DLX_VALUES_SET> row);
+	void addRow(shared_ptr<DLX_VALUES_SET> row);
 
 	/** Solves the cover problem and returns the possible solutions found. */
 	vector<DLX_SOLUTION> solve();
@@ -147,8 +147,9 @@ private:
 	void cover(shared_ptr<DLXColHeader> column);
 
 	/** Reattaches the given column, and all rows that contain values for this column back to the sparse matrix.
+	 *  The method relies on the links within the columns and the removed rows being intact.
 	 */
-	void uncover(shared_ptr<DLXColHeader>);
+	void uncover(shared_ptr<DLXColHeader> column);
 
 	// Inner classes
 	class DLXNode

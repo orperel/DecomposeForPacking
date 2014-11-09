@@ -15,7 +15,7 @@ public:
 	IsPartFitVisitor(PartPtr partPtr, shared_ptr<DLXSolver> dlxSolver);
 	virtual ~IsPartFitVisitor();
 	
-	void visit(WorldPtr worldPtr, Point point) override;
+	void visit(World& worldPtr, Point point) override;
 
 private:
 	PartPtr _partPtr;

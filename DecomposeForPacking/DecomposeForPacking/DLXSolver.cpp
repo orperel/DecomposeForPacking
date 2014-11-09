@@ -88,7 +88,7 @@ shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
 	auto chosenHeader = currColHeader;
 
 	// Iterate all remaining column headers until the cyclic loop completes
-	while (currColHeader->right() != _matrixHead)
+	for (; currColHeader->right() != _matrixHead; currColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right()))
 	{
 		auto nextColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right());
 		int nextNumOfElements = nextColHeader->numOfElements();
@@ -114,7 +114,7 @@ void DLXSolver::cover(shared_ptr<DLXColHeader> column)
 	{
 		// To remove a row - we iterate each of the nodes in the row and detach them from their columns
 		// (the links within the detached row remain intact, to be able to reattach it when backtracking)
-		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode->right())
+		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode = horzNode->right())
 		{
 			detachNodeFromCol(horzNode);
 		}
@@ -127,7 +127,7 @@ void DLXSolver::uncover(shared_ptr<DLXColHeader> column)
 	for (auto rowNode = column->up(); rowNode != column; rowNode = rowNode->up())
 	{
 		// To reattach a row - we iterate each of the nodes in the row and attach them back to their columns
-		for (auto horzNode = rowNode->left(); horzNode != rowNode; horzNode->left())
+		for (auto horzNode = rowNode->left(); horzNode != rowNode; horzNode = horzNode->left())
 		{
 			reattachNodeToCol(horzNode);
 		}
@@ -141,7 +141,7 @@ void DLXSolver::uncover(shared_ptr<DLXColHeader> column)
  *  Only solutions that cover the entire universe are outputted.
  *  The universe is 0..numberOfColumns.
  */
-DLXSolver::DLXSolver(int numberOfColumns) : DLXSolver(0, _mandatoryColsNum)
+DLXSolver::DLXSolver(int numberOfColumns) : DLXSolver(0, numberOfColumns)
 {
 }
 
@@ -179,7 +179,8 @@ void DLXSolver::addRow(shared_ptr<DLX_VALUES_SET> row)
 
 	DLX_VALUES_SET_ITERATOR iter = row->begin();
 	int firstValue = *iter;
-	shared_ptr<DLXNode> firstNode = std::make_shared<DLXDataNode>(_rowNum, firstValue); // rowIndex = _rowNum, _colIndex = firstValue
+	auto firstNode = std::make_shared<DLXDataNode>(_rowNum, firstValue); // rowIndex = _rowNum, _colIndex = firstValue
+	addNodeToColumn(firstNode);
 	iter++;
 	auto prevNode = firstNode;
 
@@ -226,6 +227,7 @@ void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSol
 	for (auto rowNode = chosenColumn->down(); rowNode != chosenColumn; rowNode = rowNode->down())
 	{
 		DLX_VALUES_SET rowValues;
+		rowValues.insert(chosenColumn->colIndex()); // Construct the set of values representing the row
 
 		// Go over the elements of the row: cover them, and add them to the rowValues set
 		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode = horzNode->right())

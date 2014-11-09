@@ -187,9 +187,9 @@ private:
 		static const int SENTINEL_INDEX = -1; // Index of the sentinel header, the root that points to all headers
 		int _colIndex; // Index of the column (from 0 to number of columns - 1)
 		int _setCount; // The number of sets that contain the value represented by this column
-
+		
 	public:
-		DLXColHeader(int colIndex) : _colIndex(colIndex) {}
+		DLXColHeader(int colIndex) : _colIndex(colIndex), _setCount(0) {}
 		virtual ~DLXColHeader() = default;
 		static shared_ptr<DLXColHeader> createSentinelHeader() { return std::make_shared<DLXColHeader>(SENTINEL_INDEX); }
 		bool isSentinel() { return _colIndex == SENTINEL_INDEX; }

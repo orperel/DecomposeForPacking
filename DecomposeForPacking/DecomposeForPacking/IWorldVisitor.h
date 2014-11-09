@@ -4,12 +4,11 @@
 #include "Point.h"
 
 class World;
-typedef std::shared_ptr<World> WorldPtr;
 
 class IWorldVisitor
 {
 public:
-	virtual void visit(World& worldPtr, Point point) = 0;
+	virtual void visit(World& world, Point point) = 0;
 };
 
 typedef std::shared_ptr<IWorldVisitor> IWorldVisitorPtr;

@@ -1,8 +1,6 @@
 #include "IsPartFitVisitor.h"
 #include "Part.h"
 
-using std::unique_ptr;
-
 IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver)
 {
 	_partPtr = partPtr;
@@ -16,7 +14,7 @@ IsPartFitVisitor::~IsPartFitVisitor()
 void IsPartFitVisitor::visit(World& world, Point point)
 {
 	PointList pointList = _partPtr->getPointList();
-	unique_ptr<DLX_VALUES_SET> partLocationSet = std::make_unique<DLX_VALUES_SET>();
+	shared_ptr<DLX_VALUES_SET> partLocationSet = std::make_shared<DLX_VALUES_SET>();
 
 	int i = 0;
 	int pointListSize = pointList.size();

@@ -202,13 +202,61 @@ void DLXSolver::addRow(shared_ptr<DLX_VALUES_SET> row)
 	_rowNum++;
 }
 
+void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution)
+{
+	// Choose the next column to eliminate
+	shared_ptr<DLXColHeader> chosenColumn = chooseNextColumn();
+
+	// No more columns remain, the current solution is successful.
+	// Record it and backtrack.
+	if (chosenColumn == NULL)
+	{
+		solutions.push_back(currentSolution);
+		return;
+	}
+	else if (chosenColumn->down() == chosenColumn) 
+	{ // No rows remain, cannot cover the universe with the choices so far. Backtrack and try other solutions
+		return;
+	}
+	
+	// Remove the chosen column and the rows associated with it
+	cover(chosenColumn);
+
+	// Test each of the rows non-deterministically as partial solution candidates
+	for (auto rowNode = chosenColumn->down(); rowNode != chosenColumn; rowNode = rowNode->down())
+	{
+		DLX_VALUES_SET rowValues;
+
+		// Go over the elements of the row: cover them, and add them to the rowValues set
+		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode = horzNode->right())
+		{
+			auto dataNode = std::static_pointer_cast<DLXDataNode>(horzNode);
+			rowValues.insert(dataNode->colIndex()); // Construct the set of values representing the row
+			cover(dataNode->head()); // Remove the node's column and rows associated with it
+		}
+
+		currentSolution.push_back(rowValues); // Add the tentative solution part to current solution
+		search(solutions, currentSolution); // Recurse and continue searching & covering the universe
+		
+		// When the search above completes, we're ready to backtrack and try other solutions.
+		// Undo the last step to backtrack:
+		currentSolution.pop_back(); // Removes the last element - which is the solution part candidate
+
+		for (auto horzNode = rowNode->left(); horzNode != rowNode; horzNode = horzNode->left())
+		{
+			auto dataNode = std::static_pointer_cast<DLXDataNode>(horzNode);
+			uncover(dataNode->head()); // Recover the node's column and rows associated with it
+		}
+	}
+
+	uncover(chosenColumn);
+}
+
 /** Solves the cover problem and returns the possible solutions found. */
 vector<DLX_SOLUTION> DLXSolver::solve()
 {
 	vector<DLX_SOLUTION> solutions = vector<DLX_SOLUTION>();
-
-	shared_ptr<DLXColHeader> chosenHeader = chooseNextColumn();
-
-
+	DLX_SOLUTION currentSolution = DLX_SOLUTION();
+	search(solutions, currentSolution);
 	return solutions;
 }

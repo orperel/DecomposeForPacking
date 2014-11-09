@@ -1,9 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <set>
 #include <unordered_map>
-#include <memory>
 
 using std::vector;
 using std::set;
@@ -150,6 +150,13 @@ private:
 	 *  The method relies on the links within the columns and the removed rows being intact.
 	 */
 	void uncover(shared_ptr<DLXColHeader> column);
+
+	/** Performs a recursive step of search -
+	 *  1) Choose a column deterministically.
+	 *  2) Choose each of the rows non-deterministically and perform a cover of intersecting rows / columns.
+	 *  3) Repeat until sucess / failure and backtrack.
+	 */
+	void search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution);
 
 	// Inner classes
 	class DLXNode

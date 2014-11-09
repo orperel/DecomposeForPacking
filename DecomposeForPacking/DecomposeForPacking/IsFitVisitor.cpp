@@ -1,9 +1,12 @@
 #include "IsFitVisitor.h"
 #include "Part.h"
 
-IsFitVisitor::IsFitVisitor(PartPtr partPtr)
+using std::unique_ptr;
+
+IsFitVisitor::IsFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver)
 {
 	_partPtr = partPtr;
+	_dlxSolver = dlxSolver;
 }
 
 IsFitVisitor::~IsFitVisitor()
@@ -13,20 +16,24 @@ IsFitVisitor::~IsFitVisitor()
 void IsFitVisitor::visit(WorldPtr worldPtr, Point point)
 {
 	PointList pointList = _partPtr->getPointList();
+	unique_ptr<DLX_VALUES_SET> partLocationSet = std::make_unique<DLX_VALUES_SET>();
 
-	int index = 0;
+	int i = 0;
 	int pointListSize = pointList.size();
-	bool isFit = true;
-	while ((index < pointListSize) && isFit)
+	bool isPartFit = true;
+	while ((i < pointListSize) && isPartFit)
 	{
-		if (!worldPtr->isPointPainted(point + pointList[index]))
+		Point relatedPartPoint = (point + pointList[i]);
+		partLocationSet->insert(worldPtr->pointToIndex(relatedPartPoint));
+
+		if (!worldPtr->isPointPainted(relatedPartPoint))
 		{
-			isFit = false;
+			isPartFit = false;
 		}
 	}
 
-	if ((index == pointListSize) && isFit)
+	if ((i == pointListSize) && isPartFit)
 	{
-
+		_dlxSolver->addRow(partLocationSet);
 	}
 }

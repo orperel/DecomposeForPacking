@@ -51,3 +51,8 @@ int World::getIndexFromPoint(Point point)
 {
 	return m_pointToIndex[point];
 }
+
+bool World::isPointPainted(Point point)
+{
+	return true;
+}

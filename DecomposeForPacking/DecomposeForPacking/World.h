@@ -12,6 +12,9 @@ public:
 	World();
 	virtual ~World();
 
+	/* Returns true if the point is part of the object, else false. */
+	bool isPointPainted(Point point);
+
 	void accept(IWorldVisitorPtr visitor);
 };
 
@@ -23,7 +26,3 @@ typedef std::shared_ptr<World> WorldPtr;
 //
 ///* Returns the world's width. */
 //int getWidth();
-//
-///* Returns true if the pixel is part of the object, else false.
-//Params x and y are the coordinates of the pixel, related to the top-left corner as the origin. */
-//bool isPixelPainted(int x, int y);

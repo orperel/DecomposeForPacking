@@ -2,13 +2,18 @@
 
 #include <memory>
 #include "IWorldVisitor.h"
+#include "Part.h"
+#include "World.h"
+#include "Point.h"
 
 class IsFitVisitor : public IWorldVisitor
 {
 public:
-	IsFitVisitor();
+	IsFitVisitor(PartPtr partPtr);
 	virtual ~IsFitVisitor();
 	
-	virtual void visit(WorldPtr worldPtr, PointPtr point);
-};
+	void visit(WorldPtr worldPtr, Point point) override;
 
+private:
+	PartPtr _partPtr;
+};

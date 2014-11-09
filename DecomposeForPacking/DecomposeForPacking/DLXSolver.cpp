@@ -73,24 +73,47 @@ void DLXSolver::reattachNodeToCol(shared_ptr<DLXNode> node)
 	node->down()->setUp(node);
 }
 
-void DLXSolver::detachRow()
-{
-
-}
-
-void DLXSolver::detachColumn()
-{
-
-}
-
 shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
 {
+	// The column header row contains only DLXColHeader nodes, safe to cast statically
+	auto currColHeader = std::static_pointer_cast<DLXColHeader>(_matrixHead->right());
 
+	// Treat the edge cases: no columns remain
+	if (currColHeader == _matrixHead)
+		return NULL;
+	else if (currColHeader->right() == _matrixHead) // One column remains - choose it
+		return currColHeader;
+
+	int minNumOfElements = currColHeader->numOfElements();
+	auto chosenHeader = currColHeader;
+
+	// Iterate all remaining column headers until the cyclic loop completes
+	while (currColHeader->right() != _matrixHead)
+	{
+		auto nextColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right());
+		int nextNumOfElements = nextColHeader->numOfElements();
+
+		// New minimal column candidate encountered
+		if (nextNumOfElements < minNumOfElements)
+		{
+			chosenHeader = nextColHeader;
+			minNumOfElements = nextNumOfElements;
+		}
+	}
+
+	return chosenHeader;
 }
 
-void DLXSolver::cover(shared_ptr<DLXColHeader>)
+void DLXSolver::cover(shared_ptr<DLXColHeader> column)
 {
+	// Remove the column
+	detachNodeFromRow(column);
 
+	// Remove each row that contains a value for this column
+	for (auto rowNode = column->down(); rowNode != column; rowNode = rowNode->down())
+	{
+
+	}
 }
 
 void DLXSolver::uncover(shared_ptr<DLXColHeader>)
@@ -133,12 +156,12 @@ DLXSolver::~DLXSolver()
 *  Partial cover mode - (optional columns indexed first, mandatory columns following immediatly afterwards) -
 *  [0 .. numberOfOptionalColumns - 1, numberOfOptionalColumns, numberOfOptionalColumns + 1 .. numberOfOptionalColumns + numberOfMandatoryColumns]
 */
-void DLXSolver::addRow(DLX_VALUES_SET row)
+void DLXSolver::addRow(unique_ptr<DLX_VALUES_SET> row)
 {
-	if (row.empty())
+	if (row->empty())
 		return;
 
-	DLX_VALUES_SET_ITERATOR iter = row.begin();
+	DLX_VALUES_SET_ITERATOR iter = row->begin();
 	int firstValue = *iter;
 	shared_ptr<DLXNode> firstNode = std::make_shared<DLXDataNode>(_rowNum, firstValue); // rowIndex = _rowNum, _colIndex = firstValue
 	iter++;
@@ -146,7 +169,7 @@ void DLXSolver::addRow(DLX_VALUES_SET row)
 
 	// Parse each value in the row's value set and create a node out of it.
 	// Nodes are placed immediately in the sparse matrix, attaching them to adjacent row and column links.
-	for (; iter != row.end(); iter++)
+	for (; iter != row->end(); iter++)
 	{
 		int value = *iter;
 		auto dataNode = std::make_shared<DLXDataNode>(_rowNum, value); // rowIndex = _rowNum, _colIndex = value

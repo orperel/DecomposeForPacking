@@ -9,6 +9,7 @@ using std::vector;
 using std::set;
 using std::unordered_map;
 using std::shared_ptr;
+using std::unique_ptr;
 
 typedef set<int> DLX_VALUES_SET;
 typedef DLX_VALUES_SET::iterator DLX_VALUES_SET_ITERATOR;
@@ -74,7 +75,7 @@ public:
 	 *  Partial cover mode - (optional columns indexed first, mandatory columns following immediatly afterwards) -
 	 *  [0 .. numberOfOptionalColumns - 1, numberOfOptionalColumns, numberOfOptionalColumns + 1 .. numberOfOptionalColumns + numberOfMandatoryColumns]
 	 */
-	void addRow(DLX_VALUES_SET row);
+	void addRow(unique_ptr<DLX_VALUES_SET> row);
 
 	/** Solves the cover problem and returns the possible solutions found. */
 	vector<DLX_SOLUTION> solve();
@@ -132,18 +133,18 @@ private:
 	/** Reattaches the node back to the column according to the node's up / down pointers. */
 	inline void reattachNodeToCol(shared_ptr<DLXNode> node);
 
-	inline void detachRow();
-	inline void detachColumn();
-
 	/** Chooses the next column to be removed from the matrix.
 	 *  The algorithm uses the heuristic - "choose the column with the least elements" (a value that appears in 
 	 *  less sets is less likely to cause massive branching).
+	 *  If no columns remain in the matrix, NULL is returned.
 	 */
 	shared_ptr<DLXColHeader> chooseNextColumn();
 
-	/** Removes the given column, and all rows that contain values for this column from the sparse matrix
+	/** Removes:
+	 *  1) The given column 
+	 *  2) All rows that contain values for this column in the sparse matrix.
 	 */
-	void cover(shared_ptr<DLXColHeader>);
+	void cover(shared_ptr<DLXColHeader> column);
 
 	/** Reattaches the given column, and all rows that contain values for this column back to the sparse matrix.
 	 */

@@ -10,7 +10,14 @@ public:
 	virtual ~Part();
 
 	PointList getPointList();
+
+	int addPointToRight(int pointIndex);
+
+private:
+	PointList m_pointList;
 };
 
 typedef std::shared_ptr<Part> PartPtr;
 typedef std::vector<PartPtr> PartList;
+
+// TODO: check symmetrical...

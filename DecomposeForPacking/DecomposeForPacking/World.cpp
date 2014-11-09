@@ -51,3 +51,8 @@ int World::getIndexFromPoint(Point point)
 {
 	return m_pointToIndex[point];
 }
+
+int World::getNumberOfPoints()
+{
+	return m_numberOfPoints;
+}

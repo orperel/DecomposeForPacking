@@ -6,6 +6,7 @@
 #include "DynamicArray.h"
 #include <string>
 #include "Part.h"
+#include "Decompose.h"
 
 using namespace std;
 using namespace cimg_library;
@@ -82,12 +83,19 @@ WorldPtr imageToWorld(std::string path) {
 }
 
 int main(int argc, char *argv[]) {
-	WorldPtr world = imageToWorld("../../tetris.bmp");
+	WorldPtr world = imageToWorld("../../obj.bmp");
 
 	PartPtr part(new Part());
 
 	int lastIndex = part->addPointToRight(0);
 	part->addPointToRight(lastIndex);
+
+	PartList partList;
+	partList.push_back(part);
+
+	Decompose decompose(world, partList);
+
+	decompose.decompose();
 
 	cout << "Test proj" << endl;
 	

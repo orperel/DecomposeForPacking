@@ -9,11 +9,11 @@
 
 using std::shared_ptr;
 
-class IsFitVisitor : public IWorldVisitor
+class IsPartFitVisitor : public IWorldVisitor
 {
 public:
-	IsFitVisitor(PartPtr partPtr, shared_ptr<DLXSolver> dlxSolver);
-	virtual ~IsFitVisitor();
+	IsPartFitVisitor(PartPtr partPtr, shared_ptr<DLXSolver> dlxSolver);
+	virtual ~IsPartFitVisitor();
 	
 	void visit(WorldPtr worldPtr, Point point) override;
 

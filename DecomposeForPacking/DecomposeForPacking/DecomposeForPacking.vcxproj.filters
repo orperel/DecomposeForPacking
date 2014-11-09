@@ -30,7 +30,10 @@
     <ClCompile Include="Part.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsFitVisitor.cpp">
+    <ClCompile Include="DLXSolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IsPartFitVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +56,13 @@
     <ClInclude Include="IWorldVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsFitVisitor.h">
+    <ClInclude Include="DynamicArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicArray.h">
+    <ClInclude Include="DLXSolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IsPartFitVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

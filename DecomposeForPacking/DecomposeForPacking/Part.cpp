@@ -17,3 +17,8 @@ int Part::addPointToRight(int pointIndex)
 
 	return m_pointList.size() - 1;
 }
+
+PointList Part::getPointList()
+{
+	return m_pointList;
+}

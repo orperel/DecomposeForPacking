@@ -17,9 +17,6 @@ public:
 	World(BooleanDynamicArrayPtr mat, int numberOfPoints);
 	virtual ~World();
 
-	/* Returns true if the point is part of the object, else false. */
-	bool isPointPainted(Point point);
-
 	void accept(IWorldVisitorPtr visitor);
 
 	int getNumberOfPoints();

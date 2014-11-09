@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+#include <vector>
 #include <memory>
 
 class Point
@@ -16,4 +16,4 @@ private:
 };
 
 typedef std::shared_ptr<Point> PointPtr;
-typedef std::list<PointPtr> PointList;
+typedef std::vector<Point> PointList;

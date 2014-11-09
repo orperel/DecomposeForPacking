@@ -1,41 +1,43 @@
 #include "IsPartFitVisitor.h"
 #include "Part.h"
 
-using std::unique_ptr;
+using std::make_pair;
 
-IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver)
+IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver, SetsToPartMapPtr locationSetToPart)
 {
 	_partPtr = partPtr;
 	_dlxSolver = dlxSolver;
+	_locationSetToPart = locationSetToPart;
 }
 
 IsPartFitVisitor::~IsPartFitVisitor()
 {
 }
 
-void IsPartFitVisitor::visit(WorldPtr worldPtr, Point point)
+void IsPartFitVisitor::visit(World& world, Point point)
 {
-	//PointList pointList = _partPtr->getPointList();
-	//unique_ptr<DLX_VALUES_SET> partLocationSet = std::make_unique<DLX_VALUES_SET>();
+	PointList pointList = _partPtr->getPointList();
+	shared_ptr<DLX_VALUES_SET> partLocationSet = std::make_shared<DLX_VALUES_SET>();
 
-	//int i = 0;
-	//int pointListSize = pointList.size();
-	//bool isPartFit = true;
-	//while ((i < pointListSize) && isPartFit)
-	//{
-	//	Point relatedPartPoint = (point + pointList[i]);
-	//	partLocationSet->insert(worldPtr->getIndexFromPoint(relatedPartPoint));
+	int i = 0;
+	int pointListSize = pointList.size();
+	bool isPartFit = true;
+	while ((i < pointListSize) && isPartFit)
+	{
+		Point relatedPartPoint = (point + pointList[i]);
+		partLocationSet->insert(world.getIndexFromPoint(relatedPartPoint));
 
-	//	if (!worldPtr->isPointExist(relatedPartPoint))
-	//	{
-	//		isPartFit = false;
-	//	}
+		if (!world.isPointExist(relatedPartPoint))
+		{
+			isPartFit = false;
+		}
 
-	//	i++;
-	//}
+		i++;
+	}
 
-	//if ((i == pointListSize) && isPartFit)
-	//{
-	//	//_dlxSolver->addRow(partLocationSet);
-	//}
+	if ((i == pointListSize) && isPartFit)
+	{
+		//_dlxSolver->addRow(partLocationSet);
+		_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(_partPtr)));
+	}
 }

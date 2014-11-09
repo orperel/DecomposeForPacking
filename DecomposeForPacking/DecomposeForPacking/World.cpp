@@ -32,7 +32,7 @@ void World::accept(IWorldVisitorPtr visitor)
 	//}
 
 	for each (const std::pair<int, Point>& p in m_indexToPoint) {
-		visitor->visit(WorldPtr(this), p.second);
+		visitor->visit(*this, p.second);
 	}
 }
 

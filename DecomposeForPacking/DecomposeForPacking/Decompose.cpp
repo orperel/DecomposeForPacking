@@ -1,5 +1,4 @@
 #include "Decompose.h"
-#include "DLXSolver.h"
 #include "IsPartFitVisitor.h"
 
 
@@ -17,7 +16,7 @@ void Decompose::decompose()
 	shared_ptr<DLXSolver> dlx(new DLXSolver(m_world->getNumberOfPoints()));
 
 	for each (const PartPtr& part in m_partList) {
-		IWorldVisitorPtr visitor(new IsPartFitVisitor(part, dlx));
+		IWorldVisitorPtr visitor(new IsPartFitVisitor(part, dlx, m_locationSetToPart));
 		m_world->accept(visitor);
 	}
 }

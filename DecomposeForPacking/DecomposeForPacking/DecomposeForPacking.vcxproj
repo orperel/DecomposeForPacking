@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="IsFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Part.cpp" />
@@ -74,6 +75,7 @@
   <ItemGroup>
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
+    <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="IsFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
     <ClInclude Include="Part.h" />

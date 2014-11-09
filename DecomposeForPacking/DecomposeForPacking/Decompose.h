@@ -12,6 +12,6 @@ public:
 	void decompose();
 
 private:
-	World world;
-	PartList partList;
+	WorldPtr m_world;
+	PartList m_partList;
 };

@@ -3,6 +3,7 @@
 
 Part::Part()
 {
+	m_pointList.push_back(Point(0, 0));
 }
 
 
@@ -10,8 +11,9 @@ Part::~Part()
 {
 }
 
-PointList Part::getPointList()
+int Part::addPointToRight(int pointIndex)
 {
-	PointList pointList;
-	return pointList;
+	m_pointList.push_back(Point(m_pointList[pointIndex].getX() + 1, m_pointList[pointIndex].getY()));
+
+	return m_pointList.size() - 1;
 }

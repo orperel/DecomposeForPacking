@@ -76,6 +76,7 @@
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
     <ClInclude Include="DLXSolver.h" />
+    <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="IsFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
     <ClInclude Include="Part.h" />

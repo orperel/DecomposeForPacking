@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_map>
 #include "IWorldVisitor.h"
-#include "DynamicArray.h"
+//#include "DynamicArray.h"
 
 // TODO: two ways data store - from index to pixel and from pixel to index with map or smtng
 
@@ -14,7 +14,8 @@ class World
 {
 
 public:
-	World(BooleanDynamicArrayPtr mat, int numberOfPoints);
+	//World(BooleanDynamicArrayPtr mat, int numberOfPoints);
+	World(PointList points, int width, int height);
 	virtual ~World();
 
 	void accept(IWorldVisitorPtr visitor);
@@ -27,20 +28,21 @@ public:
 
 	int getIndexFromPoint(Point point);
 
+	int getWidth();
+
+	int getHeight();
+
+	PointList& getPointList();
+
 private:
 	int m_numberOfPoints;
+	int m_width;
+	int m_height;
 
-	BooleanDynamicArrayPtr m_mat;
-
+	//BooleanDynamicArrayPtr m_mat;
+	PointList m_pointList;
 	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex;
 	std::unordered_map<int, Point> m_indexToPoint;
 };
 
 typedef std::shared_ptr<World> WorldPtr;
-
-//
-///* Returns the world's height. */
-//int getHeight();
-//
-///* Returns the world's width. */
-//int getWidth();

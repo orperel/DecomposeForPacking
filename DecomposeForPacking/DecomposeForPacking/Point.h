@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <xstddef>
+#include <iostream>
 
 class Point
 {
@@ -34,7 +35,9 @@ class PointHash < Point >
 public:
 	std::size_t operator()(Point const& p) const
 	{
-		return p.getX() * 1000 + p.getY();
+		std::size_t res = std::hash<int>()(p.getX()) + 17*std::hash<int>()(p.getY());
+		//std::cout << p.getX() << " - " << p.getY() << " - " << res << std::endl;
+		return res;
 	}
 };
 

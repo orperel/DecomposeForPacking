@@ -6,7 +6,7 @@
 class Part
 {
 public:
-	Part();
+	Part(int pixelSize = 1);
 	virtual ~Part();
 
 	PointList getPointList();
@@ -15,6 +15,12 @@ public:
 
 private:
 	PointList m_pointList;
+
+	PointList m_headPointList;
+
+	int m_pixelSize;
+
+	void addPoint(Point startPoint);
 };
 
 typedef std::shared_ptr<Part> PartPtr;

@@ -4,6 +4,7 @@
 #include <memory>
 #include "IWorldVisitor.h"
 #include "CImg.h"
+#include "World.h"
 
 using namespace cimg_library;
 

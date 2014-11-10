@@ -1,9 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <set>
 #include <unordered_map>
-#include <memory>
 
 using std::vector;
 using std::set;
@@ -151,6 +151,13 @@ private:
 	 */
 	void uncover(shared_ptr<DLXColHeader> column);
 
+	/** Performs a recursive step of search -
+	 *  1) Choose a column deterministically.
+	 *  2) Choose each of the rows non-deterministically and perform a cover of intersecting rows / columns.
+	 *  3) Repeat until sucess / failure and backtrack.
+	 */
+	void search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution);
+
 	// Inner classes
 	class DLXNode
 	{
@@ -180,9 +187,9 @@ private:
 		static const int SENTINEL_INDEX = -1; // Index of the sentinel header, the root that points to all headers
 		int _colIndex; // Index of the column (from 0 to number of columns - 1)
 		int _setCount; // The number of sets that contain the value represented by this column
-
+		
 	public:
-		DLXColHeader(int colIndex) : _colIndex(colIndex) {}
+		DLXColHeader(int colIndex) : _colIndex(colIndex), _setCount(0) {}
 		virtual ~DLXColHeader() = default;
 		static shared_ptr<DLXColHeader> createSentinelHeader() { return std::make_shared<DLXColHeader>(SENTINEL_INDEX); }
 		bool isSentinel() { return _colIndex == SENTINEL_INDEX; }

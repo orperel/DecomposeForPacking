@@ -2,12 +2,13 @@
 #include "Part.h"
 #include <iostream>
 
-using std::unique_ptr;
+using std::make_pair;
 
-IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver)
+IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver, SetsToPartMapPtr locationSetToPart)
 {
 	_partPtr = partPtr;
 	_dlxSolver = dlxSolver;
+	_locationSetToPart = locationSetToPart;
 }
 
 IsPartFitVisitor::~IsPartFitVisitor()
@@ -17,7 +18,7 @@ IsPartFitVisitor::~IsPartFitVisitor()
 void IsPartFitVisitor::visit(World& world, Point point)
 {
 	PointList pointList = _partPtr->getPointList();
-	unique_ptr<DLX_VALUES_SET> partLocationSet = std::make_unique<DLX_VALUES_SET>();
+	shared_ptr<DLX_VALUES_SET> partLocationSet = std::make_shared<DLX_VALUES_SET>();
 
 	int i = 0;
 	int pointListSize = pointList.size();
@@ -41,6 +42,7 @@ void IsPartFitVisitor::visit(World& world, Point point)
 	if ((i == pointListSize) && isPartFit)
 	{
 		//_dlxSolver->addRow(partLocationSet);
+		_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(_partPtr)));
 	}
 
 }

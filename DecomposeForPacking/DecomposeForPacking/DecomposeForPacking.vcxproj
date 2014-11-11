@@ -72,6 +72,7 @@
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CImg.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Part.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

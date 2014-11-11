@@ -1,5 +1,6 @@
 #include "IsPartFitVisitor.h"
 #include "Part.h"
+#include <iostream>
 
 using std::make_pair;
 
@@ -25,19 +26,23 @@ void IsPartFitVisitor::visit(World& world, Point point)
 	while ((i < pointListSize) && isPartFit)
 	{
 		Point relatedPartPoint = (point + pointList[i]);
-		partLocationSet->insert(world.getIndexFromPoint(relatedPartPoint));
 
 		if (!world.isPointExist(relatedPartPoint))
 		{
 			isPartFit = false;
+			break;
 		}
+
+		partLocationSet->insert(world.getIndexFromPoint(relatedPartPoint));
 
 		i++;
 	}
+
 
 	if ((i == pointListSize) && isPartFit)
 	{
 		//_dlxSolver->addRow(partLocationSet);
 		_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(_partPtr)));
 	}
+
 }

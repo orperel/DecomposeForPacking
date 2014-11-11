@@ -1,9 +1,10 @@
 #include "Part.h"
 
 
-Part::Part()
+Part::Part(int pixelSize /*= 1*/) : m_pixelSize(pixelSize)
 {
-	m_pointList.push_back(Point(0, 0));
+	addPoint(Point(0, 0));
+	m_headPointList.push_back(Point(0, 0));
 }
 
 
@@ -13,12 +14,22 @@ Part::~Part()
 
 int Part::addPointToRight(int pointIndex)
 {
-	m_pointList.push_back(Point(m_pointList[pointIndex].getX() + 1, m_pointList[pointIndex].getY()));
+	addPoint(Point(m_headPointList[pointIndex].getX() + 10, m_headPointList[pointIndex].getY()));
+	m_headPointList.push_back(Point(m_headPointList[pointIndex].getX() + 10, m_headPointList[pointIndex].getY()));
 
-	return m_pointList.size() - 1;
+	return m_headPointList.size() - 1;
 }
 
 PointList Part::getPointList()
 {
 	return m_pointList;
+}
+
+void Part::addPoint(Point startPoint)
+{
+	for (int i = 0; i < m_pixelSize; i++) {
+		for (int j = 0; j < m_pixelSize; j++) {
+			m_pointList.push_back(startPoint + Point(i, j));
+		}
+	}
 }

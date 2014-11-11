@@ -74,12 +74,21 @@ public:
 	 *  [0 .. numberOfColumns - 1]
 	 *  Partial cover mode - (optional columns indexed first, mandatory columns following immediatly afterwards) -
 	 *  [0 .. numberOfOptionalColumns - 1, numberOfOptionalColumns, numberOfOptionalColumns + 1 .. numberOfOptionalColumns + numberOfMandatoryColumns]
+	 *  Note: Rows added are not verified in order to remove performance overhead.
+	 *	Make sure that:
+	 *	1) Rows added do not contain values below 0 or equal / above the column count (mandatory + optional).
+	 *  2) For partial cover mode, each row must contain at least one mandatory value.
 	 */
 	void addRow(shared_ptr<DLX_VALUES_SET> row);
 
 	/** Solves the cover problem and returns the possible solutions found. */
 	vector<DLX_SOLUTION> solve();
 
+	/* Operator Overloading - string representation of DLXSolver.
+	 * The entire matrix data will be printed.
+	 * WARNING: For big matrices this output can be very big.
+	 */
+	friend std::ostream& operator<< (std::ostream& stream, const DLXSolver& solver);
 
 private:
 	// Data members:
@@ -137,6 +146,8 @@ private:
 	 *  The algorithm uses the heuristic - "choose the column with the least elements" (a value that appears in 
 	 *  less sets is less likely to cause massive branching).
 	 *  If no columns remain in the matrix, NULL is returned.
+	 *  For partial cover mode, only mandatory columns are chosen.
+	 *  If no mandatory columns remain in the matrix, NULL is returned.
 	 */
 	shared_ptr<DLXColHeader> chooseNextColumn();
 
@@ -159,18 +170,25 @@ private:
 	void search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution);
 
 	// Inner classes
+
+	/** A general base representation for all nodes in the matrix.
+	 */
 	class DLXNode
 	{
 	protected:
+		int _colIndex; // Index of the column (from 0 to number of columns - 1)
+
 		// Point to adjacent nodes to maintain a sparse matrix structure
 		shared_ptr<DLXNode> _up;
 		shared_ptr<DLXNode> _down;
 		shared_ptr<DLXNode> _right;
 		shared_ptr<DLXNode> _left;
 	public:
+		DLXNode(int colIndex) : _colIndex(colIndex) {}
 		virtual ~DLXNode() = 0 {} ; // Mark class as abstract
 
 		// Getters & Setters
+		const int& colIndex() const { return _colIndex; }  // Current column index (the value depicted by this column)
 		const shared_ptr<DLXNode>& up() const { return _up; }
 		void setUp(const shared_ptr<DLXNode>& node){ _up = node; }
 		const shared_ptr<DLXNode>& down() const { return _down; }
@@ -179,52 +197,58 @@ private:
 		void setRight(const shared_ptr<DLXNode>& node){ _right = node; }
 		const shared_ptr<DLXNode>& left() const { return _left; }
 		void setLeft(const shared_ptr<DLXNode>& node){ _left = node; }
+
+		virtual std::ostream& print(std::ostream& os) const; // String representation for the node
 	};
 
+	/** A column header node, in the matrix.
+	 *  Column headers define the begining of each column in the matrix.
+	 *  They point circularily to the last element in the column as well on par with the Dancing Links paradigm
+	 * (as well as to the previous and next column headers).
+	 */
 	class DLXColHeader: public DLXNode
 	{
 	private:
-		static const int SENTINEL_INDEX = -1; // Index of the sentinel header, the root that points to all headers
-		int _colIndex; // Index of the column (from 0 to number of columns - 1)
+		static const int SENTINEL_INDEX = -1; // Index of the sentinel header, the root that points to all column headers
 		int _setCount; // The number of sets that contain the value represented by this column
 		
 	public:
-		DLXColHeader(int colIndex) : _colIndex(colIndex), _setCount(0) {}
+		DLXColHeader(int colIndex) : DLXNode(colIndex), _setCount(0) {}
 		virtual ~DLXColHeader() = default;
 		static shared_ptr<DLXColHeader> createSentinelHeader() { return std::make_shared<DLXColHeader>(SENTINEL_INDEX); }
 		bool isSentinel() { return _colIndex == SENTINEL_INDEX; }
 
 		// Getters & Setters
-		const int& colIndex() const { return _colIndex; }  // Current column index (the value depicted by this column)
 		const int& numOfElements() const { return _setCount; } // Number of sets containing the value depicted by this column
 		void incNumOfElements(){ _setCount++; } // Increases the number of elements in the column by 1
 		void decNumOfElements(){ _setCount--; } // Decreases the number of elements in the column by 1
 
 		// Operator Overloading
-		std::ostream& print(std::ostream& os) const; // TODO: Overload for string representation
+		virtual std::ostream& print(std::ostream& os) const; // Hierarchial string representation
 	};
 
+	/** A data node representing a single element in the matrix.
+	 *  Data nodes represent a value (the column) that exists in a certain set (the row).
+	 *  They point circularily to all 4 directions on par with the Dancing Links paradigm.
+	 */
 	class DLXDataNode: public DLXNode
 	{
 	private:
-		// Position indices in the matrix
+		// Position index in the matrix
 		int _rowIndex;
-		int _colIndex;
 
 		// Pointer to the head of the column, containing meta-data relevant for the column of the node
 		shared_ptr<DLXColHeader> _head;
 	public:
-		DLXDataNode(int rowIndex, int colIndex): _rowIndex(rowIndex), _colIndex(colIndex) {}
+		DLXDataNode(int rowIndex, int colIndex) : DLXNode(colIndex), _rowIndex(rowIndex) {}
 		virtual ~DLXDataNode() = default;
 
 		// Getters & Setters
 		const int& rowIndex() const { return _rowIndex; }
-		const int& colIndex() const { return _colIndex; }
 		const shared_ptr<DLXColHeader>& head() const { return _head; }
 		void setHead(const shared_ptr<DLXColHeader>& node){ _head = node; }
 
-		// Operator Overloading
-		std::ostream& print(std::ostream& os) const; // TODO: Overload for string representation
+		virtual std::ostream& print(std::ostream& os) const; // Hierarchial string representation
 	};
 };
 

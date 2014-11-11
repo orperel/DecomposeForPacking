@@ -1,4 +1,5 @@
 #include "DLXSolver.h"
+#include <iostream>
 
 void DLXSolver::createColumnHeaders(int numOfColumns)
 {
@@ -78,6 +79,12 @@ shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
 	// The column header row contains only DLXColHeader nodes, safe to cast statically
 	auto currColHeader = std::static_pointer_cast<DLXColHeader>(_matrixHead->right());
 
+	// Advance the pointer to the first available mandatory column
+	while ((currColHeader != _matrixHead) && (currColHeader->colIndex() < _optionalColsNum))
+	{
+		currColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right());
+	}
+
 	// Treat the edge cases: no columns remain
 	if (currColHeader == _matrixHead)
 		return NULL;
@@ -149,7 +156,7 @@ DLXSolver::DLXSolver(int numberOfColumns) : DLXSolver(0, numberOfColumns)
 *  Only solutions that cover the mandatory columns are outputted.
 *  Note when adding rows - which value indices fall under the mandatory columns and which
 *  under the optional ones.
-*  The uninverse to cover is indices [numberOfOptionalCols..numberOfOptionalCols + numberOfMandatoryCols - 1].
+*  The universe to cover is indices [numberOfOptionalCols..numberOfOptionalCols + numberOfMandatoryCols - 1].
 */
 DLXSolver::DLXSolver(int numberOfOptionalCols, int numberOfMandatoryCols):
 _mandatoryColsNum(numberOfMandatoryCols),
@@ -258,7 +265,55 @@ void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSol
 vector<DLX_SOLUTION> DLXSolver::solve()
 {
 	vector<DLX_SOLUTION> solutions = vector<DLX_SOLUTION>();
+
+	// If the solver wasn't initialized with a proper universe, quit gracefully with an empty solutions list
+	if (_mandatoryColsNum == 0)
+		return solutions;
+
 	DLX_SOLUTION currentSolution = DLX_SOLUTION();
 	search(solutions, currentSolution);
 	return solutions;
+}
+
+std::ostream& DLXSolver::DLXNode::print(std::ostream& os) const
+{
+	os  << "[upColIndex=" << _up->colIndex() << "], "
+		<< "[downColIndex=" << _down->colIndex() << "], "
+		<< "[leftColIndex=" << _left->colIndex() << "], "
+		<< "[rightColIndex=" << _right->colIndex() << "], ";
+	return os;
+}
+
+std::ostream& DLXSolver::DLXColHeader::print(std::ostream& os) const 
+{
+	os << "DLXColHeader: ";
+	DLXNode::print(os);
+	os << "[setCount=" << _setCount << "]" << std::endl;
+	return os;
+}
+
+std::ostream& DLXSolver::DLXDataNode::print(std::ostream& os) const
+{
+	os << "DLXDataNode: ";
+	DLXNode::print(os);
+	os << "[rowIndex=" << _rowIndex << "]" << std::endl;
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& stream, const DLXSolver& solver) {
+
+	stream << "Dancing links solver data: " << std::endl;
+
+	// Print the matrix's nodes info from top left to right bottom, column by column
+	for (auto colNode = solver._matrixHead->right(); colNode != solver._matrixHead; colNode = colNode->right())
+	{
+		colNode->print(stream);
+
+		for (auto rowNode = colNode->down(); rowNode != colNode; rowNode = rowNode->down())
+		{
+			rowNode->print(stream);
+		}
+	}
+
+	return stream;
 }

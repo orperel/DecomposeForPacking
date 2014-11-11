@@ -69,6 +69,7 @@
     <ClCompile Include="IsPartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Part.cpp" />
+    <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="IsPartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
     <ClInclude Include="Part.h" />
+    <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />

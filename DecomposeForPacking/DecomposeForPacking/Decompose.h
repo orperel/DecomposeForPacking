@@ -11,14 +11,14 @@ typedef std::shared_ptr<SetsToPartMap> SetsToPartMapPtr;
 class Decompose
 {
 public:
-	Decompose(WorldPtr world, PartList partList);
+	Decompose(WorldPtr world, PartListPtr partList);
 	virtual ~Decompose();
 
 	void decompose();
 
 private:
 	WorldPtr m_world;
-	PartList m_partList;
+	PartListPtr m_partList;
 	SetsToPartMapPtr m_locationSetToPart;
 };
 

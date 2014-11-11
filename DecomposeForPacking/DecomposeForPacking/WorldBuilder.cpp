@@ -1,5 +1,4 @@
 #include "WorldBuilder.h"
-//#include "DynamicArray.h"
 #include "World.h"
 #include <iostream>
 
@@ -12,8 +11,6 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 {
 	CImg<int> img(path.c_str());
 
-	//	int width = src.width();
-	//	int height = src.height();
 	//	int depth = src.depth();
 	//	int channels = src.spectrum();
 	//
@@ -62,7 +59,6 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 	cout << width << " - " << height << endl;
 	cout << min_X << " - " << max_X << endl << min_Y << " - " << max_Y << endl;
 
-	//BooleanDynamicArrayPtr mat(new DynamicArray<bool>(max_X - min_X + 1, max_Y - min_Y + 1));
 	//CImg<unsigned char> bla(max_X - min_X + 1, max_Y - min_Y + 1);
 
 	PointList pointList;
@@ -71,7 +67,6 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 		for (int j = min_Y; j <= max_Y; j++) {
 			int pixel = (int)img.atXY(i, j);
 
-			//(*mat)[i - min_X][j - min_Y] = (BLACK != pixel);
 			//(*bla.data(i - min_X, j - min_Y)) = pixel;
 
 			if (WHITE != pixel) {
@@ -89,12 +84,6 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)
 {
 	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight()));
-
-	//for (int i = 0; i < world->getWidth(); i++) {
-	//	for (int j = 0; j < world->getHeight(); j++) {
-	//		(*img->data(i, j)) = 255;
-	//	}
-	//}
 
 	for each (const Point& point in world->getPointList()) {
 		(*img->data(point.getX(), point.getY())) = BLACK;

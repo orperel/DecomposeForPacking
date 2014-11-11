@@ -13,6 +13,8 @@ public:
 
 	int addPointToRight(int pointIndex);
 
+	int addPointBelow(int pointIndex);
+
 private:
 	PointList m_pointList;
 
@@ -25,5 +27,6 @@ private:
 
 typedef std::shared_ptr<Part> PartPtr;
 typedef std::vector<PartPtr> PartList;
+typedef std::shared_ptr<PartList> PartListPtr;
 
 // TODO: check symmetrical...

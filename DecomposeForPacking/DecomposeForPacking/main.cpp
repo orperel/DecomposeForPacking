@@ -7,28 +7,29 @@
 #include "Decompose.h"
 #include "WorldBuilder.h"
 #include "CImg.h"
+#include "PartBuilder.h"
 
 using namespace cimg_library;
 using namespace std;
 
+
+
 int main(int argc, char *argv[]) {
 	WorldPtr world = WorldBuilder::fromImage("../../obj.bmp");
 
-	PartPtr part(new Part(10));
+	PartListPtr partList = PartBuilder::buildStandartPartPack(10);
 
-	int lastIndex = part->addPointToRight(0);
-	part->addPointToRight(lastIndex);
+	Decompose decomposer(world, partList);
 
-	PartList partList;
-	partList.push_back(part);
+	decomposer.decompose();
 
-	Decompose decompose(world, partList);
+	shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 
-	decompose.decompose();
+	new CImgDisplay(*img);
 
-	//shared_ptr<CImg<unsigned char>> img = WorldBuilder::toImage(world);
+	shared_ptr<CImg<unsigned char>> img2 = WorldBuilder::toImage(world);
 
-	//new CImgDisplay(*img);
+	new CImgDisplay(*img2);
 
 	cout << "Test proj" << endl;
 	

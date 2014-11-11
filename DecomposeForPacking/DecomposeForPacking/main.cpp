@@ -1,21 +1,34 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include "World.h"
-#include "Part.h"
-#include "Decompose.h"
-#include "WorldBuilder.h"
-#include "CImg.h"
+// Uncomment this line to run tester instead
+//#define RUN_TESTS 
+
+#ifdef RUN_TESTS
+	#include "dlxSolverTester.h"
+#else
+	#include <iostream>
+	#include <string>
+	#include "World.h"
+	#include "Part.h"
+	#include "Decompose.h"
+	#include "WorldBuilder.h"
+	#include "CImg.h"
 #include "PartBuilder.h"
 
-using namespace cimg_library;
-using namespace std;
+	using namespace cimg_library;
+	using namespace std;
+#endif
 
-
-
-int main(int argc, char *argv[]) {
-	WorldPtr world = WorldBuilder::fromImage("../../obj.bmp");
+#ifdef RUN_TESTS
+	void runTests()
+	{
+		dlxSolverTester tester;
+		tester.runTests();
+	}
+#else
+	void runProd()
+	{
+		WorldPtr world = WorldBuilder::fromImage("../../obj.bmp");
 
 	PartListPtr partList = PartBuilder::buildStandartPartPack(10);
 
@@ -31,9 +44,19 @@ int main(int argc, char *argv[]) {
 
 	new CImgDisplay(*img2);
 
-	cout << "Test proj" << endl;
-	
-	int x;
+		cout << "Test proj" << endl;
 
-	cin >> x;
+		int x;
+
+		cin >> x;
+	}
+#endif
+
+int main(int argc, char *argv[]) {
+
+#ifdef RUN_TESTS
+	runTests();
+#else
+	runProd();
+#endif
 }

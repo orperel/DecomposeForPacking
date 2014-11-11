@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClCompile Include="Decompose.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
+    <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="IsPartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Part.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
     <ClInclude Include="DLXSolver.h" />
+    <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="IsPartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />

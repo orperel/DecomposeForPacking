@@ -41,7 +41,7 @@ void IsPartFitVisitor::visit(World& world, Point point)
 
 	if ((i == pointListSize) && isPartFit)
 	{
-		//_dlxSolver->addRow(partLocationSet);
+		_dlxSolver->addRow(partLocationSet);
 		_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(_partPtr)));
 	}
 

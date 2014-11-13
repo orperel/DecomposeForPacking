@@ -19,9 +19,11 @@ public:
 private:
 	WorldPtr m_world;
 	PartListPtr m_partList;
+	// Map from location sets to their part (location set is a set of indices of the part location, instead of points)
 	SetsToPartMapPtr m_locationSetToPart;
 };
 
+/* Defines a hash function for the SetsToPartMap (XOR between the indices in the set). */
 namespace std {
 	template <>
 	class hash<DLX_VALUES_SET> {

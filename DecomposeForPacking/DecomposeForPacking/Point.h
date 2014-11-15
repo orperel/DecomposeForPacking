@@ -43,3 +43,4 @@ public:
 
 typedef std::shared_ptr<Point> PointPtr;
 typedef std::vector<Point> PointList;
+typedef std::shared_ptr<PointList> PointListPtr;

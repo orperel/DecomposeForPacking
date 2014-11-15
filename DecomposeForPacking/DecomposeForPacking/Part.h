@@ -14,6 +14,8 @@ public:
 
 private:
 	void extendPartOrientations();
+	void extendVerticalOreintation();
+	void extendHorizonalOrientation();
 
 	PartOrientationListPtr m_partOrientations;
 };

@@ -9,14 +9,14 @@ std::shared_ptr<CImg<unsigned char>> PartBuilder::toImage(PartPtr part)
 	int width = 0;
 	int height = 0;
 
-	for each (const Point& point in part->getPartOrientationByIndex(0)->getPointList()) {
+	for each (const Point& point in *part->getPartOrientationByIndex(0)->getPointList()) {
 		if (point.getX() > width) width = point.getX();
 		if (point.getY() > height) height = point.getY();
 	}
 
 	std::shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(width + 1, height + 1));
 
-	for each (const Point& point in part->getPartOrientationByIndex(0)->getPointList()) {
+	for each (const Point& point in *part->getPartOrientationByIndex(0)->getPointList()) {
 		(*img->data(point.getX(), point.getY())) = 0;
 	}
 

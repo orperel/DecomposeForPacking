@@ -4,6 +4,8 @@ Part::Part(PartOrientationPtr partOrientation)
 {
 	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
 	m_partOrientations->push_back(partOrientation);
+
+	extendPartOrientations();
 }
 
 Part::~Part()
@@ -22,6 +24,22 @@ PartOrientationPtr Part::getPartOrientationByIndex(int index)
 }
 
 void Part::extendPartOrientations()
+{
+	extendHorizonalOrientation();
+	extendVerticalOreintation();
+}
+
+void Part::extendVerticalOreintation()
+{
+	PartOrientationPtr partOrient = getPartOrientationByIndex(0);
+	PartOrientationPtr newPartOrient(new PartOrientation());
+
+	//for each (const Point& point in partOrient->getPointList()) {
+	//	//newPartOrient->
+	//}
+}
+
+void Part::extendHorizonalOrientation()
 {
 
 }

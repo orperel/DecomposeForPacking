@@ -3,22 +3,24 @@
 #include <vector>
 #include <memory>
 
+class Part;
+
 class PartOrientation
 {
 public:
 	PartOrientation(int pixelSize = 1);
 	virtual ~PartOrientation();
 
-	PointList getPointList();
+	PointListPtr getPointList();
 
 	int addPointToRight(int pointIndex);
 
 	int addPointBelow(int pointIndex);
 
 private:
-	PointList m_pointList;
+	PointListPtr m_pointList;
 
-	PointList m_headPointList;
+	PointListPtr m_headPointList;
 
 	int m_pixelSize;
 

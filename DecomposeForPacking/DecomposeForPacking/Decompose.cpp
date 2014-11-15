@@ -68,7 +68,4 @@ void Decompose::printSolutions(std::vector<DLX_SOLUTION> solutions)
 		solutionNum++;
 		cout << endl << endl;
 	}
-
-	int x;
-	cin >> x;
 }

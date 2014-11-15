@@ -1,32 +1,23 @@
 #pragma once
-#include "Point.h"
+
 #include <vector>
-#include <memory>
+#include "PartOrientation.h"
 
-class Part
-{
+class Part {
 public:
-	Part(int pixelSize = 1);
-	virtual ~Part();
+	Part(PartOrientationPtr partOrientation);
+	~Part();
 
-	PointList getPointList();
+	PartOrientationListPtr getPartOrientations();
 
-	int addPointToRight(int pointIndex);
-
-	int addPointBelow(int pointIndex);
+	PartOrientationPtr getPartOrientationByIndex(int index);
 
 private:
-	PointList m_pointList;
+	void extendPartOrientations();
 
-	PointList m_headPointList;
-
-	int m_pixelSize;
-
-	void addPoint(Point startPoint);
+	PartOrientationListPtr m_partOrientations;
 };
 
 typedef std::shared_ptr<Part> PartPtr;
 typedef std::vector<PartPtr> PartList;
 typedef std::shared_ptr<PartList> PartListPtr;
-
-// TODO: check symmetrical...

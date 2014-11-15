@@ -9,14 +9,14 @@ std::shared_ptr<CImg<unsigned char>> PartBuilder::toImage(PartPtr part)
 	int width = 0;
 	int height = 0;
 
-	for each (const Point& point in part->getPointList()) {
+	for each (const Point& point in part->getPartOrientationByIndex(0)->getPointList()) {
 		if (point.getX() > width) width = point.getX();
 		if (point.getY() > height) height = point.getY();
 	}
 
 	std::shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(width + 1, height + 1));
 
-	for each (const Point& point in part->getPointList()) {
+	for each (const Point& point in part->getPartOrientationByIndex(0)->getPointList()) {
 		(*img->data(point.getX(), point.getY())) = 0;
 	}
 
@@ -25,13 +25,14 @@ std::shared_ptr<CImg<unsigned char>> PartBuilder::toImage(PartPtr part)
 
 PartPtr PartBuilder::buildLongPart(int partWidth, int pixelSize /*= 1*/)
 {
-	PartPtr part(new Part(pixelSize));
+	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
 	int lastIndex = 0;
 	for (int i = 0; i < partWidth - 1; i++) {
-		lastIndex = part->addPointToRight(lastIndex);
+		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
+	PartPtr part(new Part(partOrient));
 	return part;
 }
 
@@ -49,34 +50,36 @@ PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
 
 PartPtr PartBuilder::buildCornerPart(int partWidth, int pixelSize /*= 1*/)
 {
-	PartPtr part(new Part(pixelSize));
-
+	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
+	
 	int lastIndex = 0;
 	for (int i = 0; i < partWidth - 1; i++) {
-		lastIndex = part->addPointToRight(lastIndex);
+		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
 	lastIndex = 0;
 	for (int i = 0; i < partWidth - 1; i++) {
-		lastIndex = part->addPointBelow(lastIndex);
+		lastIndex = partOrient->addPointBelow(lastIndex);
 	}
 
+	PartPtr part(new Part(partOrient));
 	return part;
 }
 
 PartPtr PartBuilder::buildZigzagPart(int partWidth, int pixelSize /*= 1*/)
 {
-	PartPtr part(new Part(pixelSize));
+	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
 	int lastIndex = 0;
 	for (int i = 0; i < partWidth - 1; i++) {
-		lastIndex = part->addPointToRight(lastIndex);
+		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
-	lastIndex = part->addPointBelow(lastIndex);
+	lastIndex = partOrient->addPointBelow(lastIndex);
 	for (int i = 0; i < partWidth - 1; i++) {
-		lastIndex = part->addPointToRight(lastIndex);
+		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
+	PartPtr part(new Part(partOrient));
 	return part;
 }

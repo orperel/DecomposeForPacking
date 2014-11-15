@@ -28,7 +28,7 @@ IsPartFitVisitor::~IsPartFitVisitor()
 void IsPartFitVisitor::visit(World& world, Point point)
 {
 	// Gets the point list of the part (composed of origin point and neighboring points in relation to it)
-	PointList pointList = _partPtr->getPointList();
+	PointList pointList = _partPtr->getPartOrientationByIndex(0)->getPointList();
 	// Initializes a new location set to be added to the DLXSolver, if the part is fit
 	shared_ptr<DLX_VALUES_SET> partLocationSet = std::make_shared<DLX_VALUES_SET>();
 

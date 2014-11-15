@@ -39,10 +39,10 @@ PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
 {
 	PartListPtr partList(new PartList());
 
-	partList->push_back(buildZigzagPart(STANDART_ZIGZAG_PART_WIDTH, pixelSize));
-	partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize));
-	partList->push_back(buildLongPart(STANDART_LONG_PART_WIDTH, pixelSize));
-	partList->push_back(buildLongPart(2, pixelSize));
+	//partList->push_back(buildZigzagPart(STANDART_ZIGZAG_PART_WIDTH, pixelSize));
+	//partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize));
+	partList->push_back(buildLongPart(1, pixelSize));
+	//partList->push_back(buildLongPart(2, pixelSize));
 
 	return partList;
 }

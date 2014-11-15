@@ -8,6 +8,11 @@ PartOrientation::PartOrientation(int pixelSize /*= 1*/) : m_pixelSize(pixelSize)
 	addPoint(Point(0, 0));
 }
 
+PartOrientation::PartOrientation(PointListPtr pointList) : m_pointList(pointList)
+{
+
+}
+
 
 PartOrientation::~PartOrientation()
 {
@@ -41,4 +46,9 @@ int PartOrientation::addPointBelow(int pointIndex)
 	addPoint(Point(m_headPointList->at(pointIndex).getX(), m_headPointList->at(pointIndex).getY() + m_pixelSize));
 
 	return m_headPointList->size() - 1;
+}
+
+Point PartOrientation::getAnchor()
+{
+	return m_pointList->at(0);
 }

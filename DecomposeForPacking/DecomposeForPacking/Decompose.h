@@ -14,10 +14,8 @@ public:
 	Decompose(WorldPtr world, PartListPtr partList);
 	virtual ~Decompose();
 
-	void decompose();
-	
-	//To remove
-	void printSolutions(std::vector<DLX_SOLUTION> solutions);
+	vector<DLX_SOLUTION> decompose();
+
 private:
 	WorldPtr m_world;
 	PartListPtr m_partList;

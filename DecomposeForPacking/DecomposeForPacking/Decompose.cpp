@@ -11,7 +11,7 @@ Decompose::~Decompose()
 {
 }
 
-void Decompose::decompose()
+ vector<DLX_SOLUTION> Decompose::decompose()
 {
 	shared_ptr<DLXSolver> dlxSolver(new DLXSolver(m_world->getNumberOfPoints())); // Creates DLXSolver for the decomposition
 	
@@ -21,54 +21,5 @@ void Decompose::decompose()
 		m_world->accept(visitor);
 	}
 
-	auto solutions = dlxSolver->solve();
-	
-	printSolutions(solutions);
-}
-
-
-
-#include <iostream>
-using namespace std;
-
-void Decompose::printSolutions(std::vector<DLX_SOLUTION> solutions)
-{
-	if (solutions.empty())
-	{
-		cout << "No solutions found" << endl;
-		return;
-	}
-
-	int solutionNum = 1;
-
-	for each(const DLX_SOLUTION& solution in solutions)
-	{
-		if (solutionNum > 10)
-		{
-			cout << "+" << (solutions.size() - 10) << " solutions omitted." << endl << endl;
-			break;
-		}
-
-		int setNum = 1;
-		cout << "Solution " << solutionNum << ":" << endl;
-
-		for each(const DLX_VALUES_SET& currSet in solution)
-		{
-			cout << "Set #" << setNum << ": { ";
-
-			for each(const int& value in currSet)
-			{
-				cout << value << " ";
-			}
-
-			cout << "}" << endl;
-			setNum++;
-		}
-
-		solutionNum++;
-		cout << endl << endl;
-	}
-
-	int x;
-	cin >> x;
+	auto solutions = dlxSolver->solve();	// Runs solver
 }

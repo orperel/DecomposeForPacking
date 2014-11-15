@@ -48,7 +48,10 @@
     <ClCompile Include="PartBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PartOrientation.cpp">
+    <ClCompile Include="Packing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgoXResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +92,10 @@
     <ClInclude Include="dlxSolverTester.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="PartOrientation.h">
+    <ClInclude Include="Packing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlgoXResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

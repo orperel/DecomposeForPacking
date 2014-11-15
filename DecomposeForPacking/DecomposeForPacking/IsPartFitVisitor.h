@@ -17,9 +17,9 @@ public:
 	/** Constructs a new visitor of the part partPtr.
 	 *  Receives a DLXSolver in order to add to it the new location set of the part, if it's fit.
 	 *  (Location set is a set of indices of the world, instead of points; each point is mapped to unique index.)
-	 *  Receives also a map that maps the location sets to their parts.
+	 *  Receives also a map that maps the location sets to their part orientations.
 	 */
-	IsPartFitVisitor(PartPtr partPtr, shared_ptr<DLXSolver> dlxSolver, SetsToPartMapPtr locationSetToPart);
+	IsPartFitVisitor(PartOrientationPtr partOrient, shared_ptr<DLXSolver> dlxSolver, SetsToOrientationMapPtr locationSetToOrient);
 	
 	/** Dtor to release resources allocated by the visitor. */
 	virtual ~IsPartFitVisitor();
@@ -28,7 +28,7 @@ public:
 	void visit(World& world, Point point) override;
 
 private:
-	PartPtr _partPtr;	// The part which the visitor belongs to
+	PartOrientationPtr _partOrient;	// The part which the visitor belongs to
 	shared_ptr<DLXSolver> _dlxSolver;	// The DLXSolver that saves the fitting locations
-	SetsToPartMapPtr _locationSetToPart;	// The map that maps a location set to its part
+	SetsToOrientationMapPtr _locationSetToOrient;	// The map that maps a location set to its part orientation
 };

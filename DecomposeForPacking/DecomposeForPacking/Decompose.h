@@ -5,8 +5,8 @@
 #include "Part.h"
 #include "DLXSolver.h"
 
-typedef unordered_map<DLX_VALUES_SET, PartPtr> SetsToPartMap;
-typedef std::shared_ptr<SetsToPartMap> SetsToPartMapPtr;
+typedef unordered_map<DLX_VALUES_SET, PartOrientationPtr> SetsToOrientationMap;
+typedef std::shared_ptr<SetsToOrientationMap> SetsToOrientationMapPtr;
 
 class Decompose
 {
@@ -19,11 +19,11 @@ public:
 private:
 	WorldPtr m_world;
 	PartListPtr m_partList;
-	// Map from location sets to their part (location set is a set of indices of the part location, instead of points)
-	SetsToPartMapPtr m_locationSetToPart;
+	// Map from location sets to their part orientation (location set is a set of indices of the part location, instead of points)
+	SetsToOrientationMapPtr m_locationSetToOrient;
 };
 
-/* Defines a hash function for the SetsToPartMap (XOR between the indices in the set). */
+/* Defines a hash function for the SetsToOrientationMap (XOR between the indices in the set). */
 namespace std {
 	template <>
 	class hash<DLX_VALUES_SET> {

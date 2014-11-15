@@ -7,13 +7,13 @@ using std::make_pair;
 /** Constructs a new visitor of the part partPtr.
  *  Receives a DLXSolver in order to add to it the new location set of the part, if it's fit.
  *  (Location set is a set of indices of the world, instead of points; each point is mapped to unique index.)
- *  Receives also a map that maps the location sets to their parts.
+ *  Receives also a map that maps the location sets to their part orientations.
  */
-IsPartFitVisitor::IsPartFitVisitor(PartPtr partPtr,	shared_ptr<DLXSolver> dlxSolver, SetsToPartMapPtr locationSetToPart)
+IsPartFitVisitor::IsPartFitVisitor(PartOrientationPtr partOrient, shared_ptr<DLXSolver> dlxSolver, SetsToOrientationMapPtr locationSetToOrient)
 {
-	_partPtr = partPtr;
+	_partOrient = partOrient;
 	_dlxSolver = dlxSolver;
-	_locationSetToPart = locationSetToPart;
+	_locationSetToOrient = locationSetToOrient;
 }
 
 /** Dtor to release resources allocated by the visitor. */
@@ -28,16 +28,16 @@ IsPartFitVisitor::~IsPartFitVisitor()
 void IsPartFitVisitor::visit(World& world, Point point)
 {
 	// Gets the point list of the part (composed of origin point and neighboring points in relation to it)
-	PointList pointList = _partPtr->getPartOrientationByIndex(0)->getPointList();
+	PointListPtr pointList = _partOrient->getPointList();
 	// Initializes a new location set to be added to the DLXSolver, if the part is fit
 	shared_ptr<DLX_VALUES_SET> partLocationSet = std::make_shared<DLX_VALUES_SET>();
 
 	int i = 0;
-	int pointListSize = pointList.size();
+	int pointListSize = pointList->size();
 	bool isPartFit = true;
 	while ((i < pointListSize) && isPartFit)
 	{
-		Point relatedPartPoint = (point + pointList[i]);	// Recomputes the current point of the part in relation to the world
+		Point relatedPartPoint = (point + (*pointList)[i]);	// Recomputes the current point of the part in relation to the world
 
 		if (!world.isPointExist(relatedPartPoint))	// The current point doesn't exist in the world
 		{
@@ -54,9 +54,8 @@ void IsPartFitVisitor::visit(World& world, Point point)
 	if ((i == pointListSize) && isPartFit)	// The part is fit
 	{
 		_dlxSolver->addRow(partLocationSet);
-		// Maps the new location set to its part
-		PartPtr copyOfPartPtr(_partPtr);
-		_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(copyOfPartPtr)));
+		// Maps the new location set to its part orientation
+		PartOrientationPtr copyOfPartOrient(_partOrient);
+		_locationSetToOrient->insert(std::make_pair<DLX_VALUES_SET, PartOrientationPtr>(std::move(*partLocationSet), std::move(copyOfPartOrient)));
 	}
-
 }

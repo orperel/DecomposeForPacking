@@ -1,10 +1,8 @@
 #include "AlgoXResult.h"
 
-
-AlgoXResult::AlgoXResult()
+AlgoXResult::AlgoXResult(PartListPtr partList, vector<DLX_SOLUTION>)
 {
 }
-
 
 AlgoXResult::~AlgoXResult()
 {

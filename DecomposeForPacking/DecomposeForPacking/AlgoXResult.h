@@ -8,8 +8,8 @@
 using std::tuple;
 using std::unordered_map;
 
-typedef unordered_map<Part, tuple<int, PartOrientation>> PartToPositionMap;
-typedef std::shared_ptr<PartToPositionMap> PartToPositionMapPtr;
+typedef unordered_map<Part, int> PartsCount;
+typedef vector<tuple<PartOrientation, int>> PartLocationList;
 
 class AlgoXResult
 {
@@ -19,6 +19,6 @@ public:
 
 private:
 	PartListPtr _partList;
-	PartToPositionMapPtr _PartToPositionMap;
+	PartLocationList _partLocationList;
 };
 

@@ -11,10 +11,10 @@ Decompose::~Decompose()
 {
 }
 
- vector<DLX_SOLUTION> Decompose::decompose()
+vector<DLX_SOLUTION> Decompose::decompose()
 {
 	shared_ptr<DLXSolver> dlxSolver(new DLXSolver(m_world->getNumberOfPoints())); // Creates DLXSolver for the decomposition
-	
+
 	// For each part in the part list creates a new visitor of the world. Runs world.accept() on the visitor
 	for each (const PartPtr& part in *m_partList) {
 		IWorldVisitorPtr visitor(new IsPartFitVisitor(part, dlxSolver, m_locationSetToPart));

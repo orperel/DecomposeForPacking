@@ -8,9 +8,12 @@ PartOrientation::PartOrientation(int pixelSize /*= 1*/) : m_pixelSize(pixelSize)
 	addPoint(Point(0, 0));
 }
 
+
 PartOrientation::PartOrientation(PointListPtr pointList) : m_pointList(pointList)
 {
-
+	for each (const Point& point in *m_pointList) {
+		m_pointMap[point] = true;
+	}
 }
 
 
@@ -36,7 +39,9 @@ void PartOrientation::addPoint(Point startPoint)
 
 	for (int i = 0; i < m_pixelSize; i++) {
 		for (int j = 0; j < m_pixelSize; j++) {
-			m_pointList->push_back(startPoint + Point(i, j));
+			Point newPoint(startPoint + Point(i, j));
+			m_pointList->push_back(newPoint);
+			m_pointMap[newPoint] = true;
 		}
 	}
 }
@@ -51,4 +56,75 @@ int PartOrientation::addPointBelow(int pointIndex)
 Point PartOrientation::getAnchor()
 {
 	return m_pointList->at(0);
+}
+
+
+PartOrientationPtr PartOrientation::verticalMirror()
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *m_pointList) {
+		newPointList->push_back(Point(point.getX() * -1, point.getY()));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+PartOrientationPtr PartOrientation::rotate()
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *m_pointList) {
+		newPointList->push_back(Point(point.getY(), point.getX()));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+PartOrientationPtr PartOrientation::horizonalMirror()
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *m_pointList) {
+		newPointList->push_back(Point(point.getX(), point.getY() * -1));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+bool PartOrientation::isVerticalSymmetrical()
+{
+	int y = m_pointList->at(0).getY();
+
+	for each (const Point& point in *m_pointList) {
+		if (y != point.getY()) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool PartOrientation::isHorizonalSymmetrical()
+{
+	int x = m_pointList->at(0).getX();
+
+	for each (const Point& point in *m_pointList) {
+		if (x != point.getX()) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool PartOrientation::isSymmetrical()
+{
+	for each (const Point& point in *m_pointList) {
+		if (m_pointMap.find(Point(point.getY(), point.getX())) == m_pointMap.end()) {
+			return false;
+		}
+	}
+
+	return true;
 }

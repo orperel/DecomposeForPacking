@@ -5,6 +5,8 @@
 #include <xstddef>
 #include <iostream>
 
+class Point;
+
 class Point
 {
 public:

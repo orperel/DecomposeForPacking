@@ -32,4 +32,3 @@ bool Point::operator==(const Point& point) const
 {
 	return (this->getX() == point.getX() && this->getY() == point.getY());
 }
-

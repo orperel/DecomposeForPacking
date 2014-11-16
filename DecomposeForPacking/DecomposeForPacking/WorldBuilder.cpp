@@ -61,7 +61,7 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 
 	//CImg<unsigned char> bla(max_X - min_X + 1, max_Y - min_Y + 1);
 
-	PointList pointList;
+	PointListPtr pointList(new PointList());
 
 	for (int i = min_X; i <= max_X; i++) {
 		for (int j = min_Y; j <= max_Y; j++) {
@@ -71,7 +71,7 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 
 			if (WHITE != pixel) {
 				//cout << i - min_X << " - " << j - min_Y << endl;
-				pointList.push_back(Point(i - min_X, j - min_Y));
+				(*pointList).push_back(Point(i - min_X, j - min_Y));
 			}
 		}
 	}
@@ -85,7 +85,7 @@ shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)
 {
 	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight()));
 
-	for each (const Point& point in world->getPointList()) {
+	for each (const Point& point in *world->getPointList()) {
 		(*img->data(point.getX(), point.getY())) = BLACK;
 	}
 

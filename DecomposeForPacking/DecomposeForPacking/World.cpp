@@ -15,10 +15,10 @@
 //	}
 //}
 
-World::World(PointList pointList, int width, int height) : m_pointList(pointList), m_width(width), m_height(height), m_numberOfPoints(pointList.size())
+World::World(PointListPtr pointList, int width, int height) : m_pointList(pointList), m_width(width), m_height(height)
 {
 	int index = 0;
-	for each (const Point& point in m_pointList) {
+	for each (const Point& point in *m_pointList) {
 		m_indexToPoint[index] = point;
 		m_pointToIndex[point] = index;
 		index++;
@@ -68,7 +68,7 @@ int World::getIndexFromPoint(Point point)
 
 int World::getNumberOfPoints()
 {
-	return m_numberOfPoints;
+	return m_pointList->size();
 }
 
 int World::getWidth()
@@ -81,7 +81,7 @@ int World::getHeight()
 	return m_height;
 }
 
-PointList& World::getPointList()
+PointListPtr World::getPointList()
 {
 	return m_pointList;
 }

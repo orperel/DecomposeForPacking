@@ -19,7 +19,7 @@ std::shared_ptr<CImg<unsigned char>> PartBuilder::toImage(PartPtr part)
 
 	std::shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(width + 1, height + 1));
 
-	for each (const Point& point in *part->getPartOrientationByIndex(0)->getPointList()) {
+	for each (const Point& point in *part->getPartOrientationByIndex(3)->getPointList()) {
 		(*img->data(point.getX() + 500, point.getY() + 300)) = 0;
 	}
 
@@ -45,7 +45,7 @@ PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
 
 	partList->push_back(buildZigzagPart(STANDART_ZIGZAG_PART_WIDTH, pixelSize));
 	//partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize));
-	partList->push_back(buildLongPart(1, pixelSize));
+	//partList->push_back(buildLongPart(STANDART_LONG_PART_WIDTH, pixelSize));
 	//partList->push_back(buildLongPart(2, pixelSize));
 
 	return partList;

@@ -5,7 +5,7 @@
 
 class Part {
 public:
-	Part(PartOrientationPtr partOrientation);
+	Part(PartOrientationPtr partOrient);
 	~Part();
 
 	PartOrientationListPtr getPartOrientations();
@@ -14,8 +14,6 @@ public:
 
 private:
 	void extendPartOrientations();
-	PartOrientationPtr extendRotateOrientation(PartOrientationPtr partOrient);
-	PartOrientationPtr extendMirrorOrientation(PartOrientationPtr partOrient);
 
 	PartOrientationListPtr m_partOrientations;
 };

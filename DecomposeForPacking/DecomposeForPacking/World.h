@@ -15,7 +15,7 @@ class World
 
 public:
 	//World(BooleanDynamicArrayPtr mat, int numberOfPoints);
-	World(PointList points, int width, int height);
+	World(PointListPtr points, int width, int height);
 	virtual ~World();
 
 	void accept(IWorldVisitorPtr visitor);
@@ -32,15 +32,14 @@ public:
 
 	int getHeight();
 
-	PointList& getPointList();
+	PointListPtr getPointList();
 
 private:
-	int m_numberOfPoints;
 	int m_width;
 	int m_height;
 
 	//BooleanDynamicArrayPtr m_mat;
-	PointList m_pointList;
+	PointListPtr m_pointList;
 	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex;
 	std::unordered_map<int, Point> m_indexToPoint;
 };

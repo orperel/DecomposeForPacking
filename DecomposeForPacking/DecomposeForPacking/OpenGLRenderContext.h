@@ -8,9 +8,9 @@ public:
 	void drawPart();
 
 private:
-	float[] _pointsVBO;
-	float[] _linesVBO;
-	float[] _trianglesVBO;
-	float[] _trianglesStripVBO;
+	//float[] _pointsVBO;
+	//float[] _linesVBO;
+	//float[] _trianglesVBO;
+	//float[] _trianglesStripVBO;
 };
 

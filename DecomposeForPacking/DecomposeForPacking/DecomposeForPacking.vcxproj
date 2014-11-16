@@ -64,11 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlgoXResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="IsPartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Packing.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlgoXResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
     <ClInclude Include="DLXSolver.h" />
@@ -84,6 +87,7 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="IsPartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
+    <ClInclude Include="Packing.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />

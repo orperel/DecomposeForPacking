@@ -1,2 +1,4 @@
 Put GLFW at:
-C:\opengl-wrappers
+C:\opengl-wrappers\
+
+(make sure the root is named glfw)

@@ -2,7 +2,7 @@
 
 #include "CImg.h"
 #include "World.h"
-#include "AlgoXResult.h"
+#include "DecomposeResult.h"
 
 using namespace cimg_library;
 using namespace std;

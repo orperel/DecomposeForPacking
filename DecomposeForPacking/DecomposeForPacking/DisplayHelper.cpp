@@ -1,6 +1,6 @@
 #include "DisplayHelper.h"
 #include "WorldBuilder.h"
-#include "AlgoXResult.h"
+#include "DecomposeResult.h"
 
 shared_ptr<CImgDisplay> DisplayHelper::showWorld(WorldPtr world)
 {

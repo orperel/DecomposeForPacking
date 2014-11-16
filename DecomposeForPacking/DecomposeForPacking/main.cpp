@@ -14,7 +14,7 @@
 	#include "WorldBuilder.h"
 	#include "CImg.h"
 	#include "PartBuilder.h"
-	#include "AlgoXResult.h"
+	#include "DecomposeResult.h"
 
 	using namespace cimg_library;
 	using namespace std;

@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 class OpenGLRenderer
 {
 public:
@@ -9,4 +9,4 @@ public:
 
 	void renderFrame();
 };
-
+*/

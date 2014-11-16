@@ -1,4 +1,4 @@
-#include "OpenGLRenderer.h"
+/*#include "OpenGLRenderer.h"
 
 // GLFW is used for cross-platform quick window and openGL context creation
 #include <GLFW/glfw3.h>  
@@ -91,3 +91,5 @@ OpenGLRenderer::OpenGLRenderer()
 OpenGLRenderer::~OpenGLRenderer()
 {
 }
+
+*/

@@ -8,7 +8,7 @@
 
 typedef unordered_map<DLX_VALUES_SET, PartPtr> SetToPartMap;
 typedef std::shared_ptr<SetToPartMap> SetToPartMapPtr;
-typedef unordered_map<DLX_VALUES_SET, PartOrientationPtr> SetToOrientationMap;
+typedef unordered_map<DLX_VALUES_SET, tuple<PartOrientationPtr, Point>> SetToOrientationMap;
 typedef std::shared_ptr<SetToOrientationMap> SetToOrientationMapPtr;
 
 class Decompose

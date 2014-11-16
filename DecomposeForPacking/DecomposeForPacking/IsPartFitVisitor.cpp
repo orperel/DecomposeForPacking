@@ -2,7 +2,7 @@
 #include "Part.h"
 #include <iostream>
 
-using std::make_pair;
+using std::make_tuple;
 
 /** Constructs a new visitor of the part partPtr.
  *  Receives a DLXSolver in order to add to it the new location set of the part, if it's fit.
@@ -57,13 +57,9 @@ void IsPartFitVisitor::visit(World& world, Point point)
 		{
 			_dlxSolver->addRow(partLocationSet);
 			// Maps the new location set to its part
-			//PartPtr copyOfPart(_part);
-			//_locationSetToPart->insert(std::make_pair<DLX_VALUES_SET, PartPtr>(std::move(*partLocationSet), std::move(copyOfPart)));
 			(*_locationSetToPart)[*partLocationSet] = _part;
 			// Maps the new location set to its part orientation
-			//PartOrientationPtr copyOfPartOrient(partOrient);
-			//_locationSetToOrient->insert(std::make_pair<DLX_VALUES_SET, PartOrientationPtr>(std::move(*partLocationSet), std::move(copyOfPartOrient)));
-			(*_locationSetToOrient)[*partLocationSet] = partOrient;
+			(*_locationSetToOrient)[*partLocationSet] = std::make_tuple(partOrient, point);
 		}
 	}
 }

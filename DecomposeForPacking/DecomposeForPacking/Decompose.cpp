@@ -38,9 +38,7 @@ DecomposeResult Decompose::decompose()
 				(*partsCount)[currPart]++;
 			}
 
-			PartOrientationPtr currOrient = m_locationSetToOrient->at(locationSet);
-			int currAnchorIndex = m_world->getIndexFromPoint(currOrient->getAnchor());
-			partLocationList->push_back(std::make_tuple(currOrient, currAnchorIndex));
+			partLocationList->push_back(m_locationSetToOrient->at(locationSet));	// Push-back tuple
 		}
 
 		partsCountList->push_back(partsCount);

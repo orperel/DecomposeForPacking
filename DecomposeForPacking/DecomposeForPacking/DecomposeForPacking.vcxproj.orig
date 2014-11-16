@@ -44,9 +44,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\opengl-wrappers\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glfw\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -56,35 +59,57 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\opengl-wrappers\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glfw\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlgoXResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
-    <ClCompile Include="IsFitVisitor.cpp" />
+    <ClCompile Include="dlxSolverTester.cpp" />
+    <ClCompile Include="IsPartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
+<<<<<<< HEAD
+    <ClCompile Include="Packing.cpp" />
+=======
+    <ClCompile Include="OpenGLRenderContext.cpp" />
+    <ClCompile Include="OpenGLRenderer.cpp" />
+>>>>>>> d40d2347c8133e048831c106d8a88872669473d2
     <ClCompile Include="Part.cpp" />
+    <ClCompile Include="PartBuilder.cpp" />
+    <ClCompile Include="PartOrientation.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlgoXResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
-<<<<<<< HEAD
     <ClInclude Include="DLXSolver.h" />
-=======
+    <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
->>>>>>> 1e50380955e8eda805e0a74c63a5605f6a4dabd6
-    <ClInclude Include="IsFitVisitor.h" />
+    <ClInclude Include="IsPartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
+<<<<<<< HEAD
+    <ClInclude Include="Packing.h" />
+=======
+    <ClInclude Include="OpenGLRenderContext.h" />
+    <ClInclude Include="OpenGLRenderer.h" />
+>>>>>>> d40d2347c8133e048831c106d8a88872669473d2
     <ClInclude Include="Part.h" />
+    <ClInclude Include="PartBuilder.h" />
+    <ClInclude Include="PartOrientation.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

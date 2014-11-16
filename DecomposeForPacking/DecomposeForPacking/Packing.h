@@ -3,7 +3,7 @@
 #include "World.h"
 #include "Part.h"
 #include "DLXSolver.h"
-#include "AlgoXResult.h"
+#include "DecomposeResult.h"
 
 /**
  *	Packs an input of given parts within a given box.
@@ -16,7 +16,7 @@ public:
 	Packing(WorldPtr box, vector<PartsCount> partsToPack);
 	virtual ~Packing();
 
-	AlgoXResult pack();
+	DecomposeResult pack();
 
 private:
 	WorldPtr _box;

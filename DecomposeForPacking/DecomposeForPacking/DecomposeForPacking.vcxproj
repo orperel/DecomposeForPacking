@@ -70,8 +70,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlgoXResult.cpp" />
+    <ClCompile Include="DecomposeResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="PackResult.cpp" />
@@ -89,9 +90,10 @@
     <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlgoXResult.h" />
+    <ClInclude Include="DecomposeResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
+    <ClInclude Include="DisplayHelper.h" />
     <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />

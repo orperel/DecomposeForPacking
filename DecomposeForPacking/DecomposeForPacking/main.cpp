@@ -14,10 +14,13 @@
 	#include "WorldBuilder.h"
 	#include "CImg.h"
 	#include "PartBuilder.h"
+	#include "DecomposeResult.h"
 
 	using namespace cimg_library;
 	using namespace std;
 #endif
+#include "DisplayHelper.h"
+
 
 #ifdef RUN_TESTS
 	void runTests()
@@ -28,23 +31,25 @@
 #else
 	void runProd()
 	{
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
+
 		WorldPtr world = WorldBuilder::fromImage("../../obj.bmp");
 
 		PartListPtr partList = PartBuilder::buildStandartPartPack(10);
 
 		Decompose decomposer(world, partList);
 
-		decomposer.decompose();
+		cout << "Starting to decompose..." << endl;
 
-		shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
+		DecomposeResult decomposeResult = decomposer.decompose();
 
-		new CImgDisplay(*img);
+		displayVector->push_back(DisplayHelper::showWorld(world));
 
-		shared_ptr<CImg<unsigned char>> img2 = WorldBuilder::toImage(world);
+		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 
-		new CImgDisplay(*img2);
+		//new CImgDisplay(*img);
 
-		cout << "Test proj" << endl;
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 6);
 
 		int x;
 

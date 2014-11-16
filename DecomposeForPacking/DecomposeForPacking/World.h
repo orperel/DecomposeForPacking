@@ -3,46 +3,70 @@
 #include <memory>
 #include <unordered_map>
 #include "IWorldVisitor.h"
-//#include "DynamicArray.h"
 
-// TODO: two ways data store - from index to pixel and from pixel to index with map or smtng
-
-/* Represents the world to be decompose or packed into, i.e. the spatial in which we locate the parts that assemble
-   the object. The world is composed of transparent and non-transparent pixels; the non-transparents are the pixels
-   of the object/pack istself. */
+/* Represents the world to be decompose or packed into,
+   i.e. the spatial in which we locate the parts that assemble the object.
+   The world is composed of points, each point gets an index. */
 class World
 {
 
 public:
-	//World(BooleanDynamicArrayPtr mat, int numberOfPoints);
-	World(PointList points, int width, int height);
+	/*
+	 * C'tor - Builds world from list of points, width and height
+	 */
+	World(PointListPtr points, int width, int height);
+
+	/*
+	 * Default D'tor
+	 */
 	virtual ~World();
 
+	/*
+	 * Activates the visitor operation for each point in the world 
+	 */
 	void accept(IWorldVisitorPtr visitor);
 
+	/*
+	 * Return the number of points in the world.
+	 */
 	int getNumberOfPoints();
 
+	/*
+	 * Checks if the point exist in the world.
+	 */
 	bool isPointExist(Point point);
 
+	/*
+	 * Get point from index.
+	 */
 	Point getPointFromIndex(int index);
 
+	/*
+	 * Get index from point.
+	 */
 	int getIndexFromPoint(Point point);
 
+	/*
+	 * Width getter.
+	 */
 	int getWidth();
 
+	/*
+	* Height getter.
+	*/
 	int getHeight();
 
-	PointList& getPointList();
+	/*
+	* World's point list getter.
+	*/
+	PointListPtr getPointList();
 
 private:
-	int m_numberOfPoints;
-	int m_width;
-	int m_height;
-
-	//BooleanDynamicArrayPtr m_mat;
-	PointList m_pointList;
-	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex;
-	std::unordered_map<int, Point> m_indexToPoint;
+	int m_width; // Width
+	int m_height; // Height
+	PointListPtr m_pointList; // Point List
+	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex; // Map of point to index
+	std::unordered_map<int, Point> m_indexToPoint; // Map of index to point
 };
 
 typedef std::shared_ptr<World> WorldPtr;

@@ -1,9 +1,10 @@
 #include "Part.h"
 
-Part::Part(PartOrientationPtr partOrientation)
+Part::Part(PartOrientationPtr partOrient)
 {
 	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
-	m_partOrientations->push_back(partOrientation);
+
+	m_partOrientations->push_back(partOrient);
 
 	extendPartOrientations();
 }
@@ -26,34 +27,21 @@ PartOrientationPtr Part::getPartOrientationByIndex(int index)
 void Part::extendPartOrientations()
 {
 	PartOrientationPtr partOrient = getPartOrientationByIndex(0);
-	PartOrientationPtr mirroredOrientation = extendMirrorOrientation(partOrient);
-	PartOrientationPtr rotatedOrientation = extendRotateOrientation(partOrient);
-	PartOrientationPtr rotatedMirroredOrientation = extendRotateOrientation(mirroredOrientation);
 
-	m_partOrientations->push_back(mirroredOrientation);
+	if (partOrient->isSymmetrical()) {
+		return;
+	}
+
+	PartOrientationPtr rotatedOrientation = partOrient->rotate();
 	m_partOrientations->push_back(rotatedOrientation);
-	m_partOrientations->push_back(rotatedMirroredOrientation);
-}
 
-PartOrientationPtr Part::extendMirrorOrientation(PartOrientationPtr partOrient)
-{
-	PointListPtr newPointList = PointListPtr(new PointList());
+	PartOrientationPtr mirroredVerticalOrientation = partOrient->verticalMirror();
+	PartOrientationPtr mirroredHorizonalOrientation = partOrient->horizonalMirror();
+	PartOrientationPtr rotatedMirroredOrientation = rotatedOrientation->verticalMirror();
 
-	for each (const Point& point in *partOrient->getPointList()) {
-		newPointList->push_back(Point(point.getX() * -1, point.getY()));
+	if (!partOrient->isVerticalSymmetrical(mirroredVerticalOrientation) && !partOrient->isHorizonalSymmetrical(mirroredHorizonalOrientation)) {
+
+		m_partOrientations->push_back(mirroredVerticalOrientation);
+		m_partOrientations->push_back(rotatedMirroredOrientation);
 	}
-
-	return PartOrientationPtr(new PartOrientation(newPointList));
-
-}
-
-PartOrientationPtr Part::extendRotateOrientation(PartOrientationPtr partOrient)
-{
-	PointListPtr newPointList = PointListPtr(new PointList());
-
-	for each (const Point& point in *partOrient->getPointList()) {
-		newPointList->push_back(Point(point.getY(), point.getX()));
-	}
-
-	return PartOrientationPtr(new PartOrientation(newPointList));
 }

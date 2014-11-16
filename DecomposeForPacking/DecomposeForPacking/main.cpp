@@ -39,6 +39,8 @@
 
 		Decompose decomposer(world, partList);
 
+		cout << "Starting to decompose..." << endl;
+
 		DecomposeResult decomposeResult = decomposer.decompose();
 
 		displayVector->push_back(DisplayHelper::showWorld(world));
@@ -47,9 +49,7 @@
 
 		//new CImgDisplay(*img);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 1);
-
-		cout << "Test proj" << endl;
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 6);
 
 		int x;
 

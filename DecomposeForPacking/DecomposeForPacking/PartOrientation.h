@@ -44,8 +44,8 @@ private:
 	PartOrientationPtr verticalMirror();
 	PartOrientationPtr horizonalMirror();
 
-	bool isVerticalSymmetrical();
-	bool isHorizonalSymmetrical();
+	bool isVerticalSymmetrical(PartOrientationPtr partOrient);
+	bool isHorizonalSymmetrical(PartOrientationPtr partOrient);
 	bool isSymmetrical();
 
 	friend Part;

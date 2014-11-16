@@ -78,6 +78,8 @@
     <ClCompile Include="OpenGLRenderContext.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
     <ClCompile Include="Part.cpp" />
+    <ClCompile Include="PartBuilder.cpp" />
+    <ClCompile Include="PartOrientation.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
@@ -93,6 +95,8 @@
     <ClInclude Include="OpenGLRenderContext.h" />
     <ClInclude Include="OpenGLRenderer.h" />
     <ClInclude Include="Part.h" />
+    <ClInclude Include="PartBuilder.h" />
+    <ClInclude Include="PartOrientation.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />

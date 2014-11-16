@@ -1,35 +1,59 @@
 #include "Part.h"
 
-
-Part::Part(int pixelSize /*= 1*/) : m_pixelSize(pixelSize)
+Part::Part(PartOrientationPtr partOrientation)
 {
-	addPoint(Point(0, 0));
-	m_headPointList.push_back(Point(0, 0));
-}
+	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
+	m_partOrientations->push_back(partOrientation);
 
+	extendPartOrientations();
+}
 
 Part::~Part()
 {
+
 }
 
-int Part::addPointToRight(int pointIndex)
+PartOrientationListPtr Part::getPartOrientations()
 {
-	addPoint(Point(m_headPointList[pointIndex].getX() + 10, m_headPointList[pointIndex].getY()));
-	m_headPointList.push_back(Point(m_headPointList[pointIndex].getX() + 10, m_headPointList[pointIndex].getY()));
-
-	return m_headPointList.size() - 1;
+	return m_partOrientations;
 }
 
-PointList Part::getPointList()
+PartOrientationPtr Part::getPartOrientationByIndex(int index)
 {
-	return m_pointList;
+	return m_partOrientations->at(index);
 }
 
-void Part::addPoint(Point startPoint)
+void Part::extendPartOrientations()
 {
-	for (int i = 0; i < m_pixelSize; i++) {
-		for (int j = 0; j < m_pixelSize; j++) {
-			m_pointList.push_back(startPoint + Point(i, j));
-		}
+	PartOrientationPtr partOrient = getPartOrientationByIndex(0);
+	PartOrientationPtr mirroredOrientation = extendMirrorOrientation(partOrient);
+	PartOrientationPtr rotatedOrientation = extendRotateOrientation(partOrient);
+	PartOrientationPtr rotatedMirroredOrientation = extendRotateOrientation(mirroredOrientation);
+
+	m_partOrientations->push_back(mirroredOrientation);
+	m_partOrientations->push_back(rotatedOrientation);
+	m_partOrientations->push_back(rotatedMirroredOrientation);
+}
+
+PartOrientationPtr Part::extendMirrorOrientation(PartOrientationPtr partOrient)
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *partOrient->getPointList()) {
+		newPointList->push_back(Point(point.getX() * -1, point.getY()));
 	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+
+}
+
+PartOrientationPtr Part::extendRotateOrientation(PartOrientationPtr partOrient)
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *partOrient->getPointList()) {
+		newPointList->push_back(Point(point.getY(), point.getX()));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
 }

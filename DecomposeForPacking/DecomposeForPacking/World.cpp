@@ -31,6 +31,7 @@ World::~World()
 {
 }
 
+/* Accepts the visitor operation on this */
 void World::accept(IWorldVisitorPtr visitor)
 {
 	//for (int i = 0; i < m_mat->getRows(); i++) {
@@ -42,6 +43,7 @@ void World::accept(IWorldVisitorPtr visitor)
 	//	}
 	//}
 
+	// For each point in the world activates the visitor operation
 	for each (const std::pair<int, Point>& p in m_indexToPoint) {
 		visitor->visit(*this, p.second);
 	}

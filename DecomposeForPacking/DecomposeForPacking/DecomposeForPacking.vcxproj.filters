@@ -45,6 +45,9 @@
     <ClCompile Include="IsPartFitVisitor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="dlxSolverTester.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
@@ -53,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="OpenGLRenderer.cpp">
       <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PartBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Packing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AlgoXResult.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +95,12 @@
     <ClInclude Include="IsPartFitVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PartBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="dlxSolverTester.h">
       <Filter>Source Files\tests</Filter>
     </ClInclude>
@@ -91,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="OpenGLRenderer.h">
       <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Packing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AlgoXResult.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

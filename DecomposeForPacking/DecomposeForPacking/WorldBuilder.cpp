@@ -10,16 +10,17 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 {
 	CImg<int> img(path.c_str());
 
-	//	int depth = src.depth();
-	//	int channels = src.spectrum();
-	//
-	//	cout << "Size of the image: " << width << "x" << height << "\n";
-	//	cout << "Image depth: " << depth << "\n"; //typically equal to 1 when considering usual 2d images
-	//	cout << "Number of channels: " << channels << "\n"; //3 for RGB-coded color images
-	//
-
 	int width = img.width();
 	int height = img.height();
+
+	//int depth = img.depth();
+	//int channels = img.spectrum();
+	//
+	//cout << "Size of the image: " << width << "x" << height << "\n";
+	//cout << "Image depth: " << depth << "\n"; //typically equal to 1 when considering usual 2d images
+	//cout << "Number of channels: " << channels << "\n"; //3 for RGB-coded color images
+	//
+
 
 	int min_X = -1;
 	int max_X = -1;
@@ -55,8 +56,8 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 		}
 	}
 
-	cout << width << " - " << height << endl;
-	cout << min_X << " - " << max_X << endl << min_Y << " - " << max_Y << endl;
+	//cout << width << " - " << height << endl;
+	//cout << min_X << " - " << max_X << endl << min_Y << " - " << max_Y << endl;
 
 	//CImg<unsigned char> bla(max_X - min_X + 1, max_Y - min_Y + 1);
 
@@ -82,10 +83,12 @@ WorldPtr WorldBuilder::fromImage(std::string path)
 
 shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)
 {
-	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight()));
+	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight(), 1, 3));
 
 	for each (const Point& point in *world->getPointList()) {
-		(*img->data(point.getX(), point.getY())) = point.getColor();
+		(*img)(point.getX(), point.getY(), 0, 0) = point.getColor();
+		(*img)(point.getX(), point.getY(), 0, 1) = point.getColor();
+		(*img)(point.getX(), point.getY(), 0, 2) = point.getColor();
 	}
 
 	return img;

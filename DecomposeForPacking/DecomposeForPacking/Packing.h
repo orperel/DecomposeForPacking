@@ -19,7 +19,7 @@ public:
 	DecomposeResult pack();
 
 private:
-	WorldPtr m_world;
-	vector<PartsCount> m_partList;
+	WorldPtr _box;
+	vector<PartsCount> _partsToPack;
 };
 

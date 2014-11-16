@@ -70,18 +70,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AlgoXResult.cpp" />
+    <ClCompile Include="AbstractPartFitVisitor.cpp" />
+    <ClCompile Include="DecomposeResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
-    <ClCompile Include="IsPartFitVisitor.cpp" />
-    <ClCompile Include="main.cpp" />
 <<<<<<< HEAD
-    <ClCompile Include="Packing.cpp" />
+    <ClCompile Include="DecomposePartFitVisitor.cpp" />
 =======
+    <ClCompile Include="PackResult.cpp" />
+    <ClCompile Include="IsPartFitVisitor.cpp" />
+>>>>>>> origin/master
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Packing.cpp" />
     <ClCompile Include="OpenGLRenderContext.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
->>>>>>> d40d2347c8133e048831c106d8a88872669473d2
+    <ClCompile Include="PackSolutionMetaData.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
@@ -90,20 +95,25 @@
     <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AlgoXResult.h" />
+    <ClInclude Include="AbstractPartFitVisitor.h" />
+    <ClInclude Include="DecomposeResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
+    <ClInclude Include="DisplayHelper.h" />
     <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
-    <ClInclude Include="IsPartFitVisitor.h" />
-    <ClInclude Include="IWorldVisitor.h" />
 <<<<<<< HEAD
-    <ClInclude Include="Packing.h" />
+    <ClInclude Include="DecomposePartFitVisitor.h" />
 =======
+    <ClInclude Include="PackResult.h" />
+    <ClInclude Include="IsPartFitVisitor.h" />
+>>>>>>> origin/master
+    <ClInclude Include="IWorldVisitor.h" />
+    <ClInclude Include="Packing.h" />
     <ClInclude Include="OpenGLRenderContext.h" />
     <ClInclude Include="OpenGLRenderer.h" />
->>>>>>> d40d2347c8133e048831c106d8a88872669473d2
+    <ClInclude Include="PackSolutionMetaData.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />

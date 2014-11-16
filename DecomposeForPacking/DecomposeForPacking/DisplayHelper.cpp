@@ -29,14 +29,13 @@ shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showDecomposeResult(W
 
 		PointListPtr pointList(new PointList());
 
-		for each (const tuple<PartOrientationPtr, int>& partOrientTuple in *partLocationList) { // For every part
+		for each (const tuple<PartOrientationPtr, Point>& partOrientTuple in *partLocationList) { // For every part
 			PartOrientationPtr partOrient = get<0>(partOrientTuple);
-			int index = get<1>(partOrientTuple);
-			Point basePoint = world->getPointFromIndex(index);
+			Point basePoint = get<1>(partOrientTuple);
 			color += 255 / partLocationList->size();
 
-			for each (const Point& point in *partOrient->getPointList()) { // For each point of the part
-				pointList->push_back(Point(point.getX() + basePoint.getX(), point.getY() + basePoint.getY(), color));
+			for each (const Point& pointOffset in *partOrient->getPointList()) { // For each point of the part
+				pointList->push_back(Point(pointOffset.getX() + basePoint.getX(), pointOffset.getY() + basePoint.getY(), color));
 			}
 		}
 

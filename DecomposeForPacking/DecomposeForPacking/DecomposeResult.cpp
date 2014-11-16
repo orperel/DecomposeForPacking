@@ -9,3 +9,8 @@ DecomposeResult::DecomposeResult(std::shared_ptr<vector<PartsCountPtr>> partsCou
 DecomposeResult::~DecomposeResult()
 {
 }
+
+std::shared_ptr<vector<PartLocationListPtr>> DecomposeResult::getListOfPartLocationLists()
+{
+	return _listOfPartLocationLists;
+}

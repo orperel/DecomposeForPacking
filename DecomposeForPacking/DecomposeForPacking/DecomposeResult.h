@@ -19,6 +19,7 @@ public:
 	DecomposeResult(std::shared_ptr<vector<PartsCountPtr>> partsCountList, std::shared_ptr<vector<PartLocationListPtr>> listOfPartLocationLists);
 	virtual ~DecomposeResult();
 
+	std::shared_ptr<vector<PartLocationListPtr>> getListOfPartLocationLists();
 private:
 	std::shared_ptr<vector<PartsCountPtr>> _partsCountList;
 	std::shared_ptr<vector<PartLocationListPtr>> _listOfPartLocationLists;

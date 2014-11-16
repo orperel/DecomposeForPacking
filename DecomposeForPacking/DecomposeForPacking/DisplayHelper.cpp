@@ -15,12 +15,12 @@ shared_ptr<CImgDisplay> DisplayHelper::showWorld(WorldPtr world)
 	return display;
 }
 
-shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showDecomposeResult(WorldPtr world, std::vector<PartLocationList>& decomposeResult, int numOfResultsToShow)
+shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showDecomposeResult(WorldPtr world, DecomposeResult decomposeResult, int numOfResultsToShow)
 {
 	shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
 
 	int count = 0;
-	for each (const PartLocationList& partLocationList in decomposeResult) { // For every result
+	for each (const PartLocationListPtr& partLocationList in *decomposeResult.getListOfPartLocationLists()) { // For every result
 		if (numOfResultsToShow == count) {	// Show only NUM_OF_RESULTS_TO_SHOW results
 			break;
 		}
@@ -29,11 +29,11 @@ shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showDecomposeResult(W
 
 		PointListPtr pointList(new PointList());
 
-		for each (const tuple<PartOrientationPtr, int>& partOrientTuple in partLocationList) { // For every part
+		for each (const tuple<PartOrientationPtr, int>& partOrientTuple in *partLocationList) { // For every part
 			PartOrientationPtr partOrient = get<0>(partOrientTuple);
 			int index = get<1>(partOrientTuple);
 			Point basePoint = world->getPointFromIndex(index);
-			color += 255 / partLocationList.size();
+			color += 255 / partLocationList->size();
 
 			for each (const Point& point in *partOrient->getPointList()) { // For each point of the part
 				pointList->push_back(Point(point.getX() + basePoint.getX(), point.getY() + basePoint.getY(), color));

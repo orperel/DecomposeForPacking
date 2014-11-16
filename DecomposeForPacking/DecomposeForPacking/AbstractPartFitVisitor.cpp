@@ -3,7 +3,7 @@
 /** Constructs a new visitor of the part partPtr.
  *  Receives a DLXSolver in order to add to it the new location set of the part, if it's fit.
  *  (Location set is a set of indices of the world, instead of points; each point is mapped to unique index.)
- *  Receives also a map that maps the location sets to their part orientations.
+ *  Receives also maps that maps the location sets to their parts and part orientations.
  */
 AbstractPartFitVisitor::AbstractPartFitVisitor(PartPtr part, shared_ptr<DLXSolver> dlxSolver, SetToPartMapPtr locationSetToPart, SetToOrientationMapPtr locationSetToOrient)
 {
@@ -18,6 +18,7 @@ AbstractPartFitVisitor::~AbstractPartFitVisitor()
 {
 }
 
+/** Returns the location set of the partOrient, if it's fit to point. Else returns NULL. */
 shared_ptr<DLX_VALUES_SET> AbstractPartFitVisitor::getLocationSet(World& world, Point point, PartOrientationPtr partOrient)
 {
 	// Gets the point list of the part orientation (composed of origin point and neighboring points in relation to it)

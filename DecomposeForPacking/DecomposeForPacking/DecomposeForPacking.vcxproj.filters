@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -73,10 +73,14 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbstractPartFitVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PackResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DecomposePartFitVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PackSolutionMetaData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -137,10 +141,14 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractPartFitVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PackResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DecomposePartFitVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PackSolutionMetaData.h">
       <Filter>Header Files</Filter>
     </ClInclude>

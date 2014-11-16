@@ -1,0 +1,2 @@
+Put GLFW at:
+C:\opengl-wrappers

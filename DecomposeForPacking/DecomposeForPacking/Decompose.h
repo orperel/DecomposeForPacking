@@ -1,12 +1,15 @@
 #pragma once
 
 #include <unordered_map>
+#include "DLXSolver.h"
 #include "World.h"
 #include "Part.h"
-#include "DLXSolver.h"
+#include "DecomposeResult.h"
 
-typedef unordered_map<DLX_VALUES_SET, PartOrientationPtr> SetsToOrientationMap;
-typedef std::shared_ptr<SetsToOrientationMap> SetsToOrientationMapPtr;
+typedef unordered_map<DLX_VALUES_SET, PartPtr> SetToPartMap;
+typedef std::shared_ptr<SetToPartMap> SetToPartMapPtr;
+typedef unordered_map<DLX_VALUES_SET, PartOrientationPtr> SetToOrientationMap;
+typedef std::shared_ptr<SetToOrientationMap> SetToOrientationMapPtr;
 
 class Decompose
 {
@@ -14,16 +17,18 @@ public:
 	Decompose(WorldPtr world, PartListPtr partList);
 	virtual ~Decompose();
 
-	vector<DLX_SOLUTION> decompose();
+	DecomposeResult decompose();
 
 private:
 	WorldPtr m_world;
 	PartListPtr m_partList;
-	// Map from location sets to their part orientation (location set is a set of indices of the part location, instead of points)
-	SetsToOrientationMapPtr m_locationSetToOrient;
+	// Map from location sets to their parts (location set is a set of indices of the part location, instead of points)
+	SetToPartMapPtr m_locationSetToPart;
+	// Map from location sets to their part orientations
+	SetToOrientationMapPtr m_locationSetToOrient;
 };
 
-/* Defines a hash function for the SetsToOrientationMap (XOR between the indices in the set). */
+/* Defines a hash function for the SetToPartMap and SetToOrientationMap (XOR between the indices in the set). */
 namespace std {
 	template <>
 	class hash<DLX_VALUES_SET> {

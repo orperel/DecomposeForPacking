@@ -63,14 +63,14 @@
     <ClCompile Include="Packing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AlgoXResult.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PartOrientation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLRenderContext.cpp">
-      <Filter>Source Files\rendering</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DecomposeResult.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DisplayHelper.cpp">
       <Filter>Source Files</Filter>
@@ -122,14 +122,14 @@
     <ClInclude Include="Packing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AlgoXResult.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PartOrientation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLRenderContext.h">
-      <Filter>Header Files\rendering</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecomposeResult.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DisplayHelper.h">
       <Filter>Header Files</Filter>

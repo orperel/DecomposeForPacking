@@ -1,6 +1,6 @@
 #include "Decompose.h"
 #include "DecomposeResult.h"
-#include "IsPartFitVisitor.h"
+#include "DecomposePartFitVisitor.h"
 
 Decompose::Decompose(WorldPtr world, PartListPtr partList) : m_world(world), m_partList(partList), m_locationSetToPart(new SetToPartMap()), m_locationSetToOrient(new SetToOrientationMap())
 {
@@ -16,7 +16,7 @@ DecomposeResult Decompose::decompose()
 
 	// For each part in the part list creates a new visitor of the world. Runs world.accept() on the visitor
 	for each (const PartPtr& part in *m_partList) {
-		IWorldVisitorPtr visitor(new IsPartFitVisitor(part, dlxSolver, m_locationSetToPart, m_locationSetToOrient));
+		IWorldVisitorPtr visitor(new DecomposePartFitVisitor(part, dlxSolver, m_locationSetToPart, m_locationSetToOrient));
 		m_world->accept(visitor);
 	}
 

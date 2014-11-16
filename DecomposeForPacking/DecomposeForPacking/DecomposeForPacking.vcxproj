@@ -74,11 +74,13 @@
     <ClCompile Include="Decompose.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
+    <ClCompile Include="PackResult.cpp" />
     <ClCompile Include="IsPartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Packing.cpp" />
     <ClCompile Include="OpenGLRenderContext.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
+    <ClCompile Include="PackSolutionMetaData.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
@@ -93,11 +95,13 @@
     <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="PackResult.h" />
     <ClInclude Include="IsPartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
     <ClInclude Include="Packing.h" />
     <ClInclude Include="OpenGLRenderContext.h" />
     <ClInclude Include="OpenGLRenderer.h" />
+    <ClInclude Include="PackSolutionMetaData.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />

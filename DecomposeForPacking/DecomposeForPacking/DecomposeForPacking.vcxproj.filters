@@ -72,6 +72,12 @@
     <ClCompile Include="OpenGLRenderContext.cpp">
       <Filter>Source Files\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="PackResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PackSolutionMetaData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CImg.h">
@@ -127,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="OpenGLRenderContext.h">
       <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="PackResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PackSolutionMetaData.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

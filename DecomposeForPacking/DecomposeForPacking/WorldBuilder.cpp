@@ -4,7 +4,6 @@
 
 using namespace std;
 
-const int BLACK = 0;
 const int WHITE = 255;
 
 WorldPtr WorldBuilder::fromImage(std::string path)
@@ -86,7 +85,7 @@ shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)
 	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight()));
 
 	for each (const Point& point in *world->getPointList()) {
-		(*img->data(point.getX(), point.getY())) = BLACK;
+		(*img->data(point.getX(), point.getY())) = point.getColor();
 	}
 
 	return img;

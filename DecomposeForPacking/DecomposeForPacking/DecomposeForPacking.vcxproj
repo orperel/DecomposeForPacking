@@ -72,6 +72,7 @@
   <ItemGroup>
     <ClCompile Include="AlgoXResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="IsPartFitVisitor.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="AlgoXResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
+    <ClInclude Include="DisplayHelper.h" />
     <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />

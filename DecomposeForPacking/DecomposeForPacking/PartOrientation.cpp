@@ -94,8 +94,14 @@ PartOrientationPtr PartOrientation::horizonalMirror()
 
 bool PartOrientation::isVerticalSymmetrical(PartOrientationPtr partOrient)
 {
+	int width = 0;
+	for each (const Point& point in *getPointList()) {
+		if (point.getX() > width) width = point.getX();
+	}
+
+
 	for each (const Point& point in *partOrient->getPointList()) {
-		if (m_pointMap.find(Point(point.getX() * -1, point.getY())) == m_pointMap.end()) {
+		if (m_pointMap.find(Point(point.getX() + width, point.getY())) == m_pointMap.end()) {
 			return false;
 		}
 	}
@@ -105,8 +111,13 @@ bool PartOrientation::isVerticalSymmetrical(PartOrientationPtr partOrient)
 
 bool PartOrientation::isHorizonalSymmetrical(PartOrientationPtr partOrient)
 {
+	int height = 0;
+	for each (const Point& point in *getPointList()) {
+		if (point.getY() > height) height = point.getY();
+	}
+
 	for each (const Point& point in *partOrient->getPointList()) {
-		if (m_pointMap.find(Point(point.getX(), point.getY() * -1)) == m_pointMap.end()) {
+		if (m_pointMap.find(Point(point.getX(), point.getY() + height)) == m_pointMap.end()) {
 			return false;
 		}
 	}

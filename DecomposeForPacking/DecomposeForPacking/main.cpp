@@ -49,7 +49,7 @@
 
 		//new CImgDisplay(*img);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 6);
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 10);
 
 		int x;
 

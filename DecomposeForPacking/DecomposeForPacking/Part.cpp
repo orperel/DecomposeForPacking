@@ -39,6 +39,9 @@ void Part::extendPartOrientations()
 	PartOrientationPtr mirroredHorizonalOrientation = partOrient->horizonalMirror();
 	PartOrientationPtr rotatedMirroredOrientation = rotatedOrientation->verticalMirror();
 
+	bool bla1 = partOrient->isVerticalSymmetrical(mirroredVerticalOrientation);
+	bool bla2 = partOrient->isHorizonalSymmetrical(mirroredHorizonalOrientation);
+
 	if (!partOrient->isVerticalSymmetrical(mirroredVerticalOrientation) && !partOrient->isHorizonalSymmetrical(mirroredHorizonalOrientation)) {
 
 		m_partOrientations->push_back(mirroredVerticalOrientation);

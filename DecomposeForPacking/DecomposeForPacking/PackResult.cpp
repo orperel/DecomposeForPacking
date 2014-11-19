@@ -2,10 +2,10 @@
 
 #pragma region - PackResultIterator
 
-PackResult::PackResultIterator::PackResultIterator(vector<tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX>>& packedResults)
+PackResult::PackResultIterator::PackResultIterator(PackResult& packedResults) : _packedResults(packedResults)
 {
-	_innerIterator = packedResults.begin();
-	_iteratorEnd = packedResults.end();
+	_innerIterator = _packedResults._packedPartsToDecompose.begin();
+	_iteratorEnd = _packedResults._packedPartsToDecompose.end();
 }
 
 PackResult::PackResultIterator::~PackResultIterator()
@@ -24,17 +24,20 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 		return NULL;
 	}
 
-	tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX> nextPackSolution = *_innerIterator;
+	PackToDecomposeTuple nextPackSolution = *_innerIterator;
 	auto packedPartsLocations = std::get<0>(nextPackSolution);
 	int decomposeSolutionIndex = std::get<1>(nextPackSolution);
-	auto decomposedPartsLocations = _decomposition->getPackedParts(decomposeSolutionIndex);
-	auto partsInSolution = _decomposition->getPartsLocation(decomposeSolutionIndex);
+	auto decomposedPartsLocations = _packedResults._decomposition->getListOfPartLocationLists()->at(decomposeSolutionIndex);
+	auto partsInSolution = _packedResults._decomposition->getPartsCountList()->at(decomposeSolutionIndex);
 
 	// Advance to the next item
 	_innerIterator++;
 
-	return std::make_unique<DAPSolution>(
-		   std::make_tuple(packedPartsLocations, decomposedPartsLocations, partsInSolution));
+	auto tuple = std::make_tuple(packedPartsLocations, decomposedPartsLocations, partsInSolution);
+
+	return NULL;
+	//return std::make_unique<DAPSolution>(
+		 //  );
 }
 
 #pragma region - PackResult
@@ -46,8 +49,7 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 * 4) Solution with smaller total size +3 points.
 * 3) Solution contains holes -3 points.
 */
-bool gradeByShapeAndNumOfParts(const tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX>& solutionA,
-							   const tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX>& solutionB)
+bool gradeByShapeAndNumOfParts(const PackToDecomposeTuple& solutionA, const PackToDecomposeTuple & solutionB)
 {
 	int aGrade = 0;
 	int bGrade = 0;
@@ -57,7 +59,7 @@ bool gradeByShapeAndNumOfParts(const tuple<PartLocationList, DECOMPOSE_SOULTION_
 	return aGrade > bGrade;
 }
 
-PackResult::PackResult(shared_ptr<AlgoXResult> decomposeResult) : _decomposition(decomposeResult)
+PackResult::PackResult(shared_ptr<DecomposeResult> decomposeResult) : _decomposition(decomposeResult)
 {
 }
 
@@ -66,19 +68,19 @@ PackResult::~PackResult()
 {
 }
 
-void PackResult::addPackingSolution(int decomposeSolutionIndex, PartLocationList packedParts)
+void PackResult::addPackingSolution(int decomposeSolutionIndex, PartLocationListPtr packedParts)
 {
 	_packedPartsToDecompose.push_back(std::make_tuple(packedParts, decomposeSolutionIndex));
 }
 
-void PackResult::sortByCriteria(std::function < bool(const tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX>&,
-										 const tuple<PartLocationList, DECOMPOSE_SOULTION_INDEX>&) > criteria)
+void PackResult::sortByCriteria(std::function < bool(const PackToDecomposeTuple&,
+													 const PackToDecomposeTuple&) > criteria)
 {
 	std::sort(_packedPartsToDecompose.begin(), _packedPartsToDecompose.end(), criteria);
 }
 
 unique_ptr<PackResult::PackResultIterator> PackResult::iterator()
 {
-	sortByCriteria(gradeByShapeAndNumOfParts);
-	return std::make_unique<PackResult::PackResultIterator>(_packedPartsToDecompose);
+	//sortByCriteria(*gradeByShapeAndNumOfParts(const PackToDecomposeTuple&, const PackToDecomposeTuple&)); // TODO
+	return std::make_unique<PackResult::PackResultIterator>(*this);
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 class OpenGLRenderContext
 {
 public:
@@ -11,6 +12,5 @@ private:
 	//float[] _pointsVBO;
 	//float[] _linesVBO;
 	//float[] _trianglesVBO;
-	//float[] _trianglesStripVBO;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <tuple>
-#include "AlgoXResult.h"
+#include "DecomposeResult.h"
 
 class PackResult;
 typedef int DECOMPOSE_SOULTION_INDEX; // TODO: Remove

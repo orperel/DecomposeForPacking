@@ -1,4 +1,10 @@
-Put GLFW at:
-C:\opengl-wrappers\
+Put GLFW and GLEW at:
 
-(make sure the root is named glfw)
+1) Create the path: C:\opengl-wrappers\
+
+2) Unzip glfw-3.0.4.bin.WIN32 and glew-1.9.0-win32 to C:\opengl-wrappers\
+
+3) Rename the unzipped folders to "glew" and "glfw". In the end you should have these paths:
+
+C:\opengl-wrappers\glfw
+C:\opengl-wrappers\glew

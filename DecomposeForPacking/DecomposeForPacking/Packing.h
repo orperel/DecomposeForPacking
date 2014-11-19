@@ -4,6 +4,7 @@
 #include "Part.h"
 #include "DLXSolver.h"
 #include "DecomposeResult.h"
+#include "PackResult.h"
 
 /**
  *	Packs an input of given parts within a given box.
@@ -16,7 +17,7 @@ public:
 	Packing(WorldPtr box, vector<PartsCount> partsToPack);
 	virtual ~Packing();
 
-	DecomposeResult pack();
+	PackResult pack();
 
 private:
 	WorldPtr _box;

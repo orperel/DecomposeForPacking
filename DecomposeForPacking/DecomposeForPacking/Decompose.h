@@ -28,7 +28,7 @@ private:
 	SetToOrientationMapPtr m_locationSetToOrient;
 };
 
-/* Defines a hash function for the SetToPartMap and SetToOrientationMap (XOR between the indices in the set). */
+/* Defines a hash function for the locationSetToPart and locationSetToOrient (XOR between the indices in the set). */
 namespace std {
 	template <>
 	class hash<DLX_VALUES_SET> {

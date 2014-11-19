@@ -1,8 +1,9 @@
 #include "Decompose.h"
 #include "DecomposeResult.h"
-#include "IsPartFitVisitor.h"
+#include "DecomposePartFitVisitor.h"
 
-Decompose::Decompose(WorldPtr world, PartListPtr partList) : m_world(world), m_partList(partList), m_locationSetToPart(new SetToPartMap()), m_locationSetToOrient(new SetToOrientationMap())
+Decompose::Decompose(WorldPtr world, PartListPtr partList) : m_world(world), m_partList(partList),
+	m_locationSetToPart(new SetToPartMap()), m_locationSetToOrient(new SetToOrientationMap())
 {
 }
 
@@ -16,29 +17,37 @@ DecomposeResult Decompose::decompose()
 
 	// For each part in the part list creates a new visitor of the world. Runs world.accept() on the visitor
 	for each (const PartPtr& part in *m_partList) {
-		IWorldVisitorPtr visitor(new IsPartFitVisitor(part, dlxSolver, m_locationSetToPart, m_locationSetToOrient));
+		IWorldVisitorPtr visitor(new DecomposePartFitVisitor(part, dlxSolver, m_locationSetToPart, m_locationSetToOrient));
 		m_world->accept(visitor);
 	}
 
 	auto solutions = dlxSolver->solve();	// Runs solver
 	
+	// Creates the result vectors of the decomposition:
+	// 1) Parts count list of all solutions in the decomposition
+	// 2) List of part location lists of all solutions in the decomposition
 	std::shared_ptr<vector<PartsCountPtr>> partsCountList = std::make_shared<vector<PartsCountPtr>>();
 	std::shared_ptr<vector<PartLocationListPtr>> listOfPartLocationLists = std::make_shared<vector<PartLocationListPtr>>();
 
+	// Goes over each solution to compute its parts count and part location list
 	for each (const DLX_SOLUTION& solution in solutions) {
 		PartsCountPtr partsCount = std::make_shared<PartsCount>();
 		PartLocationListPtr partLocationList = std::make_shared<PartLocationList>();
 
+		// Computes parts count
+		// Goes over each location set in the current solution and counts repeated parts
 		for each (const DLX_VALUES_SET& locationSet in solution) {
 			PartPtr currPart = m_locationSetToPart->at(locationSet);
-			if (partsCount->find(currPart) == partsCount->end()) {
+			if (partsCount->find(currPart) == partsCount->end()) {	// First occurrence. currPart is not in the map yet
 				partsCount->insert(std::make_pair<PartPtr, int>(std::move(currPart), 1));
 			}
-			else {
+			else {	// currPart is already in the map. Increases its counter
 				(*partsCount)[currPart]++;
 			}
 
-			partLocationList->push_back(m_locationSetToOrient->at(locationSet));	// Push-back tuple
+			// Computes part location list
+			// Pushes-back tuple of part orientation and its origin point to the vector
+			partLocationList->push_back(m_locationSetToOrient->at(locationSet));
 		}
 
 		partsCountList->push_back(partsCount);

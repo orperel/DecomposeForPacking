@@ -76,14 +76,12 @@
     <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="DFPLogger.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLShaderProgram.cpp" />
-=======
-    <ClCompile Include="DecomposePartFitVisitor.cpp" />
->>>>>>> 179545e06925f9ce07b4ae6d26af3e0a22f50239
     <ClCompile Include="PackResult.cpp" />
+    <ClCompile Include="IsPartFitVisitor.cpp" />
+    <ClCompile Include="DecomposePartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Packing.cpp" />
     <ClCompile Include="OpenGLRenderContext.cpp" />
@@ -106,15 +104,13 @@
     <ClInclude Include="DLXSolver.h" />
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
-<<<<<<< HEAD
     <ClInclude Include="DFPLogger.h" />
     <ClInclude Include="OpenGLLibs.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLShaderProgram.h" />
-=======
-    <ClInclude Include="DecomposePartFitVisitor.h" />
->>>>>>> 179545e06925f9ce07b4ae6d26af3e0a22f50239
     <ClInclude Include="PackResult.h" />
+    <ClInclude Include="IsPartFitVisitor.h" />
+    <ClInclude Include="DecomposePartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />
     <ClInclude Include="Packing.h" />
     <ClInclude Include="OpenGLRenderContext.h" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -75,6 +75,9 @@
     <ClCompile Include="dlxSolverTester.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="OpenGLRenderer.cpp">
       <Filter>Source Files\rendering</Filter>
     </ClCompile>
@@ -105,6 +108,9 @@
     <ClCompile Include="DisplayHelper.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="IsPartFitVisitor.cpp">
+      <Filter>Source Files\logic</Filter>
+    </ClCompile>
     <ClCompile Include="Packing.cpp">
       <Filter>Source Files\logic\packing</Filter>
     </ClCompile>
@@ -132,17 +138,11 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files\dataStructs</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractPartFitVisitor.cpp">
-      <Filter>Source Files\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="DecomposePartFitVisitor.cpp">
-      <Filter>Source Files\logic\decompose</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldBuilder.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="OpenGLRenderer.h">
       <Filter>Header Files\rendering</Filter>
     </ClInclude>
@@ -182,6 +182,9 @@
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="IsPartFitVisitor.h">
+      <Filter>Header Files\logic</Filter>
+    </ClInclude>
     <ClInclude Include="IWorldVisitor.h">
       <Filter>Header Files\logic</Filter>
     </ClInclude>
@@ -214,15 +217,6 @@
     </ClInclude>
     <ClInclude Include="dlxSolverTester.h">
       <Filter>Header Files\tests</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractPartFitVisitor.h">
-      <Filter>Header Files\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="DecomposePartFitVisitor.h">
-      <Filter>Header Files\logic\decompose</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldBuilder.h">
-      <Filter>Header Files\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

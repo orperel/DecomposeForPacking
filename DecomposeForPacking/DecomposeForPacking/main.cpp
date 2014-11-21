@@ -33,23 +33,30 @@
 	{
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
 
-		WorldPtr world = WorldBuilder::fromImage("../../obj.bmp");
+		//std::string path = "../../duck.bmp";
+		std::string path = "../../duck2.bmp";
+		//std::string path = "../../obj.bmp";
+		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		WorldPtr world = WorldBuilder::fromImage(orig, 25);
 
-		PartListPtr partList = PartBuilder::buildStandartPartPack(10);
+		displayVector->push_back(DisplayHelper::showWorld(world));
+		//displayVector->push_back(std::shared_ptr<CImgDisplay>(new CImgDisplay(*orig)));
+
+		PartListPtr partList = PartBuilder::buildStandartPartPack(1);
 
 		Decompose decomposer(world, partList);
 
-		cout << "Starting to decompose..." << endl;
+		cout << "Starting decomposing..." << endl;
 
 		DecomposeResult decomposeResult = decomposer.decompose();
 
-		displayVector->push_back(DisplayHelper::showWorld(world));
+		cout << "Finished decomposing..." << endl;
 
+		// Display Part - should be deleted
 		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
-
 		//new CImgDisplay(*img);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 10);
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 3);
 
 		int x;
 

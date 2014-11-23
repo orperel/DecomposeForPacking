@@ -35,10 +35,10 @@
 
 		//std::string path = "../../duck.bmp";
 		//std::string path = "../../duck2.bmp";
-		//std::string path = "../../obj.bmp";
+		//std::string path = "../../obj4.bmp";
 		std::string path = "../../pretzel.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 60);
+		WorldPtr world = WorldBuilder::fromImage(orig, 40);
 
 		displayVector->push_back(DisplayHelper::showWorld(world));
 		//displayVector->push_back(std::shared_ptr<CImgDisplay>(new CImgDisplay(*orig)));

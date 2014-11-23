@@ -48,7 +48,7 @@
 
 		cout << "Starting decomposing..." << endl;
 
-		DecomposeResult decomposeResult = decomposer.decompose();
+		shared_ptr<DecomposeResult> decomposeResult = decomposer.decompose();
 
 		cout << "Finished decomposing..." << endl;
 
@@ -56,7 +56,7 @@
 		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 		//new CImgDisplay(*img);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, decomposeResult, 3);
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 3);
 
 		int x;
 

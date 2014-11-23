@@ -11,7 +11,7 @@ Decompose::~Decompose()
 {
 }
 
-DecomposeResult Decompose::decompose()
+std::shared_ptr<DecomposeResult> Decompose::decompose()
 {
 	shared_ptr<DLXSolver> dlxSolver(new DLXSolver(m_world->getNumberOfPoints())); // Creates DLXSolver for the decomposition
 
@@ -54,5 +54,6 @@ DecomposeResult Decompose::decompose()
 		listOfPartLocationLists->push_back(partLocationList);
 	}
 
-	return DecomposeResult(partsCountList, listOfPartLocationLists);
+	DecomposeResult decomposeResult = DecomposeResult(partsCountList, listOfPartLocationLists);
+	return std::make_shared<DecomposeResult>(decomposeResult);
 }

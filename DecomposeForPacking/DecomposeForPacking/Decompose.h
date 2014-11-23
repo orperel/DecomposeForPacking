@@ -17,7 +17,7 @@ public:
 	Decompose(WorldPtr world, PartListPtr partList);
 	virtual ~Decompose();
 
-	DecomposeResult decompose();
+	std::shared_ptr<DecomposeResult> decompose();
 
 private:
 	WorldPtr m_world;

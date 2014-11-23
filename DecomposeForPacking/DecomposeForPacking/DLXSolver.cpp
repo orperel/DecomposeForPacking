@@ -62,16 +62,19 @@ void DLXSolver::reattachNodeToRow(shared_ptr<DLXNode> node)
 	node->right()->setLeft(node);
 }
 
-void DLXSolver::detachNodeFromCol(shared_ptr<DLXNode> node)
+void DLXSolver::detachNodeFromCol(shared_ptr<DLXDataNode> node)
 {
 	node->up()->setDown(node->down());
 	node->down()->setUp(node->up());
+
+	node->head()->decNumOfElements();
 }
 
-void DLXSolver::reattachNodeToCol(shared_ptr<DLXNode> node)
+void DLXSolver::reattachNodeToCol(shared_ptr<DLXDataNode> node)
 {
 	node->up()->setDown(node);
 	node->down()->setUp(node);
+	node->head()->incNumOfElements();
 }
 
 shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
@@ -123,7 +126,7 @@ void DLXSolver::cover(shared_ptr<DLXColHeader> column)
 		// (the links within the detached row remain intact, to be able to reattach it when backtracking)
 		for (auto horzNode = rowNode->right(); horzNode != rowNode; horzNode = horzNode->right())
 		{
-			detachNodeFromCol(horzNode);
+			detachNodeFromCol(std::static_pointer_cast<DLXDataNode>(horzNode));
 		}
 	}
 }
@@ -136,7 +139,7 @@ void DLXSolver::uncover(shared_ptr<DLXColHeader> column)
 		// To reattach a row - we iterate each of the nodes in the row and attach them back to their columns
 		for (auto horzNode = rowNode->left(); horzNode != rowNode; horzNode = horzNode->left())
 		{
-			reattachNodeToCol(horzNode);
+			reattachNodeToCol(std::static_pointer_cast<DLXDataNode>(horzNode));
 		}
 	}
 
@@ -212,6 +215,10 @@ void DLXSolver::addRow(shared_ptr<DLX_VALUES_SET> row)
 
 void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution)
 {
+	// Limit the number of solutions returned
+	if (solutions.size() >= MAX_NUM_OF_SOLUTIONS)
+		return;
+
 	// Choose the next column to eliminate
 	shared_ptr<DLXColHeader> chosenColumn = chooseNextColumn();
 

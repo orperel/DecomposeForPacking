@@ -91,6 +91,14 @@ public:
 	friend std::ostream& operator<< (std::ostream& stream, const DLXSolver& solver);
 
 private:
+	// Consts:
+
+	/** Limits the number of solutions returned by DLXSolver, to avoid long running times
+	 *  when many solutions are available. DlXSolver will choose only the first MAX_NUM_OF_SOLUTIONS
+	 *  solutions encountered.
+	 */
+	static const int MAX_NUM_OF_SOLUTIONS = 10;
+	
 	// Data members:
 
 	/** Contains the current number of rows in the solver's matrix.
@@ -137,10 +145,10 @@ private:
 	/** Detaches the node from the column, removing the links from the links adjcant to it to the removed node.
 	 *  The removed node's link pointers are retained, however, making a reattachment possible when needed for backtracking.
 	 */
-	inline void detachNodeFromCol(shared_ptr<DLXNode> node);
+	inline void detachNodeFromCol(shared_ptr<DLXDataNode> node);
 
 	/** Reattaches the node back to the column according to the node's up / down pointers. */
-	inline void reattachNodeToCol(shared_ptr<DLXNode> node);
+	inline void reattachNodeToCol(shared_ptr<DLXDataNode> node);
 
 	/** Chooses the next column to be removed from the matrix.
 	 *  The algorithm uses the heuristic - "choose the column with the least elements" (a value that appears in 

@@ -8,3 +8,18 @@ Put GLFW and GLEW at:
 
 C:\opengl-wrappers\glfw
 C:\opengl-wrappers\glew
+
+
+======================
+
+Binvox
+------
+
+Unrar binvox.exe from binvox.rar to the same location of DecomposeForPacking.exe.
+
+======================
+
+Glut
+----
+
+Unzip glut32.dll from glut-3.7.6-bin.zip to the same location of DecomposeForPacking.exe.

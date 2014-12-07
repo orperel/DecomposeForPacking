@@ -141,6 +141,9 @@
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
+    <ClCompile Include="PackingPartFitVisitor.cpp">
+      <Filter>Source Files\logic\packing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLRenderer.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="WorldBuilder.h">
       <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="PackingPartFitVisitor.h">
+      <Filter>Header Files\logic\packing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

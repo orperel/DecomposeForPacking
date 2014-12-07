@@ -1,40 +1,39 @@
 #pragma once
 
-#include <algorithm>
-#include <functional>
 #include <tuple>
-#include <memory>
+#include <functional>
 #include "DecomposeResult.h"
 #include "PackSolutionMetaData.h"
 
-using std::shared_ptr;
-
-typedef int DECOMPOSE_SOULTION_INDEX; // Index of a certain decompose solution
-typedef tuple<PartLocationListPtr, PartLocationListPtr, PartsCountPtr> DAPSolution; // Decompose and pack solution
+typedef tuple<PartLocationListPtr, PartLocationListPtr, PartsCountPtr> DAPSolution;	// Decompose and pack solution
 typedef tuple<PartLocationListPtr, DECOMPOSE_SOULTION_INDEX> PackToDecomposeTuple;
 
-/**
- *	Contains multiple solution results of the packing process.
- *	Each packing solution
- */
+/**	Contains multiple solution results of the packing process. */
 class PackResult
 {
 public:
+
 	class PackResultIterator
 	{
 		public:
-			PackResultIterator(PackResult& packedResults);
+			PackResultIterator(PackResult& packResult);
 			virtual ~PackResultIterator();
 			const bool hasNext();
 			unique_ptr<DAPSolution> nextSolution();
+
 		private:
-			PackResult& _packedResults;
+			PackResult& _packResult;
 			vector<PackToDecomposeTuple>::iterator _innerIterator;
 			vector<PackToDecomposeTuple>::iterator _iteratorEnd;
 	};
 
-	PackResult(shared_ptr<DecomposeResult> decomposeResult);
+
+	PackResult(std::shared_ptr<vector<PartLocationListPtr>> packPerDecompose);
 	virtual ~PackResult();
+
+	std::shared_ptr<vector<PartLocationListPtr>> getPackPerDecomposeList();
+
+
 
 	/** Adds a new packing solution and links it to the corresponding decomposition solution. */
 	void addPackingSolution(int decomposeSolutionIndex, PartLocationListPtr packedParts);
@@ -45,14 +44,10 @@ public:
 	unique_ptr<PackResult::PackResultIterator> iterator();
 
 private:
+	std::shared_ptr<vector<PartLocationListPtr>> _packPerDecompose;
+	
 
-	/**
-	 * Grades are given according to the following criteria (priority descending):
-	 * 1) Solution is shaped as a box +5 points.
-	 * 2) Solution with least parts gets +5 points.
-	 * 4) Solution with smaller total size +3 points.
-	 * 3) Solution contains holes -3 points.
-	 */
+	
 	bool gradeByShapeAndNumOfParts(const PackToDecomposeTuple& solutionA, const PackToDecomposeTuple& solutionB);
 
 	/** Contains all the solutions of the decomposition process */

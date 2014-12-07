@@ -79,6 +79,7 @@
     <ClCompile Include="DFPLogger.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLShaderProgram.cpp" />
+    <ClCompile Include="PackingPartFitVisitor.cpp" />
     <ClCompile Include="PackResult.cpp" />
     <ClCompile Include="DecomposePartFitVisitor.cpp" />
     <ClCompile Include="main.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="OpenGLLibs.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLShaderProgram.h" />
+    <ClInclude Include="PackingPartFitVisitor.h" />
     <ClInclude Include="PackResult.h" />
     <ClInclude Include="DecomposePartFitVisitor.h" />
     <ClInclude Include="IWorldVisitor.h" />

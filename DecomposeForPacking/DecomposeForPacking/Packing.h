@@ -1,10 +1,11 @@
 #pragma once
 
 #include "World.h"
-#include "Part.h"
-#include "DLXSolver.h"
+#include "Decompose.h"
 #include "DecomposeResult.h"
 #include "PackResult.h"
+
+static const int CANDIDATES_FOR_PACKING = 3;
 
 /**
  *	Packs an input of given parts within a given box.
@@ -14,13 +15,18 @@
 class Packing
 {
 public:
-	Packing(WorldPtr box, vector<PartsCount> partsToPack);
+	Packing(WorldPtr box, std::shared_ptr<DecomposeResult> decomposeResult);
 	virtual ~Packing();
 
-	PackResult pack();
+	std::shared_ptr<PackResult> pack();
 
 private:
 	WorldPtr _box;
-	vector<PartsCount> _partsToPack;
+	std::shared_ptr<vector<PartsCountPtr>> _partsCountList;
+	std::shared_ptr<vector<SizeIndex>> _partsCountBySize;
+	// Map from location sets to their parts
+	SetToPartMapPtr _locationSetToPart;
+	// Map from location sets to their part orientations
+	SetToOrientationMapPtr _locationSetToOrient;
 };
 

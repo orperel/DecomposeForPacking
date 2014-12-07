@@ -15,6 +15,7 @@
 	#include "CImg.h"
 	#include "PartBuilder.h"
 	#include "DecomposeResult.h"
+	#include "Packing.h"
 
 	using namespace cimg_library;
 	using namespace std;
@@ -35,10 +36,10 @@
 
 		//std::string path = "../../duck.bmp";
 		//std::string path = "../../duck2.bmp";
-		//std::string path = "../../obj4.bmp";
-		std::string path = "../../pretzel.bmp";
+		std::string path = "../../obj.bmp";
+		//std::string path = "../../pretzel.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 40);
+		WorldPtr world = WorldBuilder::fromImage(orig, 10);
 
 		displayVector->push_back(DisplayHelper::showWorld(world));
 		//displayVector->push_back(std::shared_ptr<CImgDisplay>(new CImgDisplay(*orig)));
@@ -57,7 +58,22 @@
 		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 		//new CImgDisplay(*img);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 3);
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showResult(world, decomposeResult->getListOfPartLocationLists(), 3);
+
+
+		std::string boxPath = "../../box.bmp";
+		std::shared_ptr<CImg<int>> origBox(new CImg<int>(boxPath.c_str()));
+		WorldPtr box = WorldBuilder::fromImage(origBox, 10);
+
+		Packing packer(box, decomposeResult);
+
+		cout << "Starting packing..." << endl;
+
+		shared_ptr<PackResult> packResult = packer.pack();
+
+		cout << "Finished packing..." << endl;
+
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector3 = DisplayHelper::showResult(world, packResult->getPackPerDecomposeList(), 3);
 
 		int x;
 

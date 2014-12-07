@@ -1,11 +1,14 @@
+#include <algorithm>
 #include "PackResult.h"
+
+using std::shared_ptr;
 
 #pragma region - PackResultIterator
 
-PackResult::PackResultIterator::PackResultIterator(PackResult& packedResults) : _packedResults(packedResults)
+PackResult::PackResultIterator::PackResultIterator(PackResult& packResult) : _packResult(packResult)
 {
-	_innerIterator = _packedResults._packedPartsToDecompose.begin();
-	_iteratorEnd = _packedResults._packedPartsToDecompose.end();
+	_innerIterator = _packResult._packedPartsToDecompose.begin();
+	_iteratorEnd = _packResult._packedPartsToDecompose.end();
 }
 
 PackResult::PackResultIterator::~PackResultIterator()
@@ -27,8 +30,8 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 	PackToDecomposeTuple nextPackSolution = *_innerIterator;
 	auto packedPartsLocations = std::get<0>(nextPackSolution);
 	int decomposeSolutionIndex = std::get<1>(nextPackSolution);
-	auto decomposedPartsLocations = _packedResults._decomposition->getListOfPartLocationLists()->at(decomposeSolutionIndex);
-	auto partsInSolution = _packedResults._decomposition->getPartsCountList()->at(decomposeSolutionIndex);
+	auto decomposedPartsLocations = _packResult._decomposition->getListOfPartLocationLists()->at(decomposeSolutionIndex);
+	auto partsInSolution = _packResult._decomposition->getPartsCountList()->at(decomposeSolutionIndex);
 
 	// Advance to the next item
 	_innerIterator++;
@@ -36,11 +39,27 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 	auto tuple = std::make_tuple(packedPartsLocations, decomposedPartsLocations, partsInSolution);
 
 	return NULL;
-	//return std::make_unique<DAPSolution>(
-		 //  );
+	//return std::make_unique<DAPSolution>( );
 }
 
+
 #pragma region - PackResult
+
+PackResult::PackResult(std::shared_ptr<vector<PartLocationListPtr>> packPerDecompose)
+{
+	_packPerDecompose = packPerDecompose;
+}
+
+PackResult::~PackResult()
+{
+}
+
+std::shared_ptr<vector<PartLocationListPtr>> PackResult::getPackPerDecomposeList()
+{
+	return _packPerDecompose;
+}
+
+
 
 /**
 * Grades are given according to the following criteria (priority descending):
@@ -49,23 +68,12 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 * 4) Solution with smaller total size +3 points.
 * 3) Solution contains holes -3 points.
 */
-bool gradeByShapeAndNumOfParts(const PackToDecomposeTuple& solutionA, const PackToDecomposeTuple & solutionB)
+bool PackResult::gradeByShapeAndNumOfParts(const PackToDecomposeTuple& solutionA, const PackToDecomposeTuple & solutionB)
 {
 	int aGrade = 0;
 	int bGrade = 0;
 
-
-
 	return aGrade > bGrade;
-}
-
-PackResult::PackResult(shared_ptr<DecomposeResult> decomposeResult) : _decomposition(decomposeResult)
-{
-}
-
-
-PackResult::~PackResult()
-{
 }
 
 void PackResult::addPackingSolution(int decomposeSolutionIndex, PartLocationListPtr packedParts)

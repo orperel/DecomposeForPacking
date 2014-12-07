@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "DecomposeResult.h"
 
 /** Constructs a new decomposition result. It is composed of:
@@ -25,4 +26,23 @@ std::shared_ptr<vector<PartsCountPtr>> DecomposeResult::getPartsCountList()
 std::shared_ptr<vector<PartLocationListPtr>> DecomposeResult::getListOfPartLocationLists()
 {
 	return _listOfPartLocationLists;
+}
+
+bool wayToSort(const SizeIndex& x, const SizeIndex& y) { return (std::get<0>(x) < std::get<0>(y)); }
+
+std::shared_ptr<vector<SizeIndex>> DecomposeResult::getPartsCountBySize()
+{
+	std::shared_ptr<vector<SizeIndex>> partsCountBySize = std::make_shared<vector<SizeIndex>>();
+
+	for (int index = 0; index < _partsCountList->size(); index++) {
+		int currSolutionSize = 0;		
+		for (auto partCount : *_partsCountList->at(index)) {
+			currSolutionSize += partCount.second;
+		}
+		partsCountBySize->push_back(SizeIndex(currSolutionSize, index));
+	}
+
+	std::sort(partsCountBySize->begin(), partsCountBySize->end(), wayToSort);
+
+	return partsCountBySize;
 }

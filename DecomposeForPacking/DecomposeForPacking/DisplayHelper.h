@@ -12,6 +12,6 @@ class DisplayHelper
 public:
 	static shared_ptr<CImgDisplay> showWorld(WorldPtr world);
 
-	static shared_ptr<vector<shared_ptr<CImgDisplay>>> showDecomposeResult(WorldPtr world, DecomposeResult decomposeResult, int numOfResultsToShow);
+	static shared_ptr<vector<shared_ptr<CImgDisplay>>> showResult(WorldPtr world, std::shared_ptr<vector<PartLocationListPtr>> resultVector, int numOfResultsToShow);
 };
 

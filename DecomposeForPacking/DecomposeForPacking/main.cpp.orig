@@ -15,8 +15,11 @@
 	#include "CImg.h"
 	#include "PartBuilder.h"
 	#include "DecomposeResult.h"
+<<<<<<< HEAD
 	#include "Packing.h"
+=======
 	#include "ObjMesh.h"
+>>>>>>> origin/master
 
 	using namespace cimg_library;
 	using namespace std;
@@ -40,9 +43,13 @@
 
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
 
+<<<<<<< HEAD
+		//std::string path = "../../duck.bmp";
+		//std::string path = "../../duck2.bmp";
+=======
+>>>>>>> origin/master
 		std::string path = "../../obj.bmp";
 		//std::string path = "../../pretzel.bmp";
-		//std::string path = "../../obj4.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
 		WorldPtr world = WorldBuilder::fromImage(orig, 10);
 
@@ -62,6 +69,7 @@
 		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 		//new CImgDisplay(*img);
 
+<<<<<<< HEAD
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showResult(world, decomposeResult->getListOfPartLocationLists(), 3);
 
 
@@ -78,6 +86,9 @@
 		cout << "Finished packing..." << endl;
 
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector3 = DisplayHelper::showResult(world, packResult->getPackPerDecomposeList(), 3);
+=======
+		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 10);
+>>>>>>> origin/master
 
 		int x;
 

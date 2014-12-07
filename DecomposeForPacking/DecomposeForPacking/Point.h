@@ -25,7 +25,7 @@ public:
 	 * @param	int - Y Dimension
 	 * @param	int - Color - Default value: Black
 	*/
-	Point(int x, int y, int color = BLACK);
+	Point(int x, int y, int z = 0, int color = BLACK);
 
 	// Default D'tor
 	virtual ~Point();
@@ -47,6 +47,11 @@ public:
 	int getY() const;
 
 	/*
+	* Z getter.
+	*/
+	int getZ() const;
+
+	/*
 	* Color getter.
 	*/
 	int getColor() const;
@@ -60,6 +65,7 @@ public:
 private:
 	int m_x; // X
 	int m_y; // Y
+	int m_z; // Z
 	int m_color; // Color
 };
 
@@ -79,7 +85,7 @@ public:
 	*/
 	std::size_t operator()(Point const& p) const
 	{
-		std::size_t res = std::hash<int>()(p.getX()) + 17*std::hash<int>()(p.getY());
+		std::size_t res = std::hash<int>()(p.getX()) + 17 * std::hash<int>()(p.getY()) + 31 * std::hash<int>()(p.getZ());
 		return res;
 	}
 };

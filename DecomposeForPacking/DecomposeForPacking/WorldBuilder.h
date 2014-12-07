@@ -5,6 +5,7 @@
 #include "IWorldVisitor.h"
 #include "CImg.h"
 #include "World.h"
+#include "ObjMesh.h"
 
 using namespace cimg_library;
 
@@ -19,6 +20,8 @@ class WorldBuilder
 {
 public:
 	static WorldPtr fromImage(std::shared_ptr<CImg<int>> img, int ratio = 1);
+
+	static WorldPtr WorldBuilder::fromMesh(ObjMeshPtr mesh);
 
 	static std::shared_ptr<CImg<unsigned char>> toImage(WorldPtr world);
 

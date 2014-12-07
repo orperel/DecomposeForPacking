@@ -35,7 +35,7 @@ shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showResult(WorldPtr w
 			color += 255 / partLocationList->size();
 
 			for each (const Point& pointOffset in *partOrient->getPointList()) { // For each point of the part
-				pointList->push_back(Point(pointOffset.getX() + basePoint.getX(), pointOffset.getY() + basePoint.getY(), color));
+				pointList->push_back(Point(pointOffset.getX() + basePoint.getX(), pointOffset.getY() + basePoint.getY(), 0, color));
 			}
 		}
 

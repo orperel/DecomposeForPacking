@@ -33,8 +33,7 @@ public:
 
 	std::shared_ptr<vector<PartLocationListPtr>> getPackPerDecomposeList();
 
-
-
+	
 	/** Adds a new packing solution and links it to the corresponding decomposition solution. */
 	void addPackingSolution(int decomposeSolutionIndex, PartLocationListPtr packedParts);
 
@@ -48,7 +47,6 @@ public:
 private:
 	std::shared_ptr<vector<PartLocationListPtr>> _packPerDecompose;
 	
-
 	
 	bool gradeByShapeAndNumOfParts(const PackToDecomposeTuple& solutionA, const PackToDecomposeTuple& solutionB);
 

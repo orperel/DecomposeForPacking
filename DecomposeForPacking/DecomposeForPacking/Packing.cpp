@@ -36,16 +36,16 @@ std::shared_ptr<PackResult> Packing::pack()
 
 		auto solutions = dlxSolver->solve();	// Runs solver
 
+		PartLocationListPtr partLocationList = std::make_shared<PartLocationList>();
 		if (!solutions.empty()) {
 			auto solution = solutions[0];
-			PartLocationListPtr partLocationList = std::make_shared<PartLocationList>();
 			// Computes part location list
 			for each (const DLX_VALUES_SET& locationSet in solution) {
 				// Pushes-back tuple of part orientation and its origin point to the vector
 				partLocationList->push_back(_locationSetToOrient->at(locationSet));
 			}
-			packPerDecompose->push_back(partLocationList);
 		}
+		packPerDecompose->push_back(partLocationList);
 	}
 	
 	PackResult packResult = PackResult(packPerDecompose);

@@ -12,9 +12,9 @@ class World
 
 public:
 	/*
-	 * C'tor - Builds world from list of points, width and height
+	 * C'tor - Builds world from list of points, width, height and depth
 	 */
-	World(PointListPtr points, int width, int height);
+	World(PointListPtr points, int width, int height, int depth = 1);
 
 	/*
 	 * Default D'tor
@@ -57,6 +57,11 @@ public:
 	int getHeight();
 
 	/*
+	* Depth getter.
+	*/
+	int getDepth();
+
+	/*
 	* World's point list getter.
 	*/
 	PointListPtr getPointList();
@@ -64,6 +69,7 @@ public:
 private:
 	int m_width; // Width
 	int m_height; // Height
+	int m_depth; // Depth
 	PointListPtr m_pointList; // Point List
 	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex; // Map of point to index
 	std::unordered_map<int, Point> m_indexToPoint; // Map of index to point

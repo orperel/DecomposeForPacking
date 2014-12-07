@@ -21,9 +21,11 @@ class WorldBuilder
 public:
 	static WorldPtr fromImage(std::shared_ptr<CImg<int>> img, int ratio = 1);
 
-	static WorldPtr WorldBuilder::fromMesh(ObjMeshPtr mesh);
+	static WorldPtr fromMesh(ObjMeshPtr mesh);
 
 	static std::shared_ptr<CImg<unsigned char>> toImage(WorldPtr world);
+
+	static WorldPtr buildBox(int width, int height, int depth = 1);
 
 private:
 	static WorldPosition getWorldPosition(std::shared_ptr<CImg<int>> img);

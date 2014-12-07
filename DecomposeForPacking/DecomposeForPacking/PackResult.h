@@ -43,6 +43,8 @@ public:
 	
 	unique_ptr<PackResult::PackResultIterator> iterator();
 
+	bool hasSolution();
+
 private:
 	std::shared_ptr<vector<PartLocationListPtr>> _packPerDecompose;
 	
@@ -55,4 +57,6 @@ private:
 
 	/** Maps the packing solution to their corresponding decompositions */
 	vector<PackToDecomposeTuple> _packedPartsToDecompose;
+
+	bool _hasSolution;
 };

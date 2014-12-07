@@ -117,3 +117,18 @@ bool WorldBuilder::isSquareNotEmpty(std::shared_ptr<CImg<int>> img, Point point,
 
 	return false;
 }
+
+WorldPtr WorldBuilder::buildBox(int width, int height, int depth /*= 0*/)
+{
+	PointListPtr pointList(new PointList());
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			for (int k = 0; k < depth; k++) {
+				pointList->push_back(Point(i, j, k));
+			}
+		}
+	}
+
+	return WorldPtr(new World(pointList, width, height, depth));
+}

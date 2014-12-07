@@ -8,6 +8,7 @@
 #else
 	#include <iostream>
 	#include <string>
+	#include <math.h>
 	#include "World.h"
 	#include "Part.h"
 	#include "Decompose.h"
@@ -40,7 +41,7 @@
 
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
 
-		std::string path = "../../obj.bmp";
+		std::string path = "../../tet.bmp";
 		//std::string path = "../../pretzel.bmp";
 		//std::string path = "../../obj4.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
@@ -64,16 +65,27 @@
 
 		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showResult(world, decomposeResult->getListOfPartLocationLists(), 3);
 
+		int width, height;
 
-		std::string boxPath = "../../box.bmp";
-		std::shared_ptr<CImg<int>> origBox(new CImg<int>(boxPath.c_str()));
-		WorldPtr box = WorldBuilder::fromImage(origBox, 10);
-
-		Packing packer(box, decomposeResult);
+		shared_ptr<PackResult> packResult;
 
 		cout << "Starting packing..." << endl;
 
-		shared_ptr<PackResult> packResult = packer.pack();
+		do {
+			width = ceil(sqrt(world->getNumberOfPoints()));
+			height = width;
+			WorldPtr box = WorldBuilder::buildBox(width, height);
+			Packing packer(box, decomposeResult);
+			packResult = packer.pack();
+
+			if (packResult->hasSolution()) {
+				cout << "Found Solution!!!" << endl;
+				break;
+			}
+
+			width = ceil(width + 0.1*width);
+			height = width;
+		} while (world->getWidth() >= width && world->getHeight() >= height);
 
 		cout << "Finished packing..." << endl;
 

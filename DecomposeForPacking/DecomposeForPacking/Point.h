@@ -23,6 +23,7 @@ public:
 	 * C'tor
 	 * @param	int - X Dimension
 	 * @param	int - Y Dimension
+	 * @param	int - Z Dimension
 	 * @param	int - Color - Default value: Black
 	*/
 	Point(int x, int y, int z = 0, int color = BLACK);

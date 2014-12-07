@@ -48,6 +48,14 @@ unique_ptr<DAPSolution> PackResult::PackResultIterator::nextSolution()
 PackResult::PackResult(std::shared_ptr<vector<PartLocationListPtr>> packPerDecompose)
 {
 	_packPerDecompose = packPerDecompose;
+
+	_hasSolution = false;
+
+	for each (PartLocationListPtr partLocationList in *packPerDecompose) {
+		if (partLocationList->size() > 0) {
+			_hasSolution = true;
+		}
+	}
 }
 
 PackResult::~PackResult()
@@ -91,4 +99,9 @@ unique_ptr<PackResult::PackResultIterator> PackResult::iterator()
 {
 	//sortByCriteria(*gradeByShapeAndNumOfParts(const PackToDecomposeTuple&, const PackToDecomposeTuple&)); // TODO
 	return std::make_unique<PackResult::PackResultIterator>(*this);
+}
+
+bool PackResult::hasSolution()
+{
+	return _hasSolution;
 }

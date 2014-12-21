@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbstractPartFitVisitor.cpp" />
+    <ClCompile Include="DecomposeAndPack.cpp" />
     <ClCompile Include="DecomposeResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
     <ClCompile Include="DisplayHelper.cpp" />
@@ -98,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPartFitVisitor.h" />
+    <ClInclude Include="DecomposeAndPack.h" />
     <ClInclude Include="DecomposeResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />

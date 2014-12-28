@@ -29,12 +29,12 @@ public:
 	GLDisplayHelper();
 	virtual ~GLDisplayHelper();
 	void displayResults(WorldPtr world, DecomposeAndPackResult dapResults);
-	void displayDecomposeResults(WorldPtr world, FinalDecomposeResults decomposeResult);
 	void onKeyPressed(KEYBOARD_KEY key) override;
 private:
+	void displayDecomposePackResults(WorldPtr world, FinalDecomposeResults decomposeResult, FinalPackResults packResult);
 	void initRenderingLoop();
 	void paintWorld(WorldPtr world);
-	void paintDecomposeResults(WorldPtr world, PartLocationListPtr decomposeParts);
+	void paintSingleSolution(WorldPtr world, PartLocationListPtr parts);
 	void paintSquare(WorldPtr world, float x, float y, float r, float g, float b, float a);
 
 	OpenGLRenderer _renderer;

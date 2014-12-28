@@ -99,9 +99,9 @@ void GLDisplayHelper::paintWorld(WorldPtr world)
 	world->accept(worldPainter);
 }
 
-void GLDisplayHelper::paintDecomposeResults(WorldPtr world, PartLocationListPtr decomposeParts)
+void GLDisplayHelper::paintSingleSolution(WorldPtr world, PartLocationListPtr parts)
 {
-	for (tuple<PartOrientationPtr, Point>& partLocation : *decomposeParts)
+	for (tuple<PartOrientationPtr, Point>& partLocation : *parts)
 	{
 		PartOrientationPtr currentOrientation = std::get<0>(partLocation);
 		Point anchorPartPoint = std::get<1>(partLocation);
@@ -170,10 +170,11 @@ void GLDisplayHelper::paintDecomposeResults(WorldPtr world, PartLocationListPtr 
 void GLDisplayHelper::displayResults(WorldPtr world, DecomposeAndPackResult dapResults)
 {
 	FinalDecomposeResults decomposeResult = std::get<0>(dapResults);
-	displayDecomposeResults(world, decomposeResult);
+	FinalPackResults packResult = std::get<1>(dapResults);
+	displayDecomposePackResults(world, decomposeResult, packResult);
 }
 
-void GLDisplayHelper::displayDecomposeResults(WorldPtr world, FinalDecomposeResults decomposeResult)
+void GLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalDecomposeResults decomposeResult, FinalPackResults packResult)
 {
 	std::thread openGLThread(&GLDisplayHelper::initRenderingLoop, this);
 	paintWorld(world);
@@ -187,6 +188,7 @@ void GLDisplayHelper::displayDecomposeResults(WorldPtr world, FinalDecomposeResu
 	_renderer.addInputListener(this);
 
 	int decomposeResultsIndex = -1;
+	bool isCurrentDisplayDecompose = false;
 
 	while (true)
 	{
@@ -195,13 +197,28 @@ void GLDisplayHelper::displayDecomposeResults(WorldPtr world, FinalDecomposeResu
 		if (_isCallbackReceived)
 		{
 			if (_lastCallbackKey == KEYBOARD_KEY::KEY_LEFT)
-				decomposeResultsIndex--;
+			{
+				if (isCurrentDisplayDecompose)
+				{
+					decomposeResultsIndex--;
+				}
+			}
 			if (_lastCallbackKey == KEYBOARD_KEY::KEY_RIGHT)
-				decomposeResultsIndex++;
+			{
+				if (!isCurrentDisplayDecompose)
+				{
+					decomposeResultsIndex++;
+				}
+			}
+			
+			isCurrentDisplayDecompose = !isCurrentDisplayDecompose;
 
 			if (decomposeResultsIndex <= -1)
+			{
 				decomposeResultsIndex = -1;
-			else if (decomposeResultsIndex > decomposeResult->size() - 1)
+				isCurrentDisplayDecompose = false;
+			}
+			else if (decomposeResultsIndex > packResult->size() - 1)
 				decomposeResultsIndex--;
 
 			_renderContext->clearDataBuffers();
@@ -212,13 +229,20 @@ void GLDisplayHelper::displayDecomposeResults(WorldPtr world, FinalDecomposeResu
 				string description = "World (object mask view)";
 				_renderContext->setContentDescription(description);
 			}
-			else
+			else if (isCurrentDisplayDecompose)
 			{
-				paintDecomposeResults(world,
-					decomposeResult->at(decomposeResultsIndex));
+				paintSingleSolution(world, decomposeResult->at(decomposeResultsIndex));
 
 				string solutionIndex = std::to_string(decomposeResultsIndex + 1);
 				string description = "Decompose solution #" + solutionIndex;
+				_renderContext->setContentDescription(description);
+			}
+			else
+			{
+				paintSingleSolution(world, packResult->at(decomposeResultsIndex));
+
+				string solutionIndex = std::to_string(decomposeResultsIndex + 1);
+				string description = "Packing solution #" + solutionIndex;
 				_renderContext->setContentDescription(description);
 			}
 

@@ -50,6 +50,8 @@ std::shared_ptr<DecomposeResult> Decompose::decompose()
 			partLocationList->push_back(m_locationSetToOrient->at(locationSet));
 		}
 
+		// TODO - Or: check duplicate decompose solutions here
+
 		partsCountList->push_back(partsCount);
 		listOfPartLocationLists->push_back(partLocationList);
 	}

@@ -1,6 +1,7 @@
 #include "world.h"
 
-World::World(PointListPtr pointList, int width, int height) : m_pointList(pointList), m_width(width), m_height(height)
+World::World(PointListPtr pointList, int width, int height, int pixelResolution) :
+m_pointList(pointList), m_width(width), m_height(height), m_pixelResolution(pixelResolution)
 {
 	int index = 0;
 	for each (const Point& point in *m_pointList) {
@@ -50,6 +51,11 @@ int World::getWidth()
 int World::getHeight()
 {
 	return m_height;
+}
+
+int World::getPixelResolution()
+{
+	return m_pixelResolution;
 }
 
 PointListPtr World::getPointList()

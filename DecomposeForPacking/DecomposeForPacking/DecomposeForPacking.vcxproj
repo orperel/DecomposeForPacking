@@ -38,7 +38,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -48,7 +55,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -65,7 +72,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -77,6 +84,9 @@
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="DFPLogger.cpp" />
+    <ClCompile Include="GLDisplayHelper.cpp" />
+    <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp" />
+    <ClCompile Include="OpenGLBatch.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLShaderProgram.cpp" />
     <ClCompile Include="PackResult.cpp" />
@@ -96,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPartFitVisitor.h" />
+    <ClInclude Include="DFPConfiguration.h" />
     <ClInclude Include="DecomposeResult.h" />
     <ClInclude Include="CImg.h" />
     <ClInclude Include="Decompose.h" />
@@ -104,7 +115,13 @@
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DFPLogger.h" />
+    <ClInclude Include="ExpandableBuffer.h" />
+    <ClInclude Include="GLDisplayHelper.h" />
+    <ClInclude Include="IInputListener.h" />
+    <ClInclude Include="OpenGL2DDefaultProgramSetup.h" />
+    <ClInclude Include="OpenGLBatch.h" />
     <ClInclude Include="OpenGLLibs.h" />
+    <ClInclude Include="OpenGLProgramSetup.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLShaderProgram.h" />
     <ClInclude Include="PackResult.h" />
@@ -121,6 +138,10 @@
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Default2DFragmentShader.frag" />
+    <None Include="Default2DVertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

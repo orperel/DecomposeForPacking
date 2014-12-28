@@ -13,10 +13,10 @@ class DFPLogger {
 public:
     
     enum LogLevel: int {
-        ERROR = 3,
-        WARNING = 2,
-        INFO = 1,
-        DEBUG_MODE = 0
+		ERROR = 3,
+		WARNING = 2,
+		INFO = 1,
+		DEBUG_MODE = 0
     };
     
     static DFPLogger& getInstance();

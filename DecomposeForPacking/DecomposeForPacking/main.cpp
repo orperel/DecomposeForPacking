@@ -15,6 +15,7 @@
 	#include "CImg.h"
 	#include "PartBuilder.h"
 	#include "DecomposeResult.h"
+	#include "GLDisplayHelper.h"
 
 	using namespace cimg_library;
 	using namespace std;
@@ -35,12 +36,14 @@
 
 		//std::string path = "../../duck.bmp";
 		//std::string path = "../../duck2.bmp";
+		//std::string path = "../../obj2.bmp";
+		//std::string path = "../../obj.bmp";
+		std::string path = "../../pptSample.bmp"; // size 4
 		//std::string path = "../../obj4.bmp";
-		std::string path = "../../pretzel.bmp";
+		//std::string path = "../../pretzel.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 40);
+		WorldPtr world = WorldBuilder::fromImage(orig, 4);
 
-		displayVector->push_back(DisplayHelper::showWorld(world));
 		//displayVector->push_back(std::shared_ptr<CImgDisplay>(new CImgDisplay(*orig)));
 
 		PartListPtr partList = PartBuilder::buildStandartPartPack(1);
@@ -56,8 +59,10 @@
 		// Display Part - should be deleted
 		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
 		//new CImgDisplay(*img);
+		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 3);
 
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 3);
+		GLDisplayHelper displayHelper;
+		displayHelper.displayDecomposeResults(world, decomposeResult);
 
 		int x;
 

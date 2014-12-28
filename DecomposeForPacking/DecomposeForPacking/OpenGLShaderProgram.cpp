@@ -26,14 +26,14 @@ OpenGLShaderProgram::OpenGLShaderProgram(unique_ptr<OpenGLShader> vertexShader, 
     if (_programId != CREATE_PROGRAM_ERROR) {
         
         // The shaders are identified by OpenGL according to their assigned id.
-        glAttachShader(_programId, vertexShader->id());
-        glAttachShader(_programId, fragmentShader->id());
+		glAttachShader(_programId, _vertexShader->id());
+		glAttachShader(_programId, _fragmentShader->id());
     }
     else
     { // Log on error.
         stringstream msg;
         msg << "Failed to create shader program with the shaders: " << endl
-            << *vertexShader << endl << *fragmentShader << endl
+			<< *_vertexShader << endl << *_fragmentShader << endl
             << "This error may indicate an invalid rendering context.";
         DFPLogger::getInstance().log(msg.str(),  DFPLogger::ERROR);
     }
@@ -49,11 +49,13 @@ OpenGLShaderProgram::~OpenGLShaderProgram() {
 /** Adds the attribute to the shader program.
  *  The attribute's index will be assigned sequentially.
  */
-void OpenGLShaderProgram::addAttribute(const string attributeName) {
+GLuint OpenGLShaderProgram::addAttribute(const string attributeName) {
     
     const GLchar* cAttributeName = attributeName.c_str();
     glBindAttribLocation(_programId, _attributesCount, cAttributeName);
     _attributesCount++;
+
+	return _attributesCount - 1;
 }
 
 /** Adds the uniform to the shader program.

@@ -1,6 +1,7 @@
 #include "DisplayHelper.h"
 #include "WorldBuilder.h"
 #include "DecomposeResult.h"
+#include "OpenGLRenderer.h"
 
 shared_ptr<CImgDisplay> DisplayHelper::showWorld(WorldPtr world)
 {
@@ -39,7 +40,7 @@ shared_ptr<vector<shared_ptr<CImgDisplay>>> DisplayHelper::showDecomposeResult(W
 			}
 		}
 
-		WorldPtr newWorld(new World(pointList, world->getWidth(), world->getHeight()));
+		WorldPtr newWorld(new World(pointList, world->getWidth(), world->getHeight(), world->getPixelResolution()));
 
 		displayVector->push_back(DisplayHelper::showWorld(newWorld));
 

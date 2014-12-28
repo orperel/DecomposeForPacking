@@ -14,7 +14,7 @@ public:
 	/*
 	 * C'tor - Builds world from list of points, width and height
 	 */
-	World(PointListPtr points, int width, int height);
+	World(PointListPtr points, int width, int height, int pixelResolution);
 
 	/*
 	 * Default D'tor
@@ -57,6 +57,11 @@ public:
 	int getHeight();
 
 	/*
+	* Pixel Resolution getter.
+	*/
+	int getPixelResolution();
+
+	/*
 	* World's point list getter.
 	*/
 	PointListPtr getPointList();
@@ -64,6 +69,9 @@ public:
 private:
 	int m_width; // Width
 	int m_height; // Height
+
+	// Pixel resolution of "how many pixels in the real object are mapped to a point in the world"
+	int m_pixelResolution;
 	PointListPtr m_pointList; // Point List
 	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex; // Map of point to index
 	std::unordered_map<int, Point> m_indexToPoint; // Map of index to point

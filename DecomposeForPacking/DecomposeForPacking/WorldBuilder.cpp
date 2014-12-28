@@ -20,7 +20,10 @@ WorldPtr WorldBuilder::fromImage(shared_ptr<CImg<int>> img, int ratio /*= 1*/)
 		}
 	}
 
-	return WorldPtr(new World(pointList, (worldPosition.max_X - worldPosition.min_X + 1) / ratio, (worldPosition.max_Y - worldPosition.min_Y + 1) / ratio));
+	return WorldPtr(new World(pointList,
+							  (worldPosition.max_X - worldPosition.min_X + 1) / ratio,
+							  (worldPosition.max_Y - worldPosition.min_Y + 1) / ratio,
+							  ratio));
 }
 
 shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)

@@ -16,6 +16,8 @@ public:
 	
 	static PartPtr buildZigzagPart(int partWidth, int pixelSize = 1);
 
+	static PartPtr buildTPart(int partWidth, int pixelSize = 1);
+
 	static PartListPtr buildStandartPartPack(int pixelSize = 1);
 
 	static std::shared_ptr<CImg<unsigned char>> toImage(PartPtr part);

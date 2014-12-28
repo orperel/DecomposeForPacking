@@ -98,7 +98,6 @@
     <ClCompile Include="Packing.cpp" />
     <ClCompile Include="OpenGLRenderContext.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
-    <ClCompile Include="PackSolutionMetaData.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="Packing.h" />
     <ClInclude Include="OpenGLRenderContext.h" />
     <ClInclude Include="OpenGLRenderer.h" />
-    <ClInclude Include="PackSolutionMetaData.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />

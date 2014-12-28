@@ -123,9 +123,6 @@
     <ClCompile Include="PackResult.cpp">
       <Filter>Source Files\logic\packing</Filter>
     </ClCompile>
-    <ClCompile Include="PackSolutionMetaData.cpp">
-      <Filter>Source Files\logic\packing</Filter>
-    </ClCompile>
     <ClCompile Include="PartBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
@@ -219,9 +216,6 @@
       <Filter>Header Files\logic\packing</Filter>
     </ClInclude>
     <ClInclude Include="PackResult.h">
-      <Filter>Header Files\logic\packing</Filter>
-    </ClInclude>
-    <ClInclude Include="PackSolutionMetaData.h">
       <Filter>Header Files\logic\packing</Filter>
     </ClInclude>
     <ClInclude Include="PartBuilder.h">

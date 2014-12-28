@@ -15,13 +15,13 @@ Packing::~Packing()
 
 std::shared_ptr<PackResult> Packing::pack()
 {
-	// Creates the result vector of the packing, of the type list of PartLocationList
+	// Creates the result vectodr of the packing, of the type list of PartLocationList
 	std::shared_ptr<vector<PartLocationListPtr>> packPerDecompose = std::make_shared<vector<PartLocationListPtr>>();
 
 	for (size_t i = 0; (i < CANDIDATES_FOR_PACKING) && (i < _partsCountList->size()); i++) {
 		int currDecompositionSize = std::get<0>(_partsCountBySize->at(i));
 		int currDecompositionIndex = std::get<1>(_partsCountBySize->at(i));
-		// Creates DLXSolver for the packing
+		// Creates DLXSolver for the packing ("currDecompositionSize" are the mandatory fields)
 		shared_ptr<DLXSolver> dlxSolver(new DLXSolver(_box->getNumberOfPoints(), currDecompositionSize));
 
 		// For each part in the part list creates a new visitor of the world. Runs world.accept() on the visitor

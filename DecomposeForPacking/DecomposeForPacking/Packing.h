@@ -5,12 +5,10 @@
 #include "DecomposeResult.h"
 #include "PackResult.h"
 
-static const int CANDIDATES_FOR_PACKING = 3;
+static const int CANDIDATES_FOR_PACKING = 3;	// Only these decomposition results will be packed for check 
 
 /**
- *	Packs an input of given parts within a given box.
- *	The algorithm returns the parts positioned and oriented within the box.
- *	Multiple packing solutions may be returned.
+ *	
  */
 class Packing
 {
@@ -22,11 +20,13 @@ public:
 
 private:
 	WorldPtr _box;
+
+	// From decomposition:
 	std::shared_ptr<vector<PartsCountPtr>> _partsCountList;
 	std::shared_ptr<vector<SizeIndex>> _partsCountBySize;
-	// Map from location sets to their parts
+	
+	// For packing:
 	SetToPartMapPtr _locationSetToPart;
-	// Map from location sets to their part orientations
 	SetToOrientationMapPtr _locationSetToOrient;
 };
 

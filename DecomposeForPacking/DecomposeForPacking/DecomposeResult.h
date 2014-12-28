@@ -32,6 +32,7 @@ public:
 	/** Returns the parts count list of all solutions. */
 	std::shared_ptr<vector<PartsCountPtr>> getPartsCountList();
 	
+	/** Returns indices of the parts count lists, ordered by size (as a vector of tuples of size and index). */
 	std::shared_ptr<vector<SizeIndex>> getPartsCountBySize();
 
 	/** Returns the list of part location lists of all solutions. */

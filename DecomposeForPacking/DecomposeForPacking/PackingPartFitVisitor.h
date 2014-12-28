@@ -2,6 +2,7 @@
 
 #include "AbstractPartFitVisitor.h"
 
+/** Extends the AbstractPartFitVisitor for supporting the packing process. */
 class PackingPartFitVisitor : public AbstractPartFitVisitor
 {
 public:

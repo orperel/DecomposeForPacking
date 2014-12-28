@@ -12,9 +12,9 @@ class World
 
 public:
 	/*
-	 * C'tor - Builds world from list of points, width and height
+	 * C'tor - Builds world from list of points, width and height and depth
 	 */
-	World(PointListPtr points, int width, int height, int pixelResolution);
+	World(PointListPtr points, int width, int height, int pixelResolution, int depth = 1);
 
 	/*
 	 * Default D'tor
@@ -57,6 +57,11 @@ public:
 	int getHeight();
 
 	/*
+	* Depth getter.
+	*/
+	int getDepth();
+
+	/*
 	* Pixel Resolution getter.
 	*/
 	int getPixelResolution();
@@ -69,6 +74,7 @@ public:
 private:
 	int m_width; // Width
 	int m_height; // Height
+	int m_depth; // Depth
 
 	// Pixel resolution of "how many pixels in the real object are mapped to a point in the world"
 	int m_pixelResolution;

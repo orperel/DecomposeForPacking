@@ -13,8 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\rendering">
+      <UniqueIdentifier>{12887586-484b-48f3-ab65-4d3aabbbb8e7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\tests">
       <UniqueIdentifier>{0613369e-a71a-44a4-b7f6-bd1ead157bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rendering">
+      <UniqueIdentifier>{786c2465-3518-4926-b834-e77ca6399483}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\utils">
       <UniqueIdentifier>{bf74203e-0dd9-4140-a6c8-68161f6386fd}</UniqueIdentifier>
@@ -61,27 +67,6 @@
     <Filter Include="Source Files\dataStructs">
       <UniqueIdentifier>{7d8c49f1-51d2-4ed1-b239-6e06299b7544}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\output">
-      <UniqueIdentifier>{5bb9c4ed-f899-4a2c-9a76-d3c7bbeb6147}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\output\rendering">
-      <UniqueIdentifier>{786c2465-3518-4926-b834-e77ca6399483}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\output\rendering\2d">
-      <UniqueIdentifier>{6e0f0fe3-bb41-4015-aa8f-6ea222b4759d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\output\rendering\2d\shaders">
-      <UniqueIdentifier>{847e13c3-f78b-41fc-8812-b36940e930e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\output">
-      <UniqueIdentifier>{af988bf1-4a9a-4a4f-8fc6-ecc44e034bfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\output\rendering">
-      <UniqueIdentifier>{12887586-484b-48f3-ab65-4d3aabbbb8e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\output\rendering\2d">
-      <UniqueIdentifier>{fb875679-f33b-45f8-b514-ba87605bcfbb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,16 +76,19 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLRenderer.cpp">
-      <Filter>Source Files\output\rendering</Filter>
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRenderContext.cpp">
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLShader.cpp">
-      <Filter>Source Files\output\rendering</Filter>
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLShaderProgram.cpp">
-      <Filter>Source Files\output\rendering</Filter>
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
     <ClCompile Include="ShaderFactory.cpp">
-      <Filter>Source Files\output\rendering</Filter>
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
     <ClCompile Include="DFPLogger.cpp">
       <Filter>Source Files\util</Filter>
@@ -153,45 +141,36 @@
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="ObjMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="PackingPartFitVisitor.cpp">
       <Filter>Source Files\logic\packing</Filter>
-    </ClCompile>
-    <ClCompile Include="DecomposeAndPack.cpp">
-      <Filter>Source Files\logic</Filter>
-    <ClCompile Include="OpenGLBatch.cpp">
-      <Filter>Source Files\output\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLRenderContext.cpp">
-      <Filter>Source Files\output\rendering\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp">
-      <Filter>Source Files\output\rendering\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="GLDisplayHelper.cpp">
-      <Filter>Source Files\output</Filter>
+=======
+    <ClCompile Include="ObjMesh.cpp">
+      <Filter>Source Files</Filter>
+>>>>>>> origin/master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLRenderer.h">
-      <Filter>Header Files\output\rendering</Filter>
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderContext.h">
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
     <ClInclude Include="ShaderFactory.h">
-      <Filter>Header Files\output\rendering</Filter>
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLShader.h">
-      <Filter>Header Files\output\rendering</Filter>
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLShaderProgram.h">
-      <Filter>Header Files\output\rendering</Filter>
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
     <ClInclude Include="DFPLogger.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLLibs.h">
-      <Filter>Header Files\output\rendering</Filter>
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
     <ClInclude Include="CImg.h">
       <Filter>Header Files\input</Filter>
@@ -253,47 +232,13 @@
     <ClInclude Include="WorldBuilder.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="PackingPartFitVisitor.h">
       <Filter>Header Files\logic\packing</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="ObjMesh.h">
       <Filter>Header Files</Filter>
+>>>>>>> origin/master
     </ClInclude>
-    <ClInclude Include="DecomposeAndPack.h">
-      <Filter>Header Files\logic</Filter>
-    </ClInclude>
-  </ItemGroup>
-    <ClInclude Include="ExpandableBuffer.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLBatch.h">
-      <Filter>Header Files\output\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLRenderContext.h">
-      <Filter>Header Files\output\rendering\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLProgramSetup.h">
-      <Filter>Header Files\output\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL2DDefaultProgramSetup.h">
-      <Filter>Header Files\output\rendering\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="GLDisplayHelper.h">
-      <Filter>Header Files\output</Filter>
-    </ClInclude>
-    <ClInclude Include="DFPConfiguration.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="IInputListener.h">
-      <Filter>Header Files\output\rendering</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Default2DVertexShader.vert">
-      <Filter>Header Files\output\rendering\2d\shaders</Filter>
-    </None>
-    <None Include="Default2DFragmentShader.frag">
-      <Filter>Header Files\output\rendering\2d\shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>

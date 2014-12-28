@@ -1,5 +1,6 @@
 #include "PartBuilder.h"
 
+const int STANDART_T_PART_WIDTH = 1;
 const int STANDART_CORNER_PART_WIDTH = 2;
 const int STANDART_ZIGZAG_PART_WIDTH = 2;
 const int STANDART_LONG_PART_WIDTH = 3;
@@ -47,7 +48,11 @@ PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
 	partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize));
 	partList->push_back(buildLongPart(STANDART_LONG_PART_WIDTH, pixelSize));
 	partList->push_back(buildLongPart(2, pixelSize));
-	partList->push_back(buildTPart(1, 1));
+	partList->push_back(buildTPart(STANDART_T_PART_WIDTH, pixelSize));
+
+	// Display Part - TODO: should be deleted
+	//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
+	//new CImgDisplay(*img);
 
 	return partList;
 }
@@ -93,9 +98,22 @@ PartPtr PartBuilder::buildTPart(int partWidth, int pixelSize /*= 1*/)
 	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
 	int lastIndex = 0;
-	int middleIndex = partOrient->addPointToRight(lastIndex);
-	partOrient->addPointToRight(middleIndex);
-	partOrient->addPointBelow(middleIndex);
+	
+	for (int i = 0; i < partWidth; i++) {
+		lastIndex = partOrient->addPointToRight(lastIndex);
+	}
+
+	int middleIndex = lastIndex;
+
+	for (int i = 0; i < partWidth; i++) {
+		lastIndex = partOrient->addPointToRight(lastIndex);
+	}
+
+	lastIndex = middleIndex;
+
+	for (int i = 0; i < partWidth; i++) {
+		lastIndex = partOrient->addPointBelow(lastIndex);
+	}
 
 	PartPtr part(new Part(partOrient));
 	return part;

@@ -8,6 +8,7 @@
 #else
 	#include <iostream>
 	#include <string>
+	#include <math.h>
 	#include "World.h"
 	#include "Part.h"
 	#include "Decompose.h"
@@ -15,12 +16,15 @@
 	#include "CImg.h"
 	#include "PartBuilder.h"
 	#include "DecomposeResult.h"
+	#include "Packing.h"
+	#include "ObjMesh.h"
 	#include "GLDisplayHelper.h"
 
 	using namespace cimg_library;
 	using namespace std;
 #endif
 #include "DisplayHelper.h"
+#include "DecomposeAndPack.h"
 
 
 #ifdef RUN_TESTS
@@ -32,40 +36,30 @@
 #else
 	void runProd()
 	{
-		shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
+		//// 3D Object
+		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj"));
+		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
+		//WorldPtr world = WorldBuilder::fromMesh(teapot);
 
-		//std::string path = "../../duck.bmp";
-		//std::string path = "../../duck2.bmp";
-		//std::string path = "../../obj2.bmp";
-		//std::string path = "../../obj.bmp";
-		std::string path = "../../pptSample.bmp"; // size 4
-		//std::string path = "../../obj4.bmp";
+		std::string path = "../../tet.bmp";
 		//std::string path = "../../pretzel.bmp";
+		//std::string path = "../../obj4.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 4);
+		WorldPtr world = WorldBuilder::fromImage(orig, 10);
 
-		//displayVector->push_back(std::shared_ptr<CImgDisplay>(new CImgDisplay(*orig)));
+		DecomposeAndPack dp(world);
+		DecomposeAndPackResult res = dp.run();
 
-		PartListPtr partList = PartBuilder::buildStandartPartPack(1);
-
-		Decompose decomposer(world, partList);
-
-		cout << "Starting decomposing..." << endl;
-
-		shared_ptr<DecomposeResult> decomposeResult = decomposer.decompose();
-
-		cout << "Finished decomposing..." << endl;
-
-		// Display Part - should be deleted
-		//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
-		//new CImgDisplay(*img);
-		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showDecomposeResult(world, *decomposeResult, 3);
+		// Display - will be replaced with Or code...
+		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
+		//displayVector->push_back(DisplayHelper::showWorld(world));
+		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector2 = DisplayHelper::showResult(world, std::get<0>(res), 3);
+		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector3 = DisplayHelper::showResult(world, std::get<1>(res), 3);
 
 		GLDisplayHelper displayHelper;
 		displayHelper.displayDecomposeResults(world, decomposeResult);
 
 		int x;
-
 		cin >> x;
 	}
 #endif

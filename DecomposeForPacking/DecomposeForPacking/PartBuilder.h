@@ -15,6 +15,8 @@ public:
 	static PartPtr buildCornerPart(int partWidth, int pixelSize = 1);
 	
 	static PartPtr buildZigzagPart(int partWidth, int pixelSize = 1);
+	
+	static PartPtr buildTPart(int partWidth, int pixelSize = 1);
 
 	static PartPtr buildTPart(int partWidth, int pixelSize = 1);
 

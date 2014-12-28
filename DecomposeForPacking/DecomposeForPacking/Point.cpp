@@ -5,8 +5,9 @@ Point::Point()
 }
 
 
-Point::Point(int x, int y, int color /*= BLACK*/) : m_x(x), m_y(y), m_color(color)
+Point::Point(int x, int y, int z /*= 0*/, int color /*= BLACK*/) : m_x(x), m_y(y), m_z(z), m_color(color)
 {
+
 }
 
 Point::~Point()
@@ -37,4 +38,9 @@ bool Point::operator==(const Point& point) const
 int Point::getColor() const
 {
 	return m_color;
+}
+
+int Point::getZ() const
+{
+	return m_z;
 }

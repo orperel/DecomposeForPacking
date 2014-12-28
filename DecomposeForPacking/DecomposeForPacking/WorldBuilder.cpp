@@ -26,6 +26,23 @@ WorldPtr WorldBuilder::fromImage(shared_ptr<CImg<int>> img, int ratio /*= 1*/)
 							  ratio));
 }
 
+WorldPtr WorldBuilder::fromMesh(ObjMeshPtr mesh)
+{
+	PointListPtr pointList(new PointList());
+
+	for (int i = 0; i < mesh->getWidth(); i++) {
+		for (int j = 0; j < mesh->getHeight(); j++) {
+			for (int k = 0; k < mesh->getDepth(); k++) {
+				if (mesh->isVoxelExist(i, j, k)) {
+					pointList->push_back(Point(i, j, k));
+				}
+			}
+		}
+	}
+
+	return WorldPtr(new World(pointList, mesh->getWidth() , mesh->getHeight()));
+}
+
 shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)
 {
 	shared_ptr<CImg<unsigned char>> img(new CImg<unsigned char>(world->getWidth(), world->getHeight(), 1, 3));
@@ -102,4 +119,19 @@ bool WorldBuilder::isSquareNotEmpty(std::shared_ptr<CImg<int>> img, Point point,
 	}
 
 	return false;
+}
+
+WorldPtr WorldBuilder::buildBox(int width, int height, int depth /*= 0*/)
+{
+	PointListPtr pointList(new PointList());
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			for (int k = 0; k < depth; k++) {
+				pointList->push_back(Point(i, j, k));
+			}
+		}
+	}
+
+	return WorldPtr(new World(pointList, width, height, depth));
 }

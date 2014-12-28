@@ -3,7 +3,7 @@
 using std::make_tuple;
 
 DecomposePartFitVisitor::DecomposePartFitVisitor(PartPtr part, shared_ptr<DLXSolver> dlxSolver,
-	SetToPartMapPtr locationSetToPart, SetToOrientationMapPtr locationSetToOrient):
+	SetToPartMapPtr locationSetToPart, SetToOrientationMapPtr locationSetToOrient) :
 	AbstractPartFitVisitor(part, dlxSolver, locationSetToPart, locationSetToOrient)
 {
 }

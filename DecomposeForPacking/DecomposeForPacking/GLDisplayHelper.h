@@ -5,6 +5,7 @@
 #include "OpenGLRenderer.h"
 #include "OpenGLRenderContext.h"
 #include "IInputListener.h"
+#include "DecomposeAndPack.h"
 #include <unordered_map>
 #include <tuple>
 
@@ -27,7 +28,8 @@ private:
 public:
 	GLDisplayHelper();
 	virtual ~GLDisplayHelper();
-	void displayDecomposeResults(WorldPtr world, shared_ptr<DecomposeResult> decomposeResult);
+	void displayResults(WorldPtr world, DecomposeAndPackResult dapResults);
+	void displayDecomposeResults(WorldPtr world, FinalDecomposeResults decomposeResult);
 	void onKeyPressed(KEYBOARD_KEY key) override;
 private:
 	void initRenderingLoop();

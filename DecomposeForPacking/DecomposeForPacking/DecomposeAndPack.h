@@ -8,7 +8,9 @@
 #include <vector>
 #include <memory>
 
-typedef std::tuple<std::shared_ptr<std::vector<PartLocationListPtr>>, std::shared_ptr<std::vector<PartLocationListPtr>>> DecomposeAndPackResult;
+typedef std::shared_ptr<std::vector<PartLocationListPtr>> FinalDecomposeResults;
+typedef std::shared_ptr<std::vector<PartLocationListPtr>> FinalPackResults;
+typedef std::tuple<FinalDecomposeResults, FinalPackResults> DecomposeAndPackResult;
 
 class DecomposeAndPack
 {

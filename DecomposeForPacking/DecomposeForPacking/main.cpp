@@ -41,14 +41,15 @@
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
 		//WorldPtr world = WorldBuilder::fromMesh(teapot);
 
-		std::string path = "../../tet.bmp";
+		//std::string path = "../../tet.bmp";
 		//std::string path = "../../pretzel.bmp";
 		//std::string path = "../../obj4.bmp";
+		std::string path = "../../pptSample.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 10);
+		WorldPtr world = WorldBuilder::fromImage(orig, 4);
 
 		DecomposeAndPack dp(world);
-		DecomposeAndPackResult res = dp.run();
+		DecomposeAndPackResult decomposeResult = dp.run();
 
 		// Display - will be replaced with Or code...
 		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector(new vector<shared_ptr<CImgDisplay>>());
@@ -57,7 +58,7 @@
 		//shared_ptr<vector<shared_ptr<CImgDisplay>>> displayVector3 = DisplayHelper::showResult(world, std::get<1>(res), 3);
 
 		GLDisplayHelper displayHelper;
-		displayHelper.displayDecomposeResults(world, decomposeResult);
+		displayHelper.displayResults(world, decomposeResult);
 
 		int x;
 		cin >> x;

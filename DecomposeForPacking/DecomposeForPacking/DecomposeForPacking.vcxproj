@@ -126,7 +126,6 @@
     <ClInclude Include="IInputListener.h" />
     <ClInclude Include="OpenGL2DDefaultProgramSetup.h" />
     <ClInclude Include="OpenGLBatch.h" />
-    <ClInclude Include="OpenGLLibs.h" />
     <ClInclude Include="OpenGLProgramSetup.h" />
     <ClInclude Include="OpenGLShader.h" />
     <ClInclude Include="OpenGLShaderProgram.h" />

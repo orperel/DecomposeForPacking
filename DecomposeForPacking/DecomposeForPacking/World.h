@@ -14,7 +14,7 @@ public:
 	/*
 	 * C'tor - Builds world from list of points, width and height and depth
 	 */
-	World(PointListPtr points, int width, int height, int pixelResolution, int depth = 1);
+	World(PointListPtr points, int width, int height, int depth = 1, int pixelResolution = 1);
 
 	/*
 	 * Default D'tor

@@ -167,7 +167,13 @@ void GLDisplayHelper::paintDecomposeResults(WorldPtr world, PartLocationListPtr 
 	}
 }
 
-void GLDisplayHelper::displayDecomposeResults(WorldPtr world, shared_ptr<DecomposeResult> decomposeResult)
+void GLDisplayHelper::displayResults(WorldPtr world, DecomposeAndPackResult dapResults)
+{
+	FinalDecomposeResults decomposeResult = std::get<0>(dapResults);
+	displayDecomposeResults(world, decomposeResult);
+}
+
+void GLDisplayHelper::displayDecomposeResults(WorldPtr world, FinalDecomposeResults decomposeResult)
 {
 	std::thread openGLThread(&GLDisplayHelper::initRenderingLoop, this);
 	paintWorld(world);
@@ -195,7 +201,7 @@ void GLDisplayHelper::displayDecomposeResults(WorldPtr world, shared_ptr<Decompo
 
 			if (decomposeResultsIndex <= -1)
 				decomposeResultsIndex = -1;
-			else if (decomposeResultsIndex > decomposeResult->getListOfPartLocationLists()->size() - 1)
+			else if (decomposeResultsIndex > decomposeResult->size() - 1)
 				decomposeResultsIndex--;
 
 			_renderContext->clearDataBuffers();
@@ -209,7 +215,7 @@ void GLDisplayHelper::displayDecomposeResults(WorldPtr world, shared_ptr<Decompo
 			else
 			{
 				paintDecomposeResults(world,
-					decomposeResult->getListOfPartLocationLists()->at(decomposeResultsIndex));
+					decomposeResult->at(decomposeResultsIndex));
 
 				string solutionIndex = std::to_string(decomposeResultsIndex + 1);
 				string description = "Decompose solution #" + solutionIndex;

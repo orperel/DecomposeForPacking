@@ -153,14 +153,12 @@
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="ObjMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PackingPartFitVisitor.cpp">
       <Filter>Source Files\logic\packing</Filter>
     </ClCompile>
     <ClCompile Include="DecomposeAndPack.cpp">
       <Filter>Source Files\logic</Filter>
+    </ClCompile>
     <ClCompile Include="OpenGLBatch.cpp">
       <Filter>Source Files\output\rendering</Filter>
     </ClCompile>
@@ -172,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="GLDisplayHelper.cpp">
       <Filter>Source Files\output</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMesh.cpp">
+      <Filter>Source Files\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,13 +257,14 @@
     <ClInclude Include="PackingPartFitVisitor.h">
       <Filter>Header Files\logic\packing</Filter>
     </ClInclude>
-    <ClInclude Include="ObjMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DecomposeAndPack.h">
       <Filter>Header Files\logic</Filter>
     </ClInclude>
+    <ClInclude Include="ObjMesh.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
   </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="ExpandableBuffer.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>

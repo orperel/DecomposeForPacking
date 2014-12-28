@@ -40,7 +40,7 @@ WorldPtr WorldBuilder::fromMesh(ObjMeshPtr mesh)
 		}
 	}
 
-	return WorldPtr(new World(pointList, mesh->getWidth() , mesh->getHeight()));
+	return WorldPtr(new World(pointList, mesh->getWidth() , mesh->getHeight(), mesh->getDepth()));
 }
 
 shared_ptr<CImg<unsigned char>> WorldBuilder::toImage(WorldPtr world)

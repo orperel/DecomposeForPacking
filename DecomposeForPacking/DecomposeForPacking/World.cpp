@@ -1,7 +1,7 @@
 #include "world.h"
 
-World::World(PointListPtr pointList, int width, int height, int pixelResolution, int depth /*= 1*/) :
-m_pointList(pointList), m_width(width), m_height(height), m_pixelResolution(pixelResolution), m_depth(depth)
+World::World(PointListPtr pointList, int width, int height, int depth /*= 1*/, int pixelResolution) :
+m_pointList(pointList), m_width(width), m_height(height), m_depth(depth), m_pixelResolution(pixelResolution)
 {
 	int index = 0;
 	for each (const Point& point in *m_pointList) {

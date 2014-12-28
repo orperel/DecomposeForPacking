@@ -141,13 +141,11 @@
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="PackingPartFitVisitor.cpp">
       <Filter>Source Files\logic\packing</Filter>
-=======
+	</ClCompile>  
     <ClCompile Include="ObjMesh.cpp">
       <Filter>Source Files</Filter>
->>>>>>> origin/master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,13 +230,11 @@
     <ClInclude Include="WorldBuilder.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="PackingPartFitVisitor.h">
       <Filter>Header Files\logic\packing</Filter>
-=======
+	</ClInclude>  
     <ClInclude Include="ObjMesh.h">
       <Filter>Header Files</Filter>
->>>>>>> origin/master
     </ClInclude>
   </ItemGroup>
 </Project>

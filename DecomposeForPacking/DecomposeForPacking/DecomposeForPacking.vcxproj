@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Tomer\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -55,7 +55,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;F:\Tomer\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

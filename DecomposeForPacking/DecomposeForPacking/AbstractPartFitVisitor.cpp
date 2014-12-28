@@ -13,7 +13,6 @@ AbstractPartFitVisitor::AbstractPartFitVisitor(PartPtr part, shared_ptr<DLXSolve
 	_locationSetToOrient = locationSetToOrient;
 }
 
-/** Dtor to release resources allocated by the visitor. */
 AbstractPartFitVisitor::~AbstractPartFitVisitor()
 {
 }

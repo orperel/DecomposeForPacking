@@ -1,8 +1,11 @@
 #include "Packing.h"
 #include "PackingPartFitVisitor.h"
+#include "Point.h"
 
 using std::get;
 
+/** Constructs a new packing object from a box and decomposition result.
+	Extracts the parts count list and the parts count by size from this decomposition. */
 Packing::Packing(WorldPtr box, std::shared_ptr<DecomposeResult> decomposeResult) : _box(box),	
 	_partsCountList(decomposeResult->getPartsCountList()), _partsCountBySize(decomposeResult->getPartsCountBySize()),
 	_locationSetToPart(new SetToPartMap()),	_locationSetToOrient(new SetToOrientationMap())
@@ -13,9 +16,13 @@ Packing::~Packing()
 {
 }
 
+/** Implements the class purposes and returns the packing result.
+ *	The results are ordered according to the decompose result, one solution for each decomposition.
+ *  This solution is with the minimal bounding box, i.e. the best solution.
+ */
 std::shared_ptr<PackResult> Packing::pack()
 {
-	// Creates the result vectodr of the packing, of the type list of PartLocationList
+	// Creates the result vector of the packing, of the type list of PartLocationList
 	std::shared_ptr<vector<PartLocationListPtr>> packPerDecompose = std::make_shared<vector<PartLocationListPtr>>();
 
 	for (size_t i = 0; (i < CANDIDATES_FOR_PACKING) && (i < _partsCountList->size()); i++) {
@@ -36,18 +43,71 @@ std::shared_ptr<PackResult> Packing::pack()
 
 		auto solutions = dlxSolver->solve();	// Runs solver
 
-		PartLocationListPtr partLocationList = std::make_shared<PartLocationList>();
+		std::shared_ptr<vector<PartLocationListPtr>> listOfPartLocationLists = std::make_shared<vector<PartLocationListPtr>>();
 		if (!solutions.empty()) {
-			auto solution = solutions[0];
-			// Computes part location list
-			for each (const DLX_VALUES_SET& locationSet in solution) {
-				// Pushes-back tuple of part orientation and its origin point to the vector
-				partLocationList->push_back(_locationSetToOrient->at(locationSet));
+			for each (const DLX_SOLUTION& solution in solutions) {
+				PartLocationListPtr partLocationList = std::make_shared<PartLocationList>();
+				// Computes part location list
+				for each (const DLX_VALUES_SET& locationSet in solution) {
+					// Pushes-back tuple of part orientation and its origin point to the vector
+					partLocationList->push_back(_locationSetToOrient->at(locationSet));
+				}
+				listOfPartLocationLists->push_back(partLocationList);
 			}
+
+			std::shared_ptr<vector<int>> boundingBoxes = getBoundingBoxes(listOfPartLocationLists);
+			int minBoundingBox = (*boundingBoxes)[0];
+			int indexOfMin = 0;
+			for (int i = 1; i < boundingBoxes->size(); i++) {
+				if ((*boundingBoxes)[i] < minBoundingBox) {
+					minBoundingBox = (*boundingBoxes)[i];
+					indexOfMin = i;
+				}
+			}
+			
+			packPerDecompose->push_back((*listOfPartLocationLists)[indexOfMin]);
 		}
-		packPerDecompose->push_back(partLocationList);
+		else {
+			packPerDecompose->push_back(std::make_shared<PartLocationList>());
+		}
 	}
 	
 	PackResult packResult = PackResult(packPerDecompose);
 	return std::make_shared<PackResult>(packPerDecompose);
+}
+
+/** Returns a vector of the bounding box sizes of all solutions, for one decomposition. */
+std::shared_ptr<vector<int>> Packing::getBoundingBoxes(std::shared_ptr<vector<PartLocationListPtr>> listOfPartLocationLists) {
+	std::shared_ptr<vector<int>> boundingBoxes = std::make_shared<vector<int>>();
+
+	for each (const PartLocationListPtr& partLocationList in *listOfPartLocationLists) {
+		int minHorizontal = std::numeric_limits<int>::max();
+		int maxHorizontal = 0;
+		int minVertical = std::numeric_limits<int>::max();
+		int maxVertical = 0;
+
+		for each (const tuple<PartOrientationPtr, Point>& orientOrigin in *partLocationList) {		
+			for each (Point point in *(std::get<0>(orientOrigin)->getPointList())) {
+				Point relatedPoint = point + (std::get<1>(orientOrigin));
+				int x = relatedPoint.getX();
+				int y = relatedPoint.getY();
+				if (x < minHorizontal) {
+					minHorizontal = x;
+				}
+				if (x > maxHorizontal) {
+					maxHorizontal = x;
+				}
+				if (y < minVertical) {
+					minVertical = y;
+				}
+				if (y > maxVertical) {
+					maxVertical = y;
+				}
+			}
+		}
+
+		boundingBoxes->push_back((maxHorizontal - minHorizontal)*(maxVertical - minVertical));
+	}
+
+	return boundingBoxes;
 }

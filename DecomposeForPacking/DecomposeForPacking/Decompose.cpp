@@ -50,10 +50,19 @@ std::shared_ptr<DecomposeResult> Decompose::decompose()
 			partLocationList->push_back(m_locationSetToOrient->at(locationSet));
 		}
 
-		// TODO - Or: check duplicate decompose solutions here
+		// Check duplicate decompose solutions here, we index the decomposition results and check
+		// them by hash-code for fast comparison.
+		// (the hash-code depends on the part type and its number of occurences)
+		DecomposeSolutionKey solutionKey(partsCount);
+		unordered_set<DecomposeSolutionKey>::const_iterator indexedResult = m_duplicatesFilter.find(solutionKey);
+		if (indexedResult == m_duplicatesFilter.end())
+		{
+			// First time the solution is encountered, add it to the results
+			partsCountList->push_back(partsCount);
+			listOfPartLocationLists->push_back(partLocationList);
 
-		partsCountList->push_back(partsCount);
-		listOfPartLocationLists->push_back(partLocationList);
+			m_duplicatesFilter.insert(solutionKey);
+		}
 	}
 
 	DecomposeResult decomposeResult = DecomposeResult(partsCountList, listOfPartLocationLists);

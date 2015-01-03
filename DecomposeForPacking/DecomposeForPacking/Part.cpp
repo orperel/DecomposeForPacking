@@ -1,5 +1,7 @@
 #include "Part.h"
 
+int Part::idAllocator = 0; // Static variable initiazization
+
 Part::Part(PartOrientationPtr partOrient)
 {
 	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
@@ -7,6 +9,9 @@ Part::Part(PartOrientationPtr partOrient)
 	m_partOrientations->push_back(partOrient);
 
 	extendPartOrientations();
+
+	// Assign the next available id
+	m_partId = ++idAllocator;
 }
 
 Part::~Part()

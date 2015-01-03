@@ -28,6 +28,11 @@ public:
 
 	Point getAnchor();
 
+	bool isContainsPointAbovePoint(Point);
+	bool isContainsPointBelowPoint(Point);
+	bool isContainsPointRightOfPoint(Point);
+	bool isContainsPointLeftPoint(Point);
+	const int getId() const;
 
 private:
 	PointListPtr m_pointList;
@@ -36,6 +41,9 @@ private:
 	PointListPtr m_headPointList;
 
 	int m_pixelSize;
+
+	int m_orientationId;
+	static int sequentialPartsOrientationId;
 
 	void addPoint(Point startPoint);
 
@@ -47,6 +55,8 @@ private:
 	bool isVerticalSymmetrical(PartOrientationPtr partOrient);
 	bool isHorizonalSymmetrical(PartOrientationPtr partOrient);
 	bool isSymmetrical();
+
+	bool isContainsPointAtLocation(int x, int y);
 
 	friend Part;
 };

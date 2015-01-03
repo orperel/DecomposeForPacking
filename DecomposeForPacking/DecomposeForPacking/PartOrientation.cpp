@@ -1,11 +1,16 @@
 #include "PartOrientation.h"
 
+// Initialize sequential id counter
+int PartOrientation::sequentialPartsOrientationId = 0;
 
 PartOrientation::PartOrientation(int pixelSize /*= 1*/) : m_pixelSize(pixelSize)
 {
 	m_pointList = PointListPtr(new PointList());
 	m_headPointList = PointListPtr(new PointList());
 	addPoint(Point(0, 0));
+
+	m_orientationId = sequentialPartsOrientationId;
+	sequentialPartsOrientationId++;
 }
 
 
@@ -14,6 +19,9 @@ PartOrientation::PartOrientation(PointListPtr pointList) : m_pointList(pointList
 	for each (const Point& point in *m_pointList) {
 		m_pointMap[point] = true;
 	}
+
+	m_orientationId = sequentialPartsOrientationId;
+	sequentialPartsOrientationId++;
 }
 
 
@@ -134,4 +142,52 @@ bool PartOrientation::isSymmetrical()
 	}
 
 	return true;
+}
+
+bool PartOrientation::isContainsPointAtLocation(int x, int y)
+{
+	for (auto& orientationPoint : *m_pointList)
+	{
+		if ((orientationPoint.getX() == x) && (orientationPoint.getY() == y))
+			return true;
+	}
+
+	return false;
+}
+
+bool PartOrientation::isContainsPointAbovePoint(Point point)
+{
+	int searchedX = point.getX();
+	int searchedY = point.getY() + 1;
+
+	return isContainsPointAtLocation(searchedX, searchedY);
+}
+
+bool PartOrientation::isContainsPointBelowPoint(Point point)
+{
+	int searchedX = point.getX();
+	int searchedY = point.getY() - 1;
+
+	return isContainsPointAtLocation(searchedX, searchedY);
+}
+
+bool PartOrientation::isContainsPointRightOfPoint(Point point)
+{
+	int searchedX = point.getX() + 1;
+	int searchedY = point.getY();
+
+	return isContainsPointAtLocation(searchedX, searchedY);
+}
+
+bool PartOrientation::isContainsPointLeftPoint(Point point)
+{
+	int searchedX = point.getX() - 1;
+	int searchedY = point.getY();
+
+	return isContainsPointAtLocation(searchedX, searchedY);
+}
+
+const int PartOrientation::getId() const
+{
+	return m_orientationId;
 }

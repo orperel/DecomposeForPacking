@@ -25,7 +25,7 @@ public:
     /** Adds the attribute to the shader program.
      *  The attribute's index will be assigned sequentially.
      */
-    void addAttribute(const string attributeName);
+	GLuint addAttribute(const string attributeName);
     
     /** Adds the uniform to the shader program.
      *  The uniform's index will be assigned sequentially. The ID of the assigned uniform is returned.

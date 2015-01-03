@@ -188,3 +188,4 @@ FakesAssemblies/
 *.sdf
 *.sdf
 DecomposeForPacking/DecomposeForPacking/Packing.cpp
+obj.bmp

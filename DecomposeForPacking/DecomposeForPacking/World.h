@@ -16,9 +16,9 @@ class World
 
 public:
 	/*
-	 * C'tor - Builds world from list of points, width, height and depth
+	 * C'tor - Builds world from list of points, width and height and depth
 	 */
-	World(PointListPtr points, int width, int height, int depth = 1);
+	World(PointListPtr points, int width, int height, int depth = 1, int pixelResolution = 1);
 
 	/*
 	 * Copy C'tor
@@ -72,8 +72,12 @@ public:
 
 	/*
 	* Depth getter.
+	* Pixel Resolution getter.
 	*/
 	void deletePoint(Point point);
+	int getPixelResolution();
+
+	/*
 
 	/*
 	* World's point list getter.
@@ -84,6 +88,9 @@ private:
 	int m_width; // Width
 	int m_height; // Height
 	int m_depth; // Depth
+
+	// Pixel resolution of "how many pixels in the real object are mapped to a point in the world"
+	int m_pixelResolution;
 	PointListPtr m_pointList; // Point List
 	std::unordered_map<Point, int, PointHash<Point>> m_pointToIndex; // Map of point to index
 	std::unordered_map<int, Point> m_indexToPoint; // Map of index to point

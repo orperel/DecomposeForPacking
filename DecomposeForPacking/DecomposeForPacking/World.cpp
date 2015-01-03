@@ -1,6 +1,7 @@
 #include "world.h"
 
-World::World(PointListPtr pointList, int width, int height, int depth /*= 1*/) : m_pointList(pointList), m_width(width), m_height(height), m_depth(depth)
+World::World(PointListPtr pointList, int width, int height, int depth /*= 1*/, int pixelResolution) :
+m_pointList(pointList), m_width(width), m_height(height), m_depth(depth), m_pixelResolution(pixelResolution)
 {
 	for (int i = 0; i < m_pointList->size(); i++) {
 		m_pointToIndex[(*m_pointList)[i]] = i;
@@ -53,6 +54,11 @@ int World::getWidth()
 int World::getHeight()
 {
 	return m_height;
+}
+
+int World::getPixelResolution()
+{
+	return m_pixelResolution;
 }
 
 PointListPtr World::getPointList()

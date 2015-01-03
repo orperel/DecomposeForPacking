@@ -5,6 +5,8 @@
 #include <set>
 #include <unordered_map>
 
+#include "DFPConfiguration.h"
+
 using std::vector;
 using std::set;
 using std::unordered_map;
@@ -97,7 +99,7 @@ private:
 	 *  when many solutions are available. DlXSolver will choose only the first MAX_NUM_OF_SOLUTIONS
 	 *  solutions encountered.
 	 */
-	static const int MAX_NUM_OF_SOLUTIONS = 10;
+	static const int MAX_NUM_OF_SOLUTIONS = MAX_NUMBER_OF_DECOMPOSE_SOLUTIONS;
 	
 	// Data members:
 

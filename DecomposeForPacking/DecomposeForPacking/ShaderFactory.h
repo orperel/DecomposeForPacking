@@ -12,12 +12,13 @@ class ShaderFactory {
     
 public:
     
-    ShaderFactory();
-    virtual ~ShaderFactory();
-    
     /** Creates, loads and compiles a shader of the given type. The shader is read from the given file at the path: shaderFile. */
-    unique_ptr<OpenGLShader> loadShaderFromFile(const GLenum shaderType, const string shaderFile);
+    static unique_ptr<OpenGLShader> loadShaderFromFile(const GLenum shaderType, const string shaderFile);
     
     /** Creates, loads and compiles a shader of the given type. The shader source code is contained in shaderSrc as string */
-    unique_ptr<OpenGLShader> loadShaderFromString(const GLenum shaderType, const string shaderSrc);
+    static unique_ptr<OpenGLShader> loadShaderFromString(const GLenum shaderType, const string shaderSrc);
+
+private:
+	ShaderFactory();
+	virtual ~ShaderFactory();
 };

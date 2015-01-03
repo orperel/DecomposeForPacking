@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -55,7 +55,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opengl-wrappers\glew\lib;C:\opengl-wrappers\glfw\lib-msvc120;$(SolutionDir)\DecomposeForPacking\glm;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -98,11 +98,11 @@
     <ClCompile Include="Packing.cpp" />
     <ClCompile Include="OpenGLRenderContext.cpp" />
     <ClCompile Include="OpenGLRenderer.cpp" />
-    <ClCompile Include="PackSolutionMetaData.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="SameDecompose.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
@@ -136,11 +136,11 @@
     <ClInclude Include="Packing.h" />
     <ClInclude Include="OpenGLRenderContext.h" />
     <ClInclude Include="OpenGLRenderer.h" />
-    <ClInclude Include="PackSolutionMetaData.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="SameDecompose.h" />
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />

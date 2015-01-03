@@ -111,6 +111,9 @@
     <ClCompile Include="PackResult.cpp">
       <Filter>Source Files\logic\packing</Filter>
     </ClCompile>
+    <ClCompile Include="PackSolutionMetaData.cpp">
+      <Filter>Source Files\logic\packing</Filter>
+    </ClCompile>
     <ClCompile Include="PartBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
@@ -138,26 +141,13 @@
     <ClCompile Include="WorldBuilder.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="ObjMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="PackingPartFitVisitor.cpp">
       <Filter>Source Files\logic\packing</Filter>
-    </ClCompile>
-    <ClCompile Include="DecomposeAndPack.cpp">
-      <Filter>Source Files\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="SameDecompose.cpp">
+=======
+    <ClCompile Include="ObjMesh.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLDisplayHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLBatch.cpp">
-      <Filter>Source Files</Filter>
+>>>>>>> origin/master
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +199,9 @@
     <ClInclude Include="PackResult.h">
       <Filter>Header Files\logic\packing</Filter>
     </ClInclude>
+    <ClInclude Include="PackSolutionMetaData.h">
+      <Filter>Header Files\logic\packing</Filter>
+    </ClInclude>
     <ClInclude Include="PartBuilder.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
@@ -239,42 +232,13 @@
     <ClInclude Include="WorldBuilder.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="PackingPartFitVisitor.h">
       <Filter>Header Files\logic\packing</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="ObjMesh.h">
       <Filter>Header Files</Filter>
+>>>>>>> origin/master
     </ClInclude>
-    <ClInclude Include="DecomposeAndPack.h">
-      <Filter>Header Files\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="SameDecompose.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DFPConfiguration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExpandableBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLDisplayHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IInputListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL2DDefaultProgramSetup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLBatch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLProgramSetup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Default2DFragmentShader.frag" />
-    <None Include="Default2DVertexShader.vert" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,12 @@ DecomposeResult::DecomposeResult(std::shared_ptr<vector<PartsCountPtr>> partsCou
 	_listOfPartLocationLists = listOfPartLocationLists;
 }
 
+DecomposeResult::DecomposeResult()
+{
+	_partsCountList = std::shared_ptr<vector<PartsCountPtr>>(new vector<PartsCountPtr>);
+	_listOfPartLocationLists = std::shared_ptr<vector<PartLocationListPtr>>(new vector<PartLocationListPtr>);
+}
+
 /** Dtor to release resources allocated by the DecomposeResult. */
 DecomposeResult::~DecomposeResult()
 {
@@ -28,13 +34,17 @@ std::shared_ptr<vector<PartLocationListPtr>> DecomposeResult::getListOfPartLocat
 	return _listOfPartLocationLists;
 }
 
+/** A lambda expression implements the size criteria for sorting the parts count lists. */
 bool wayToSort(const SizeIndex& x, const SizeIndex& y) { return (std::get<0>(x) < std::get<0>(y)); }
 
+/** Returns indices of the parts count lists, ordered by size. */
 std::shared_ptr<vector<SizeIndex>> DecomposeResult::getPartsCountBySize()
 {
 	std::shared_ptr<vector<SizeIndex>> partsCountBySize = std::make_shared<vector<SizeIndex>>();
 
+	// Computes the sizes of all solutions 
 	for (int index = 0; index < _partsCountList->size(); index++) {
+		// Computes the size of the current solution
 		int currSolutionSize = 0;		
 		for (auto partCount : *_partsCountList->at(index)) {
 			currSolutionSize += partCount.second;
@@ -42,7 +52,34 @@ std::shared_ptr<vector<SizeIndex>> DecomposeResult::getPartsCountBySize()
 		partsCountBySize->push_back(SizeIndex(currSolutionSize, index));
 	}
 
-	std::sort(partsCountBySize->begin(), partsCountBySize->end(), wayToSort);
+	std::sort(partsCountBySize->begin(), partsCountBySize->end(), wayToSort);	// Sorts by size
 
 	return partsCountBySize;
+}
+
+void DecomposeResult::extend(PartsCountPtr partsCount, PartLocationListPtr partLocationList)
+{
+	// TODO: check if needed
+	//if (NULL == partsCount || NULL == partLocationList) {
+	//	return;
+	//}
+
+	for (int i = 0; i < _partsCountList->size(); i++) {
+		for each (const std::pair<PartPtr, int>& elem in *partsCount) {
+			(*(*_partsCountList)[i])[elem.first] = elem.second;
+		}
+	}
+
+	for (int i = 0; i < _listOfPartLocationLists->size(); i++) {
+		for (int j = 0; j < partLocationList->size(); j++) {
+			PartLocationListPtr pll = _listOfPartLocationLists->at(i);
+			pll->push_back((*partLocationList)[j]);
+		}
+	}
+}
+
+void DecomposeResult::add(shared_ptr<DecomposeResult> decomposeResult)
+{
+	_partsCountList->insert(_partsCountList->end(), decomposeResult->getPartsCountList()->begin(), decomposeResult->getPartsCountList()->end());
+	_listOfPartLocationLists->insert(_listOfPartLocationLists->end(), decomposeResult->getListOfPartLocationLists()->begin(), decomposeResult->getListOfPartLocationLists()->end());
 }

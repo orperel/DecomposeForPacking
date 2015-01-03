@@ -2,6 +2,7 @@
 #include "DecomposeResult.h"
 #include "DecomposePartFitVisitor.h"
 
+/** Constructs a new decompose object from a world and part list. */
 Decompose::Decompose(WorldPtr world, PartListPtr partList) : m_world(world), m_partList(partList),
 	m_locationSetToPart(new SetToPartMap()), m_locationSetToOrient(new SetToOrientationMap())
 {
@@ -11,6 +12,7 @@ Decompose::~Decompose()
 {
 }
 
+/** Implements the class purposes and returns the decomposition result. */
 std::shared_ptr<DecomposeResult> Decompose::decompose()
 {
 	shared_ptr<DLXSolver> dlxSolver(new DLXSolver(m_world->getNumberOfPoints())); // Creates DLXSolver for the decomposition

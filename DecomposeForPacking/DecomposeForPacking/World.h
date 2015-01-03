@@ -4,6 +4,10 @@
 #include <unordered_map>
 #include "IWorldVisitor.h"
 
+class World;
+typedef std::shared_ptr<World> WorldPtr;
+
+
 /* Represents the world to be decompose or packed into,
    i.e. the spatial in which we locate the parts that assemble the object.
    The world is composed of points, each point gets an index. */
@@ -15,6 +19,11 @@ public:
 	 * C'tor - Builds world from list of points, width and height and depth
 	 */
 	World(PointListPtr points, int width, int height, int depth = 1, int pixelResolution = 1);
+
+	/*
+	 * Copy C'tor
+	 */
+	World(WorldPtr otherWorld);
 
 	/*
 	 * Default D'tor
@@ -62,9 +71,13 @@ public:
 	int getDepth();
 
 	/*
+	* Depth getter.
 	* Pixel Resolution getter.
 	*/
+	void deletePoint(Point point);
 	int getPixelResolution();
+
+	/*
 
 	/*
 	* World's point list getter.
@@ -83,4 +96,3 @@ private:
 	std::unordered_map<int, Point> m_indexToPoint; // Map of index to point
 };
 
-typedef std::shared_ptr<World> WorldPtr;

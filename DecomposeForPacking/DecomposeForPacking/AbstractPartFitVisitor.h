@@ -18,7 +18,6 @@ public:
 	 */
 	AbstractPartFitVisitor(PartPtr part, shared_ptr<DLXSolver> dlxSolver, SetToPartMapPtr locationSetToPart, SetToOrientationMapPtr locationSetToOrient);
 	
-	/** Dtor to release resources allocated by the visitor. */
 	virtual ~AbstractPartFitVisitor() = 0;
 
 	/** Activates the isFit operation on the world for the given point. */

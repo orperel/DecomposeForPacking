@@ -8,7 +8,11 @@
 #include "WorldBuilder.h"
 #include "Packing.h"
 
+#include <algorithm>
+
 using namespace std;
+
+const int DECOMPOSE_NUMBER_OF_ITERATIONS = 3;
 
 DecomposeAndPack::DecomposeAndPack(WorldPtr world) : m_world(world)
 {
@@ -28,15 +32,61 @@ DecomposeAndPackResult DecomposeAndPack::run()
 	return std::make_tuple(decomposeResult->getListOfPartLocationLists(), packResult->getPackPerDecomposeList());
 }
 
+shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList, PartsCountPtr partsCount, PartLocationListPtr partLocationList) {
+	WorldPtr newWorld(new World(world));
+
+	PointListPtr pointList(new PointList());
+
+	for each (const tuple<PartOrientationPtr, Point>& partOrientTuple in *partLocationList) { // For every part
+		PartOrientationPtr partOrient = get<0>(partOrientTuple);
+		Point basePoint = get<1>(partOrientTuple);
+		for each (const Point& pointOffset in *partOrient->getPointList()) { // For each point of the part
+			Point point(pointOffset.getX() + basePoint.getX(), pointOffset.getY() + basePoint.getY(), 0, BLACK);
+			newWorld->deletePoint(point);
+		}
+	}
+
+	Decompose decomposer(newWorld, partList);
+	shared_ptr<DecomposeResult> decomposeResult = decomposer.decompose();
+	decomposeResult->extend(partsCount, partLocationList);
+
+	return decomposeResult;
+}
+
 shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 {
-	PartListPtr partList = PartBuilder::buildStandartPartPack(1);
-
-	Decompose decomposer(m_world, partList);
-
 	cout << "Starting decomposing..." << endl;
 
-	shared_ptr<DecomposeResult> decomposeResult = decomposer.decompose();
+	int numberOfIteration = 1;
+	float partSizePercentOfWorld = 20;
+
+	int minEdge = round(min(m_world->getWidth(), m_world->getHeight()) * partSizePercentOfWorld / 100);
+
+	shared_ptr<DecomposeResult> decomposeResult;
+
+	for (int i = 0; i < numberOfIteration; i++) {
+		int partSize = minEdge - round(minEdge*i / numberOfIteration);
+
+		if (0 == partSize) {
+			partSize = 1;
+		}
+
+		shared_ptr<DecomposeResult> newDecomposeResult(new DecomposeResult());
+
+		PartListPtr partList = PartBuilder::buildStandartPartPack(partSize);
+
+		if (NULL == decomposeResult) {
+			Decompose decomposer(m_world, partList);
+			decomposeResult = decomposer.decompose();
+			continue;
+		}
+
+		for (int j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
+			newDecomposeResult->add(extendDecompose(m_world, partList, (*decomposeResult->getPartsCountList())[j], (*decomposeResult->getListOfPartLocationLists())[j]));
+		}
+		
+		decomposeResult = newDecomposeResult;
+	}
 
 	cout << "Finished decomposing..." << endl;
 

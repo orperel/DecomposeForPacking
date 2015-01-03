@@ -93,6 +93,7 @@
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="SameDecompose.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="SameDecompose.h" />
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="WorldBuilder.h" />

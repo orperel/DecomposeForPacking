@@ -20,6 +20,8 @@ typedef tuple<int, int> SizeIndex;
 class DecomposeResult
 {
 public:
+	DecomposeResult();
+
 	/** Constructs a new decomposition result. It is composed of:
 	 *  1) Parts count list of all solutions in the decomposition process
 	 *  2) List of part location lists of all solutions in the decomposition process
@@ -28,6 +30,10 @@ public:
 	
 	/** Dtor to release resources allocated by the DecomposeResult. */
 	virtual ~DecomposeResult();
+
+	void extend(PartsCountPtr partsCount, PartLocationListPtr partLocationList);
+
+	void add(shared_ptr<DecomposeResult> decomposeResult);
 
 	/** Returns the parts count list of all solutions. */
 	std::shared_ptr<vector<PartsCountPtr>> getPartsCountList();

@@ -99,7 +99,7 @@ private:
 	 *  when many solutions are available. DlXSolver will choose only the first MAX_NUM_OF_SOLUTIONS
 	 *  solutions encountered.
 	 */
-	static const int MAX_NUM_OF_SOLUTIONS = MAX_NUMBER_OF_DECOMPOSE_SOLUTIONS;
+	static const int MAX_NUM_OF_SOLUTIONS = DLX_SOLVER_SOLUTIONS_LIMIT;
 	
 	// Data members:
 

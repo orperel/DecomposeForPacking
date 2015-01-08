@@ -32,7 +32,9 @@ DecomposeAndPackResult DecomposeAndPack::run()
 	return std::make_tuple(decomposeResult->getListOfPartLocationLists(), packResult->getPackPerDecomposeList());
 }
 
-shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList, PartsCountPtr partsCount, PartLocationListPtr partLocationList) {
+shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList,
+	PartsCountPtr partsCount, PartLocationListPtr partLocationList, shared_ptr<DecomposeResult> totalDecomposeResults) {
+
 	WorldPtr newWorld(new World(world));
 
 	PointListPtr pointList(new PointList());
@@ -46,9 +48,18 @@ shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, Pa
 		}
 	}
 
+	// The new world is empty, an exact decomposition was found.
+	if ((newWorld->getHeight() == 0) || (newWorld->getWidth() == 0))
+	{
+		return NULL;
+	}
+
+	// Else continue decomposing the remaining blocks in the world
 	Decompose decomposer(newWorld, partList);
 	shared_ptr<DecomposeResult> decomposeResult = decomposer.decompose();
 	decomposeResult->extend(partsCount, partLocationList);
+
+	totalDecomposeResults->add(decomposeResult);
 
 	return decomposeResult;
 }
@@ -82,7 +93,14 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 		}
 
 		for (int j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
-			newDecomposeResult->add(extendDecompose(m_world, partList, (*decomposeResult->getPartsCountList())[j], (*decomposeResult->getListOfPartLocationLists())[j]));
+			shared_ptr<DecomposeResult> nextDecomposition = extendDecompose(m_world, partList,
+																			(*decomposeResult->getPartsCountList())[j],
+																			(*decomposeResult->getListOfPartLocationLists())[j],
+																			newDecomposeResult);
+
+			// Exact decomposition was found, quit
+			if (nextDecomposition == NULL)
+				break;
 		}
 		
 		decomposeResult = newDecomposeResult;

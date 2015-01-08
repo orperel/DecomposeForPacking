@@ -23,7 +23,7 @@ std::shared_ptr<DecomposeResult> Decompose::decompose()
 		m_world->accept(visitor);
 	}
 
-	auto solutions = dlxSolver->solve();	// Runs solver
+	auto solutions = dlxSolver->solve(true); // Runs solver
 	
 	// Creates the result vectors of the decomposition:
 	// 1) Parts count list of all solutions in the decomposition

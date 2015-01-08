@@ -47,7 +47,9 @@ private:
 	*/
 	shared_ptr<PackResult> pack(shared_ptr<DecomposeResult> decomposeResult);
 
-	shared_ptr<DecomposeResult> extendDecompose(WorldPtr world, PartListPtr partList, PartsCountPtr partsCount, PartLocationListPtr partLocationList);
+	shared_ptr<DecomposeResult> extendDecompose(WorldPtr world, PartListPtr partList,
+												PartsCountPtr partsCount, PartLocationListPtr partLocationList,
+												shared_ptr<DecomposeResult> totalDecomposeResults);
 
 	// Member of the world
 	WorldPtr m_world;

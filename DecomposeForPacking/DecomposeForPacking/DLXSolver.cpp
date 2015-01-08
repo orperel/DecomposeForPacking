@@ -25,6 +25,14 @@ void DLXSolver::createColumnHeaders(int numOfColumns)
 	_matrixHead->setLeft(currNode);
 }
 
+/** Returns true if the mandatory column is true within the matrix, false if it is optional.
+*/
+bool DLXSolver::isMandatoryColumn(DLXColHeader* column)
+{
+	// Optional columns are always indexed before the mandatory ones
+	return column->colIndex() >= _optionalColsNum;
+}
+
 void DLXSolver::addNodeToColumn(shared_ptr<DLXDataNode> node)
 {
 	// Use fast-access index to fetch the approporiate column header node
@@ -77,13 +85,13 @@ void DLXSolver::reattachNodeToCol(shared_ptr<DLXDataNode> node)
 	node->head()->incNumOfElements();
 }
 
-shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
+shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn(bool isAllowPartialCover)
 {
 	// The column header row contains only DLXColHeader nodes, safe to cast statically
 	auto currColHeader = std::static_pointer_cast<DLXColHeader>(_matrixHead->right());
 
 	// Advance the pointer to the first available mandatory column
-	while ((currColHeader != _matrixHead) && (currColHeader->colIndex() < _optionalColsNum))
+	while ((currColHeader != _matrixHead) && (!isMandatoryColumn(currColHeader.get())))
 	{
 		currColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right());
 	}
@@ -94,30 +102,55 @@ shared_ptr<DLXSolver::DLXColHeader> DLXSolver::chooseNextColumn()
 	else if (currColHeader->right() == _matrixHead) // One column remains - choose it
 		return currColHeader;
 
-	int minNumOfElements = currColHeader->numOfElements();
-	auto chosenHeader = currColHeader;
+	int minNumOfElements = _rowNum + 1; // The maximal number of rows is _rowNum, number of rows in the matrix
+	shared_ptr<DLXSolver::DLXColHeader> chosenHeader = NULL;
+
+	// This parameter will only be used if partial cover solutions are allowed -
+	// If a column with more than 0 rows is available it'll be chosen in stead of a column with 0 rows
+	// (but if only columns with 0 rows remain, they will be chosen).
+	shared_ptr<DLXSolver::DLXColHeader> chosenHeaderWithZeroRows = NULL;
 
 	// Iterate all remaining column headers until the cyclic loop completes
-	for (; currColHeader->right() != _matrixHead; currColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right()))
+	for (; currColHeader != _matrixHead; currColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right()))
 	{
-		auto nextColHeader = std::static_pointer_cast<DLXColHeader>(currColHeader->right());
-		int nextNumOfElements = nextColHeader->numOfElements();
+		int nextNumOfElements = currColHeader->numOfElements();
 
-		// New minimal column candidate encountered
-		if (nextNumOfElements < minNumOfElements)
+		if (nextNumOfElements == 0) // A column with 0 rows encountered
 		{
-			chosenHeader = nextColHeader;
+			if (isAllowPartialCover)
+			{ // partial covers are allowed, remember this column but keep looking for other minimal non-zero row columns.
+			  // This column will be returned only if other columns are not found.
+				chosenHeaderWithZeroRows = currColHeader;
+			}
+			else
+			{ // If only exact covers are allowed, return this column immediately (no better choices are available)
+				return currColHeader;
+			}
+		}
+		// New minimal column candidate encountered
+		else if (nextNumOfElements < minNumOfElements)
+		{
+			chosenHeader = currColHeader;
 			minNumOfElements = nextNumOfElements;
 		}
 	}
 
-	return chosenHeader;
+	// Return the column with the minimal number of rows which is not zero.
+	// If such a column doesn't exist, only columns with zero rows remain -- return one of them
+	if (chosenHeader == NULL)
+		return chosenHeaderWithZeroRows;
+	else
+		return chosenHeader;
 }
 
 void DLXSolver::cover(shared_ptr<DLXColHeader> column)
 {
 	// Remove the column
 	detachNodeFromRow(column);
+
+	// If this is a mandatory column that is removed, update the counter
+	if (isMandatoryColumn(column.get()))
+		_remainingMandatoryColsNum--;
 
 	// Remove each row that contains a value for this column
 	for (auto rowNode = column->down(); rowNode != column; rowNode = rowNode->down())
@@ -145,6 +178,10 @@ void DLXSolver::uncover(shared_ptr<DLXColHeader> column)
 
 	// Reattach the column back to the columns row
 	reattachNodeToRow(column);
+
+	// If this is a mandatory column that is reattached, update the counter
+	if (isMandatoryColumn(column.get()))
+		_remainingMandatoryColsNum++;
 }
 
 /** Creates a new "Exact Cover Problem" solver, using "Full Cover" mode.
@@ -164,7 +201,7 @@ DLXSolver::DLXSolver(int numberOfColumns) : DLXSolver(0, numberOfColumns)
 DLXSolver::DLXSolver(int numberOfOptionalCols, int numberOfMandatoryCols):
 _mandatoryColsNum(numberOfMandatoryCols),
 _optionalColsNum(numberOfOptionalCols),
-_rowNum(0)
+_rowNum(0), _bestPartialCoverFound(SOLVER_NOT_INITIALIZED)
 {
 	createColumnHeaders(numberOfOptionalCols + numberOfMandatoryCols);
 }
@@ -213,24 +250,69 @@ void DLXSolver::addRow(shared_ptr<DLX_VALUES_SET> row)
 	_rowNum++;
 }
 
-void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution)
+/** Performs a recursive step of search -
+*  1) Choose a column deterministically.
+*  2) Choose each of the rows non-deterministically and perform a cover of intersecting rows / columns.
+*  3) Repeat until sucess / failure and backtrack.
+*
+* Note: isAllowPartialCover is an optional argument used only when exact cover solutions are not available.
+* If isAllowPartialCover=true, search will cache the best cover found so far (even if its not exact)
+* and add it to the possible solutions (if future search calls find better covers, they override this
+* solution).
+*/
+void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution, bool isAllowPartialCover)
 {
 	// Limit the number of solutions returned
-	if (solutions.size() >= MAX_NUM_OF_SOLUTIONS)
+	// -- The number of exact cover solutions is always limited (even when isAllowPartialCover is on)
+	// -- The number of partial cover solutions is only limited if the solver is configured to do so
+	if ((solutions.size() >= MAX_NUM_OF_SOLUTIONS) &&
+		((!isAllowPartialCover) ||
+		((isAllowPartialCover) && (IS_LIMIT_PARTIAL_COVER_SOLUTIONS || isExactCoverFound()))))
+	{
 		return;
+	}
 
 	// Choose the next column to eliminate
-	shared_ptr<DLXColHeader> chosenColumn = chooseNextColumn();
+	shared_ptr<DLXColHeader> chosenColumn = chooseNextColumn(isAllowPartialCover);
 
 	// No more columns remain, the current solution is successful.
 	// Record it and backtrack.
 	if (chosenColumn == NULL)
 	{
+		// First exact cover solution was found, remove partial solutions found so far if there are any
+		if (_bestPartialCoverFound > 0)
+		{
+			solutions.clear();
+			_bestPartialCoverFound = 0;
+		}
+		
 		solutions.push_back(currentSolution);
+
 		return;
 	}
 	else if (chosenColumn->down() == chosenColumn) 
 	{ // No rows remain, cannot cover the universe with the choices so far. Backtrack and try other solutions
+
+		// If partial cover is allowed, we check whether the current partial solution is better than the
+		// other solutions found so far and record it
+		if (isAllowPartialCover)
+		{
+			// The current solution is a better partial solution than those found so far.
+			// Remove the other partial solutions found so far if there are any
+			if (_remainingMandatoryColsNum < _bestPartialCoverFound)
+			{
+				solutions.clear();
+				_bestPartialCoverFound = _remainingMandatoryColsNum;
+				solutions.push_back(currentSolution);
+			}
+			// The current solution is of an equal quality to the other partial solutions found so far.
+			// Add it to the other partial solutions.
+			else if (_remainingMandatoryColsNum == _bestPartialCoverFound)
+			{
+				solutions.push_back(currentSolution);
+			}
+		}
+
 		return;
 	}
 	
@@ -251,8 +333,11 @@ void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSol
 			cover(dataNode->head()); // Remove the node's column and rows associated with it
 		}
 
-		currentSolution.push_back(rowValues); // Add the tentative solution part to current solution
-		search(solutions, currentSolution); // Recurse and continue searching & covering the universe
+		// Add the tentative solution part to current solution
+		currentSolution.push_back(rowValues);
+
+		// Recurse and continue searching & covering the universe
+		search(solutions, currentSolution, isAllowPartialCover);
 		
 		// When the search above completes, we're ready to backtrack and try other solutions.
 		// Undo the last step to backtrack:
@@ -268,18 +353,40 @@ void DLXSolver::search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSol
 	uncover(chosenColumn);
 }
 
-/** Solves the cover problem and returns the possible solutions found. */
-vector<DLX_SOLUTION> DLXSolver::solve()
+/** Solves the cover problem and returns the possible solutions found.
+ *  Depending on the parameter given,
+ *  this overload may allow return partial cover solutions if an exact cover is not possible.
+ */
+vector<DLX_SOLUTION> DLXSolver::solve(bool isAllowPartialCover)
 {
 	vector<DLX_SOLUTION> solutions = vector<DLX_SOLUTION>();
 
 	// If the solver wasn't initialized with a proper universe, quit gracefully with an empty solutions list
-	if (_mandatoryColsNum == 0)
+	if ((_mandatoryColsNum == 0) || (_rowNum == 0))
 		return solutions;
 
 	DLX_SOLUTION currentSolution = DLX_SOLUTION();
-	search(solutions, currentSolution);
+	_remainingMandatoryColsNum = _mandatoryColsNum; // All columns remain while we start searching
+	_bestPartialCoverFound = _mandatoryColsNum; // The best partial cover will contain less columns as 
+												// we gradually cover the unvierse
+												// (only used when isAllowPartialCover == true)
+	search(solutions, currentSolution, isAllowPartialCover);
 	return solutions;
+}
+
+/** Solves the cover problem and returns the possible solutions found. */
+vector<DLX_SOLUTION> DLXSolver::solve()
+{
+	// Solve with exact covers only
+	return solve(false);
+}
+
+/** Returns true is the last "solve" operation found an exact cover.
+*  False otherwise.
+*/
+bool DLXSolver::isExactCoverFound()
+{
+	return _bestPartialCoverFound == 0;
 }
 
 std::ostream& DLXSolver::DLXNode::print(std::ostream& os) const

@@ -86,6 +86,17 @@ public:
 	/** Solves the cover problem and returns the possible solutions found. */
 	vector<DLX_SOLUTION> solve();
 
+	/** Solves the cover problem and returns the possible solutions found.
+	 *  Depending on the parameter given,
+	 *  this overload may allow partial cover solutions if an exact cover is not possible.
+	 */
+	vector<DLX_SOLUTION> solve(bool isAllowPartialCover);
+
+	/** Returns true is the last "solve" operation found an exact cover.
+	 *  False otherwise.
+	 */
+	bool isExactCoverFound();
+
 	/* Operator Overloading - string representation of DLXSolver.
 	 * The entire matrix data will be printed.
 	 * WARNING: For big matrices this output can be very big.
@@ -98,9 +109,25 @@ private:
 	/** Limits the number of solutions returned by DLXSolver, to avoid long running times
 	 *  when many solutions are available. DlXSolver will choose only the first MAX_NUM_OF_SOLUTIONS
 	 *  solutions encountered.
+	 *  This limit affects only exact cover solutions.
 	 */
 	static const int MAX_NUM_OF_SOLUTIONS = DLX_SOLVER_SOLUTIONS_LIMIT;
 	
+	/** When Algorithm X is configured to return the best partial cover solutions available if no exact
+	*   cover solution is available, this parameter comes into use.
+	*   This parameter determines whether the algorithm should stop when N
+	*   partial cover solutions equal in cover amount are found, (where N = DLX_SOLVER_SOLUTIONS_LIMIT).
+	*   True - an exact cover solution may exist and not found yet, but the algorithm is guaranteed to stop.
+	*   False - the algorithm will not stop until N exact cover solutions are found. It may return any number
+	*           of partial solutions.
+	*/
+	static const bool IS_LIMIT_PARTIAL_COVER_SOLUTIONS = IS_LIMIT_NUMBER_OF_PARTIAL_SOLUTIONS;
+
+	/** This value is returned when the solver is queried for certain parameters before "solve" was run.
+	 * (e.g: isExactCoverFound, etc).
+	 */
+	static const int SOLVER_NOT_INITIALIZED = -1;
+
 	// Data members:
 
 	/** Contains the current number of rows in the solver's matrix.
@@ -127,6 +154,25 @@ private:
 	
 	/** Allows fast access to the column headers by index using a hash-table */
 	unordered_map<int, shared_ptr<DLXColHeader>> _colHeadersMapping;
+
+	/** Represents the current number of remaining mandatory columns in the solver's matrix.
+	 *  Each mandatory column represents a value in the "universe" that must be covered
+	 *  in the final solution as well.
+	 *  With every step of the algorithms, mandatory be covered / uncovered, and this parameter
+	 *  counts the number of mandatory columns remaining to be covered.
+	 */
+	int _remainingMandatoryColsNum;
+
+	/** Represents the number of remaining mandatory columns in the solver's matrix for the best
+	 *  partial cover found so far (exact cover = 0 columns remaining, the less the better).
+	 *  Each mandatory column represents a value in the "universe" that must be covered
+	 *  in the final solution as well.
+	 *  With every step of the algorithms, mandatory be covered / uncovered, and this parameter
+	 *  counts the number of mandatory columns remaining to be covered.
+	 *  Sometimes exact covers cannot be found, so this parameter tracks the quality of the closest solution to
+	 *  exact found by the algorithm.
+	 */
+	int _bestPartialCoverFound;
 
 	// Logic Methods:
 
@@ -156,10 +202,14 @@ private:
 	 *  The algorithm uses the heuristic - "choose the column with the least elements" (a value that appears in 
 	 *  less sets is less likely to cause massive branching).
 	 *  If no columns remain in the matrix, NULL is returned.
-	 *  For partial cover mode, only mandatory columns are chosen.
+	 *  For partial cover mode (optional columns are filled), only mandatory columns are chosen.
 	 *  If no mandatory columns remain in the matrix, NULL is returned.
+	 *
+	 *  If the algorithm allows partial solutions (and not only exact ones), columns with 0 rows won't be chosen
+	 *  while there are other columns available. This choice is done to allow better possible partial cover solution,
+	 *  although at that point its clear that exact cover is impossible for this branching.
 	 */
-	shared_ptr<DLXColHeader> chooseNextColumn();
+	shared_ptr<DLXColHeader> chooseNextColumn(bool isAllowPartialCover);
 
 	/** Removes:
 	 *  1) The given column 
@@ -176,8 +226,17 @@ private:
 	 *  1) Choose a column deterministically.
 	 *  2) Choose each of the rows non-deterministically and perform a cover of intersecting rows / columns.
 	 *  3) Repeat until sucess / failure and backtrack.
+	 *
+	 * Note: isAllowPartialCover is an optional argument used only when exact cover solutions are not available.
+	 * If isAllowPartialCover=true, search will cache the best cover found so far (even if its not exact)
+	 * and add it to the possible solutions (if future search calls find better covers, they override this
+	 * solution).
 	 */
-	void search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution);
+	void search(vector<DLX_SOLUTION>& solutions, DLX_SOLUTION& currentSolution, bool isAllowPartialCover);
+
+	/** Returns true if the mandatory column is true within the matrix, false if it is optional.
+	 */
+	bool isMandatoryColumn(DLXColHeader* column);
 
 	// Inner classes
 

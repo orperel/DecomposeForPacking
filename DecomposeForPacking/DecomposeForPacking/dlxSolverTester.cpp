@@ -45,6 +45,8 @@ void dlxSolverTester::runTests()
 	oneOptionalRestMandatoryCoverTest(configuration);
 	onlyOptionalsCoverTest(configuration);
 	largeScaleRandomWithOptionalTest(configuration);
+	particalCoverSuccessTest(configuration);
+	noParticalCoverSuccessTest(configuration);
 
 	delete configuration;
 
@@ -54,16 +56,17 @@ void dlxSolverTester::runTests()
 	cin >> x;
 }
 
-void dlxSolverTester::solveAndPrint(DLXSolver& solver, int universeSize, DLXSolverTesterConfig* configuration, int optionalColumns)
+void dlxSolverTester::solveAndPrint(DLXSolver& solver, int universeSize, DLXSolverTesterConfig* configuration,
+									int optionalColumns, bool isPartialSolve)
 {
 	if (!configuration->measureTime &&
 		!configuration->printSolutions &&
 		!configuration->printSolverData &&
 		!configuration->verifySolution) {
-		solver.solve();
+		solver.solve(isPartialSolve);
 	}
 	else {
-		MEASURED_RESULT results = runSolverWithMeasures(solver);
+		MEASURED_RESULT results = runSolverWithMeasures(solver, isPartialSolve);
 
 		if (configuration->printSolverData)
 			cout << solver;
@@ -159,12 +162,12 @@ string solverToString(DLXSolver& solver)
 	return content;
 }
 
-MEASURED_RESULT dlxSolverTester::runSolverWithMeasures(DLXSolver& solver)
+MEASURED_RESULT dlxSolverTester::runSolverWithMeasures(DLXSolver& solver, bool isPartialSolve)
 {
 	string preSolveContent = solverToString(solver);
 
 	auto start = std::chrono::system_clock::now();
-	auto results = solver.solve();
+	auto results = solver.solve(isPartialSolve);
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
 
 	string postSolveContent = solverToString(solver);
@@ -632,4 +635,67 @@ void dlxSolverTester::largeScaleRandomWithOptionalTest(DLXSolverTesterConfig* co
 	}
 
 	solveAndPrint(solver, elementCount, configuration, optionalCount);
+}
+
+void dlxSolverTester::particalCoverSuccessTest(DLXSolverTesterConfig* configuration)
+{
+	cout << "<< Partial cover simple test (1 solution of 2 sets) >>" << endl;
+	int elementCount = 5;
+	DLXSolver solver(elementCount);
+
+	auto set1 = std::make_shared<DLX_VALUES_SET>();
+	set1->insert(1);
+	set1->insert(2);
+	set1->insert(4);
+	solver.addRow(set1);
+
+	auto set2 = std::make_shared<DLX_VALUES_SET>();
+	set2->insert(2);
+	set2->insert(4);
+	set2->insert(0);
+	solver.addRow(set2);
+
+	auto set3 = std::make_shared<DLX_VALUES_SET>();
+	set3->insert(2);
+	set3->insert(1);
+	set3->insert(3);
+	solver.addRow(set3);
+
+	auto set4 = std::make_shared<DLX_VALUES_SET>();
+	set4->insert(0);
+	solver.addRow(set4);
+
+	solveAndPrint(solver, elementCount, configuration, 0, true);
+}
+
+void dlxSolverTester::noParticalCoverSuccessTest(DLXSolverTesterConfig* configuration)
+{
+	cout << "<< Partial cover one possible solution test (1 solutions hides 2 solutions) >>" << endl;
+	int elementCount = 5;
+	DLXSolver solver(elementCount);
+
+	auto set1 = std::make_shared<DLX_VALUES_SET>();
+	set1->insert(1);
+	set1->insert(2);
+	set1->insert(4);
+	solver.addRow(set1);
+
+	auto set2 = std::make_shared<DLX_VALUES_SET>();
+	set2->insert(2);
+	set2->insert(4);
+	set2->insert(0);
+	solver.addRow(set2);
+
+	auto set3 = std::make_shared<DLX_VALUES_SET>();
+	set3->insert(2);
+	set3->insert(1);
+	set3->insert(3);
+	solver.addRow(set3);
+
+	auto set4 = std::make_shared<DLX_VALUES_SET>();
+	set4->insert(0);
+	set4->insert(1);
+	solver.addRow(set4);
+
+	solveAndPrint(solver, elementCount, configuration, 0, true);
 }

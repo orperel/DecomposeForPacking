@@ -41,10 +41,13 @@ private:
 	void oneOptionalRestMandatoryCoverTest(DLXSolverTesterConfig* configuration);
 	void onlyOptionalsCoverTest(DLXSolverTesterConfig* configuration);
 	void largeScaleRandomWithOptionalTest(DLXSolverTesterConfig* configuration);
+	void particalCoverSuccessTest(DLXSolverTesterConfig* configuration);
+	void noParticalCoverSuccessTest(DLXSolverTesterConfig* configuration);
 
 	// Test control methods
-	void solveAndPrint(DLXSolver& solver, int universeSize, DLXSolverTesterConfig* configuration, int optionalColumns = 0);
-	MEASURED_RESULT runSolverWithMeasures(DLXSolver& solver);
+	void solveAndPrint(DLXSolver& solver, int universeSize, DLXSolverTesterConfig* configuration,
+		int optionalColumns = 0, bool isPartialSolve = false);
+	MEASURED_RESULT runSolverWithMeasures(DLXSolver& solver, bool isPartialSolve);
 	void printMeasuredResultsAndSolutions(MEASURED_RESULT measures, int universeSize, DLXSolverTesterConfig* configuration, int optionalColumns = 0);
 	void verifyUniverseCovered(std::vector<DLX_SOLUTION> solutions, int mandatoryCols, int optionalCols = 0);
 	void printSolutions(std::vector<DLX_SOLUTION> solutions);

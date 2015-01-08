@@ -102,6 +102,7 @@
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="PrimeNumbersModule.cpp" />
     <ClCompile Include="SameDecompose.cpp" />
     <ClCompile Include="ShaderFactory.cpp" />
     <ClCompile Include="World.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="PartBuilder.h" />
     <ClInclude Include="PartOrientation.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="PrimeNumbersModule.h" />
     <ClInclude Include="SameDecompose.h" />
     <ClInclude Include="ShaderFactory.h" />
     <ClInclude Include="World.h" />
@@ -148,6 +150,9 @@
   <ItemGroup>
     <None Include="Default2DFragmentShader.frag" />
     <None Include="Default2DVertexShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PrimeNumbers.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

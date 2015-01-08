@@ -8,9 +8,10 @@ m_pointList(pointList), m_width(width), m_height(height), m_depth(depth), m_pixe
 	}
 }
 
-World::World(WorldPtr otherWorld)
+World::World(WorldPtr otherWorld):
+World(PointListPtr(new PointList(*otherWorld->getPointList())), otherWorld->getWidth(), otherWorld->getHeight(), otherWorld->getDepth())
 {
-	World(PointListPtr(new PointList(*otherWorld->getPointList())), otherWorld->getWidth(), otherWorld->getHeight(), otherWorld->getDepth());
+	
 }
 
 

@@ -218,8 +218,10 @@ void GLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalDecompose
 				decomposeResultsIndex = -1;
 				isCurrentDisplayDecompose = false;
 			}
-			else if (decomposeResultsIndex > packResult->size() - 1)
+			else if (decomposeResultsIndex > packResult->size() - 1) {
 				decomposeResultsIndex--;
+				isCurrentDisplayDecompose = false;
+			}
 
 			_renderContext->clearDataBuffers();
 

@@ -51,6 +51,8 @@ private:
 												PartsCountPtr partsCount, PartLocationListPtr partLocationList,
 												shared_ptr<DecomposeResult> totalDecomposeResults);
 
+	static bool sortIntDesc(int i, int j) { return (i>j); }
+
 	// Member of the world
 	WorldPtr m_world;
 };

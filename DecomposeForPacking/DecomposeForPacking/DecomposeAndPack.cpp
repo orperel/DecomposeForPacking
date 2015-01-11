@@ -35,18 +35,26 @@ DecomposeAndPackResult DecomposeAndPack::run()
 shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList,
 	PartsCountPtr partsCount, PartLocationListPtr partLocationList, shared_ptr<DecomposeResult> totalDecomposeResults) {
 
-	WorldPtr newWorld(new World(world));
-
-	PointListPtr pointList(new PointList());
+	PointListPtr newPointList(new PointList(*world->getPointList()));
+	std::vector<int> pointIndexesToDelete;
 
 	for each (const tuple<PartOrientationPtr, Point>& partOrientTuple in *partLocationList) { // For every part
 		PartOrientationPtr partOrient = get<0>(partOrientTuple);
 		Point basePoint = get<1>(partOrientTuple);
+
 		for each (const Point& pointOffset in *partOrient->getPointList()) { // For each point of the part
 			Point point(pointOffset.getX() + basePoint.getX(), pointOffset.getY() + basePoint.getY(), 0, BLACK);
-			newWorld->deletePoint(point);
+			pointIndexesToDelete.push_back(world->getIndexFromPoint(point));
 		}
 	}
+
+	std::sort(pointIndexesToDelete.begin(), pointIndexesToDelete.end(), sortIntDesc);
+
+	for each (const int index in pointIndexesToDelete) {
+		newPointList->erase(newPointList->begin() + index);
+	}
+
+	WorldPtr newWorld(new World(newPointList, world->getWidth(), world->getHeight(), world->getDepth(), world->getPixelResolution()));
 
 	// The new world is empty, an exact decomposition was found.
 	if ((newWorld->getHeight() == 0) || (newWorld->getWidth() == 0))
@@ -89,21 +97,25 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 		if (NULL == decomposeResult) {
 			Decompose decomposer(m_world, partList);
 			decomposeResult = decomposer.decompose();
-			continue;
+		}
+		else {
+			for (int j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
+				shared_ptr<DecomposeResult> nextDecomposition = extendDecompose(m_world, partList,
+					(*decomposeResult->getPartsCountList())[j],
+					(*decomposeResult->getListOfPartLocationLists())[j],
+					newDecomposeResult);
+
+				// Exact decomposition was found, quit
+				if (nextDecomposition == NULL)
+					break;
+			}
+
+			decomposeResult = newDecomposeResult;
 		}
 
-		for (int j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
-			shared_ptr<DecomposeResult> nextDecomposition = extendDecompose(m_world, partList,
-																			(*decomposeResult->getPartsCountList())[j],
-																			(*decomposeResult->getListOfPartLocationLists())[j],
-																			newDecomposeResult);
-
-			// Exact decomposition was found, quit
-			if (nextDecomposition == NULL)
-				break;
+		if (1 == partSize) {
+			break;
 		}
-		
-		decomposeResult = newDecomposeResult;
 	}
 
 	cout << "Finished decomposing..." << endl;

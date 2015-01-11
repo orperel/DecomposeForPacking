@@ -71,14 +71,3 @@ int World::getDepth()
 {
 	return m_depth;
 }
-
-void World::deletePoint(Point point)
-{
-	if (isPointExist(point)) {
-		int index = getIndexFromPoint(point);
-
-		m_pointList->erase(m_pointList->begin() + index);
-
-		m_pointToIndex.erase(point);
-	}	
-}

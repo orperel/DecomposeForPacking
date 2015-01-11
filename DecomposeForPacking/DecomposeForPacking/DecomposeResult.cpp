@@ -34,27 +34,22 @@ std::shared_ptr<vector<PartLocationListPtr>> DecomposeResult::getListOfPartLocat
 	return _listOfPartLocationLists;
 }
 
-/** A lambda expression implements the size criteria for sorting the parts count lists. */
-bool wayToSort(const SizeIndex& x, const SizeIndex& y) { return (std::get<0>(x) < std::get<0>(y)); }
-
-/** Returns indices of the parts count lists, ordered by size. */
-std::shared_ptr<vector<SizeIndex>> DecomposeResult::getPartsCountBySize()
+/** Returns a vector of the number of parts in each solution. */
+std::shared_ptr<vector<int>> DecomposeResult::getSolutionsNumOfParts()
 {
-	std::shared_ptr<vector<SizeIndex>> partsCountBySize = std::make_shared<vector<SizeIndex>>();
+	std::shared_ptr<vector<int>> solutionsNumOfParts = std::make_shared<vector<int>>();
 
-	// Computes the sizes of all solutions 
+	// Computes the number of parts of all solutions 
 	for (int index = 0; index < _partsCountList->size(); index++) {
-		// Computes the size of the current solution
+		// Computes the number of parts of current solution
 		int currSolutionSize = 0;		
 		for (auto partCount : *_partsCountList->at(index)) {
 			currSolutionSize += partCount.second;
 		}
-		partsCountBySize->push_back(SizeIndex(currSolutionSize, index));
+		solutionsNumOfParts->push_back(currSolutionSize);
 	}
 
-	std::sort(partsCountBySize->begin(), partsCountBySize->end(), wayToSort);	// Sorts by size
-
-	return partsCountBySize;
+	return solutionsNumOfParts;
 }
 
 void DecomposeResult::extend(PartsCountPtr partsCount, PartLocationListPtr partLocationList)

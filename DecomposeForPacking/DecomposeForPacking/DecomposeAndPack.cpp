@@ -7,6 +7,7 @@
 #include "PackResult.h"
 #include "WorldBuilder.h"
 #include "Packing.h"
+#include "StringUtils.h"
 
 #include <algorithm>
 
@@ -14,7 +15,8 @@ using namespace std;
 
 const int DECOMPOSE_NUMBER_OF_ITERATIONS = 3;
 
-DecomposeAndPack::DecomposeAndPack(WorldPtr world) : m_world(world)
+DecomposeAndPack::DecomposeAndPack(WorldPtr world) : m_world(world), m_resultsNumOfParts(std::make_shared<vector<int>>()),
+	m_resultsBoundingBox(std::make_shared<vector<int>>())
 {
 }
 
@@ -26,10 +28,30 @@ DecomposeAndPack::~DecomposeAndPack()
 DecomposeAndPackResult DecomposeAndPack::run()
 {
 	shared_ptr<DecomposeResult> decomposeResult = decompose();
-
 	shared_ptr<PackResult> packResult = pack(decomposeResult);
 
-	return std::make_tuple(decomposeResult->getListOfPartLocationLists(), packResult->getPackPerDecomposeList());
+	FinalDecomposeResults decomposePartLocationLists = decomposeResult->getListOfPartLocationLists();
+	FinalPackResults packPartLocationLists = packResult->getPackPerDecomposeList();
+
+	std::shared_ptr<vector<GradeIndex>> resultsByGrade = getResultsByGrade();
+	// Printings
+	//cout << "Bounding box:" << endl;
+	//printVectorOfInt(m_resultsBoundingBox);
+	//cout << endl << "Number of parts:" << endl;
+	//printVectorOfInt(m_resultsNumOfParts);
+	//cout << endl << "Grades:" << endl;
+	//printVectorOfTuples(resultsByGrade);
+	//cout << endl;
+
+	FinalDecomposeResults finalDecomposeResult = std::make_shared<vector<PartLocationListPtr>>();
+	FinalPackResults finalPackResult = std::make_shared<vector<PartLocationListPtr>>();
+	for each (const GradeIndex& gradeIndex in *resultsByGrade) {
+		int index = std::get<1>(gradeIndex);
+		finalDecomposeResult->push_back((*decomposePartLocationLists)[index]);
+		finalPackResult->push_back((*packPartLocationLists)[index]);
+	}
+
+	return std::make_tuple(finalDecomposeResult, finalPackResult);
 }
 
 shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList,
@@ -130,7 +152,6 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 	return decomposeResult;
 }
 
-
 shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomposeResult)
 {
 	int width, height;
@@ -148,6 +169,8 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 
 		if (packResult->hasSolution()) {
 			cout << "Found Solution!!!" << endl;
+			m_resultsNumOfParts = packer.publicSolutionsNumOfParts();
+			m_resultsBoundingBox = packer.getResultsBoundingBox();
 			break;
 		}
 
@@ -158,4 +181,42 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 	cout << "Finished packing..." << endl;
 
 	return packResult;
+}
+
+/** A lambda expression implements the grade criteria for sorting the results vector. */
+bool wayToSort(const GradeIndex& x, const GradeIndex& y) { return (std::get<0>(x) > std::get<0>(y)); }
+
+/** Returns indices of the results vector ordered by grade.
+ *  Grade: ....
+ */
+std::shared_ptr<vector<GradeIndex>> DecomposeAndPack::getResultsByGrade()
+{
+	std::shared_ptr<vector<GradeIndex>> resultsByGrade = std::make_shared<vector<GradeIndex>>();
+
+	// Computes the minimal bounding box of all results
+	int minBoundingBox = (*m_resultsBoundingBox)[0];
+	for (int i = 1; i < m_resultsBoundingBox->size(); i++) {
+		if ((*m_resultsBoundingBox)[i] < minBoundingBox) {
+			minBoundingBox = (*m_resultsBoundingBox)[i];
+		}
+	}
+
+	// Computes the minimal number of parts of all results
+	int minNumberOfParts = (*m_resultsNumOfParts)[0];
+	for (int i = 1; i < m_resultsNumOfParts->size(); i++) {
+		if ((*m_resultsNumOfParts)[i] < minNumberOfParts) {
+			minNumberOfParts = (*m_resultsNumOfParts)[i];
+		}
+	}
+
+	// Computes grades
+	for (int index = 0; index < m_resultsBoundingBox->size(); index++) {
+		float boundingBoxGrade = ((1.0f*minBoundingBox) / (1.0f*((*m_resultsBoundingBox)[index]))) * BOUNDING_BOX_WEIGHT;
+		float numOfPartsGrade = ((1.0f*minNumberOfParts) / (1.0f*((*m_resultsNumOfParts)[index]))) * NUM_OF_PARTS_WEIGHT;
+		resultsByGrade->push_back(GradeIndex((boundingBoxGrade + numOfPartsGrade), index));
+	}
+
+	std::sort(resultsByGrade->begin(), resultsByGrade->end(), wayToSort);	// Sorts by grade
+
+	return resultsByGrade;
 }

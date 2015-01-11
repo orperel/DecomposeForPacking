@@ -278,6 +278,9 @@
     <ClInclude Include="PrimeNumbersModule.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default2DFragmentShader.frag" />

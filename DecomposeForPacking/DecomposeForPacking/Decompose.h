@@ -19,7 +19,7 @@ using std::unordered_set;
 
 // Represents a key for a single decompose solutions.
 // The keys are used to identify duplicate decomposition solutions that use the same parts
-// (they should be ommitted due to identical packing solution that will follow).
+// (they should be omitted due to identical packing solution that will follow).
 class DecomposeSolutionKey
 {
 public:
@@ -76,7 +76,7 @@ namespace std {
 }
 
 
-/** Manages the decomposition process, that is calling for the visitor and the DLX solver, and arranging the results
+/** Manages the decomposition process, i.e. calling for the visitor and the DLX solver, and arranging the results
 	in a DecomposeResult object. */
 class Decompose
 {

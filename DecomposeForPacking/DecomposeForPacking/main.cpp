@@ -49,10 +49,16 @@
 		//std::string path = "../../duck.bmp";
 
 
-		// Example
-		std::string path = "../../pptSample.bmp";
+		// Example #1
+		//std::string path = "../../pptSample.bmp";
+		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		//WorldPtr world = WorldBuilder::fromImage(orig, 4);
+
+		// Example #2
+		std::string path = "../../pptSample2.bmp";
 		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 4);
+		WorldPtr world = WorldBuilder::fromImage(orig, 1);
+
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();
 		GLDisplayHelper displayHelper;

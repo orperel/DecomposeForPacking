@@ -28,7 +28,7 @@ static const int DLX_SOLVER_SOLUTIONS_LIMIT = 128;
  *  False - the algorithm will not stop until N exact cover solutions are found. It may return any number
  *          of partial solutions.
  */
-static const bool IS_LIMIT_NUMBER_OF_PARTIAL_SOLUTIONS = false;
+static const bool IS_LIMIT_NUMBER_OF_PARTIAL_SOLUTIONS = true;
 
 /** The grade percentage of the bounding box and the number of parts. */
 static const int BOUNDING_BOX_WEIGHT = 60;

@@ -5,6 +5,7 @@
 
 #ifdef RUN_TESTS
 	#include "dlxSolverTester.h"
+
 #else
 	#include <iostream>
 	#include <string>
@@ -19,6 +20,7 @@
 	#include "Packing.h"
 	#include "ObjMesh.h"
 	#include "GLDisplayHelper.h"
+	#include "PrimeNumbersModule.h"
 
 	using namespace cimg_library;
 	using namespace std;
@@ -36,6 +38,9 @@
 #else
 	void runProd()
 	{
+		// Initialize prime number generators
+		PrimeNumbersModule::initialize();
+
 		//// 3D Object
 		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj"));
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));

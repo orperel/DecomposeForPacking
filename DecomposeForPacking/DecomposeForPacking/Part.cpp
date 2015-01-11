@@ -1,6 +1,7 @@
 #include "Part.h"
 
-int Part::idAllocator = 0; // Static variable initiazization
+// Static variable initialization
+unique_ptr<PrimeNumbersGenerator> Part::idAllocator = PrimeNumbersModule::createGenerator();
 
 Part::Part(PartOrientationPtr partOrient)
 {
@@ -10,8 +11,10 @@ Part::Part(PartOrientationPtr partOrient)
 
 	extendPartOrientations();
 
-	// Assign the next available id
-	m_partId = ++idAllocator;
+	// Assign the next available id (the next prime number the generator creates).
+	// The ids are assigned as prime numbers to make the hash function of solutions made of
+	// combinations of multiple parts more efficient.
+	m_partId = idAllocator->nextPrime();
 }
 
 Part::~Part()

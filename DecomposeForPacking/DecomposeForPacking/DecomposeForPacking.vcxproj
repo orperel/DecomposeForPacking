@@ -81,6 +81,7 @@
     <ClCompile Include="DecomposeAndPack.cpp" />
     <ClCompile Include="DecomposeResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
+    <ClCompile Include="DecomposeSolutionKey.cpp" />
     <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractPartFitVisitor.h" />
     <ClInclude Include="DecomposeAndPack.h" />
+    <ClInclude Include="DecomposeSolutionKey.h" />
     <ClInclude Include="DFPConfiguration.h" />
     <ClInclude Include="DecomposeResult.h" />
     <ClInclude Include="CImg.h" />

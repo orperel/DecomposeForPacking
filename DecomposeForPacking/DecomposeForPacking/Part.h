@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "PartOrientation.h"
+#include "PrimeNumbersModule.h"
 
 class Part {
 public:
@@ -26,8 +27,8 @@ private:
 	PartOrientationListPtr m_partOrientations;
 	int m_partId;
 
-	// Assigns a unique sequentive id to each created part.
-	static int idAllocator;
+	// Assigns a unique prime number sequentive id to each created part.
+	static unique_ptr<PrimeNumbersGenerator> idAllocator;
 };
 
 typedef std::shared_ptr<Part> PartPtr;

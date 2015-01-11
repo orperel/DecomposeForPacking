@@ -162,6 +162,9 @@
     <ClCompile Include="PrimeNumbersModule.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="DecomposeSolutionKey.cpp">
+      <Filter>Source Files\logic\decompose</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLRenderer.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="PrimeNumbersModule.h">
       <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DecomposeSolutionKey.h">
+      <Filter>Header Files\logic\decompose</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

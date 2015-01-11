@@ -25,7 +25,7 @@ unique_ptr<PrimeNumbersGenerator> PrimeNumbersModule::createGenerator()
 {
 	unique_ptr<vector<int>::iterator> generatorIter(new vector<int>::iterator(_primes.begin()));
 	unique_ptr<PrimeNumbersGenerator> generator(new PrimeNumbersGenerator(std::move(generatorIter)));
-	return std::move(generator);
+	return generator;
 }
 
 void PrimeNumbersModule::loadPrimes()
@@ -58,7 +58,6 @@ void PrimeNumbersModule::loadPrimes()
 	// Close the file to release IO resources
 	primesFile.close();
 }
-
 
 int PrimeNumbersGenerator::nextPrime()
 {

@@ -29,3 +29,7 @@ static const int DLX_SOLVER_SOLUTIONS_LIMIT = 128;
  *          of partial solutions.
  */
 static const bool IS_LIMIT_NUMBER_OF_PARTIAL_SOLUTIONS = false;
+
+/** The grade percentage of the bounding box and the number of parts. */
+static const int BOUNDING_BOX_WEIGHT = 60;
+static const int NUM_OF_PARTS_WEIGHT = 40;

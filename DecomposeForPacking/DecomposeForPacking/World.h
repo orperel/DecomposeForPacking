@@ -71,10 +71,8 @@ public:
 	int getDepth();
 
 	/*
-	* Depth getter.
 	* Pixel Resolution getter.
 	*/
-	void deletePoint(Point point);
 	int getPixelResolution();
 
 	/*

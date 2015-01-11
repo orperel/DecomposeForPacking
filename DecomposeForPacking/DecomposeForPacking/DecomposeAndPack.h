@@ -12,6 +12,8 @@ typedef std::shared_ptr<std::vector<PartLocationListPtr>> FinalDecomposeResults;
 typedef std::shared_ptr<std::vector<PartLocationListPtr>> FinalPackResults;
 typedef std::tuple<FinalDecomposeResults, FinalPackResults> DecomposeAndPackResult;
 
+typedef tuple<float, int> GradeIndex;	// Tuple of solution grade and its index in the results vector
+
 /* 
 	Decompose a world and than pack it in the smallest box it can.
 */
@@ -34,6 +36,8 @@ public:
 	*/
 	virtual DecomposeAndPackResult run();
 
+	std::shared_ptr<vector<GradeIndex>> getResultsByGrade();
+
 private:
 	/*
 	 *	Runs the decompose logic.
@@ -51,7 +55,12 @@ private:
 												PartsCountPtr partsCount, PartLocationListPtr partLocationList,
 												shared_ptr<DecomposeResult> totalDecomposeResults);
 
+	static bool sortIntDesc(int i, int j) { return (i>j); }
+
 	// Member of the world
 	WorldPtr m_world;
+
+	std::shared_ptr<vector<int>> m_resultsNumOfParts;
+	std::shared_ptr<vector<int>> m_resultsBoundingBox;
 };
 

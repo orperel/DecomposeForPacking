@@ -14,7 +14,7 @@ Part::Part(PartOrientationPtr partOrient)
 	// Assign the next available id (the next prime number the generator creates).
 	// The ids are assigned as prime numbers to make the hash function of solutions made of
 	// combinations of multiple parts more efficient.
-	m_partId = idAllocator->nextPrime();
+	m_partId = 0; //idAllocator->nextPrime();
 }
 
 Part::~Part()

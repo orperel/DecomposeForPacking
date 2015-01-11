@@ -62,7 +62,7 @@ namespace std {
 		size_t operator()(const DecomposeSolutionKey& valueSet) const
 		{
 			size_t hashKey = 0;
-
+			
 			// Multiply the prime number id of each part orientation and the number of times it appears
 			// in the solution
 			// i.e: Part I - id 2, Part II - id 3
@@ -75,7 +75,7 @@ namespace std {
 
 				hashKey += currPart->id() * currCount;
 			}
-
+			
 			return hashKey;
 		}
 	};

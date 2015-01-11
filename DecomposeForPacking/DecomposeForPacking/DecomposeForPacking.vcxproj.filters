@@ -284,6 +284,9 @@
     <ClInclude Include="DecomposeSolutionKey.h">
       <Filter>Header Files\logic\decompose</Filter>
     </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default2DFragmentShader.frag" />

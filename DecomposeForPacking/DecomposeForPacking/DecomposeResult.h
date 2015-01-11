@@ -14,8 +14,6 @@ typedef std::shared_ptr<PartsCount> PartsCountPtr;
 // Vector of tuples, of part orientation and its origin point, of a certain solution
 typedef vector<tuple<PartOrientationPtr, Point>> PartLocationList; 
 typedef std::shared_ptr<PartLocationList> PartLocationListPtr;
-// Tuple of solution size (i.e. number of parts) and its index in the decomposition result
-typedef tuple<int, int> SizeIndex;
 
 /** Represents the decomposition result. */
 class DecomposeResult
@@ -39,8 +37,8 @@ public:
 	/** Returns the parts count list of all solutions. */
 	std::shared_ptr<vector<PartsCountPtr>> getPartsCountList();
 	
-	/** Returns indices of the parts count lists, ordered by size (as a vector of tuples of size and index). */
-	std::shared_ptr<vector<SizeIndex>> getPartsCountBySize();
+	/** Returns a vector of the number of parts in each solution. */
+	std::shared_ptr<vector<int>> getSolutionsNumOfParts();
 
 	/** Returns the list of part location lists of all solutions. */
 	std::shared_ptr<vector<PartLocationListPtr>> getListOfPartLocationLists();

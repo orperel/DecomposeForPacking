@@ -4,7 +4,6 @@
 #include <time.h>
 #include <string>
 
-static const float RESOLUTION = 2;
 static const float SQUARE_SIZE = 1;
 
 GLDisplayHelper::GLDisplayHelper() : _isCallbackReceived(false)
@@ -225,10 +224,11 @@ void GLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalDecompose
 
 			_renderContext->clearDataBuffers();
 
-			if (decomposeResultsIndex == -1)
+			if ((decomposeResultsIndex == -1) || (decomposeResult->empty()))
 			{
 				paintWorld(world);
 				string description = "World (object mask view)";
+				description += decomposeResult->empty() ? ": No solutions" : "";
 				_renderContext->setContentDescription(description);
 			}
 			else if (isCurrentDisplayDecompose)

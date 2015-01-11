@@ -23,6 +23,12 @@ void PrimeNumbersModule::initialize()
 /** Returns a generator of prime numbers. Primes will be generated in an ascending order. */
 unique_ptr<PrimeNumbersGenerator> PrimeNumbersModule::createGenerator()
 {
+	// If the prime numbers haven't been loaded yet, initialize them now
+	if (_primes.empty())
+	{
+		initialize(); // Loads the prime numbers from an external source file
+	}
+
 	unique_ptr<vector<int>::iterator> generatorIter(new vector<int>::iterator(_primes.begin()));
 	unique_ptr<PrimeNumbersGenerator> generator(new PrimeNumbersGenerator(std::move(generatorIter)));
 	return generator;

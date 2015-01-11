@@ -1,7 +1,7 @@
 #include "Part.h"
 
 // Static variable initialization
-unique_ptr<PrimeNumbersGenerator> Part::idAllocator = PrimeNumbersModule::createGenerator();
+unique_ptr<PrimeNumbersGenerator> Part::idAllocator = NULL;
 
 Part::Part(PartOrientationPtr partOrient)
 {
@@ -11,10 +11,19 @@ Part::Part(PartOrientationPtr partOrient)
 
 	extendPartOrientations();
 
+	// If the id allocator is accessed for the first time, create it here.
+	// The reason this initialization is done here and not at the static variable initialization line
+	// is the generator creation involves accessing external files, and doing that during the static
+	// initializtion stage (happens before the main() runs) causes uninitialized variables bugs.
+	if (idAllocator == NULL)
+	{
+		idAllocator = PrimeNumbersModule::createGenerator();
+	}
+
 	// Assign the next available id (the next prime number the generator creates).
 	// The ids are assigned as prime numbers to make the hash function of solutions made of
 	// combinations of multiple parts more efficient.
-	m_partId = 0; //idAllocator->nextPrime();
+	m_partId = idAllocator->nextPrime();
 }
 
 Part::~Part()

@@ -10,7 +10,17 @@
 class DecomposeSolutionKey
 {
 public:
-	DecomposeSolutionKey(PartsCountPtr solution) : m_solutionPtr(solution) {};
+	// Fields
+
+	size_t preCalcedHashCode;
+
+	// Methods
+
+	DecomposeSolutionKey(PartsCountPtr solution) : m_solutionPtr(solution) {
+	
+		preCalcedHashCode = calculateHashCode(solution);
+	};
+
 	const PartsCountPtr solution() const { return m_solutionPtr; }
 
 	/* Operator== override */
@@ -48,7 +58,32 @@ public:
 	}
 
 private:
+
+	// Fields
+
 	PartsCountPtr m_solutionPtr;
+
+	// Methods
+
+	size_t calculateHashCode(PartsCountPtr solution)
+	{
+		size_t hashKey = 0;
+
+		// Multiply the prime number id of each part orientation and the number of times it appears
+		// in the solution
+		// i.e: Part I - id 2, Part II - id 3
+		// Solution I - hash code of 2*2*3
+		// Solution II - hash code of 2*3*3
+		for (auto& currIter : *(solution.get()))
+		{
+			PartPtr currPart = currIter.first;
+			int currCount = currIter.second;
+
+			hashKey += currPart->id() * currCount;
+		}
+
+		return hashKey;
+	}
 };
 
 namespace std {
@@ -61,22 +96,7 @@ namespace std {
 	public:
 		size_t operator()(const DecomposeSolutionKey& valueSet) const
 		{
-			size_t hashKey = 0;
-			
-			// Multiply the prime number id of each part orientation and the number of times it appears
-			// in the solution
-			// i.e: Part I - id 2, Part II - id 3
-			// Solution I - hash code of 2*2*3
-			// Solution II - hash code of 2*3*3
-			for (auto& currIter : *(valueSet.solution().get()))
-			{
-				PartPtr currPart = currIter.first;
-				int currCount = currIter.second;
-
-				hashKey += currPart->id() * currCount;
-			}
-			
-			return hashKey;
+			return valueSet.preCalcedHashCode;
 		}
 	};
 }

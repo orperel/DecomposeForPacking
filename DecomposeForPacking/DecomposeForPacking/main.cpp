@@ -39,9 +39,6 @@
 #else
 	void runProd()
 	{
-		// Initialize prime number generators
-		PrimeNumbersModule::initialize();
-
 		//// 3D Object
 		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj"));
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
@@ -49,20 +46,20 @@
 
 		// Other stuff
 		//std::string path = "../../tet.bmp";
-		std::string path = "../../pretzel.bmp";
+		//std::string path = "../../pretzel.bmp";
 		//std::string path = "../../obj4.bmp";
 		//std::string path = "../../duck.bmp";
 
 
 		// Example #1
-		//std::string path = "../../pptSample.bmp";
-		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		//WorldPtr world = WorldBuilder::fromImage(orig, 4);
+		std::string path = "../../pptSample.bmp";
+		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		WorldPtr world = WorldBuilder::fromImage(orig, 4);
 
 		// Example #2
 		//std::string path = "../../pptSample2.bmp";
-		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 10);
+		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		//WorldPtr world = WorldBuilder::fromImage(orig, 10);
 
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();

@@ -40,7 +40,7 @@ std::shared_ptr<vector<int>> DecomposeResult::getSolutionsNumOfParts()
 	std::shared_ptr<vector<int>> solutionsNumOfParts = std::make_shared<vector<int>>();
 
 	// Computes the number of parts of all solutions 
-	for (int index = 0; index < _partsCountList->size(); index++) {
+	for (unsigned index = 0; index < _partsCountList->size(); index++) {
 		// Computes the number of parts of current solution
 		int currSolutionSize = 0;		
 		for (auto partCount : *_partsCountList->at(index)) {
@@ -59,14 +59,14 @@ void DecomposeResult::extend(PartsCountPtr partsCount, PartLocationListPtr partL
 	//	return;
 	//}
 
-	for (int i = 0; i < _partsCountList->size(); i++) {
+	for (unsigned i = 0; i < _partsCountList->size(); i++) {
 		for each (const std::pair<PartPtr, int>& elem in *partsCount) {
 			(*(*_partsCountList)[i])[elem.first] = elem.second;
 		}
 	}
 
-	for (int i = 0; i < _listOfPartLocationLists->size(); i++) {
-		for (int j = 0; j < partLocationList->size(); j++) {
+	for (unsigned i = 0; i < _listOfPartLocationLists->size(); i++) {
+		for (unsigned j = 0; j < partLocationList->size(); j++) {
 			PartLocationListPtr pll = _listOfPartLocationLists->at(i);
 			pll->push_back((*partLocationList)[j]);
 		}

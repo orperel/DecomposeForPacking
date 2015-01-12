@@ -8,6 +8,7 @@
 #include "WorldBuilder.h"
 #include "Packing.h"
 #include "StringUtils.h"
+#include "DFPConfiguration.h"
 
 #include <algorithm>
 
@@ -58,7 +59,7 @@ DecomposeAndPackResult DecomposeAndPack::run()
 }
 
 shared_ptr<DecomposeResult> DecomposeAndPack::extendDecompose(WorldPtr world, PartListPtr partList,
-	PartsCountPtr partsCount, PartLocationListPtr partLocationList, shared_ptr<DecomposeResult> totalDecomposeResults) {
+	PartsCountPtr partsCount, PartLocationListPtr partLocationList, shared_ptr<DecomposeResult> totalDecomposeResults, bool isPartial) {
 
 	PointListPtr newPointList(new PointList(*world->getPointList()));
 	std::vector<int> pointIndexesToDelete;
@@ -101,42 +102,50 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 {
 	cout << "Starting decomposing..." << endl;
 
-	// Code for big parts solution, we are not using this code right now, so it's commented out
-	int numberOfIteration = 4;
-	float partSizePercentOfWorld = 20;
+	// TODO: delete commented lines
 
-	int minEdge = round(min(m_world->getWidth(), m_world->getHeight()) * partSizePercentOfWorld / 100);
+	//int numberOfIteration = 4;
+	
+	int minEdge = static_cast<int>(round(min(m_world->getWidth(), m_world->getHeight()) * PART_SIZE_PRECENT_OF_WORLD / 100));
 
 	shared_ptr<DecomposeResult> decomposeResult;
 
-	for (int i = 0; i < numberOfIteration; i++) {
-		int partSize = minEdge - round(minEdge*i / numberOfIteration);
+	
+	//for (int i = 0; i < numberOfIteration; i++) {
+	for (int partSize = minEdge; partSize > 0; partSize--) {
+		
+		//int partSize = minEdge - round(minEdge*i / numberOfIteration);
 
-		if (0 == partSize || i == numberOfIteration - 1) {
-			partSize = 1;
-		}
+		//if (0 == partSize || i == numberOfIteration - 1) {
+		//	partSize = 1;
+		//}
 
+		cout << "Start iteration with part size " << partSize << endl;
 		shared_ptr<DecomposeResult> newDecomposeResult(new DecomposeResult());
 
 		PartListPtr partList = PartBuilder::buildStandartPartPack(partSize);
 
+		bool isPartial = (partSize > 1);
+
 		if (NULL == decomposeResult) {
 			Decompose decomposer(m_world, partList);
-			decomposeResult = decomposer.decompose();
+			decomposeResult = decomposer.decompose(isPartial);
 		}
 		else {
-			for (int j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
+			for (unsigned j = 0; j < decomposeResult->getListOfPartLocationLists()->size(); j++) {
 				shared_ptr<DecomposeResult> nextDecomposition = extendDecompose(m_world, partList,
 					(*decomposeResult->getPartsCountList())[j],
 					(*decomposeResult->getListOfPartLocationLists())[j],
-					newDecomposeResult);
+					newDecomposeResult, isPartial);
 
 				// Exact decomposition was found, quit
 				if (nextDecomposition == NULL)
 					break;
 			}
 
-			decomposeResult = newDecomposeResult;
+			if (0 != newDecomposeResult->getListOfPartLocationLists()->size()) {
+				decomposeResult = newDecomposeResult;
+			}
 		}
 
 		if (1 == partSize) {
@@ -164,7 +173,7 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 	cout << "Starting packing..." << endl;
 
 	do {
-		width = ceil(sqrt(m_world->getNumberOfPoints()));
+		width = static_cast<int>(ceil(sqrt(m_world->getNumberOfPoints())));
 		height = width;
 		WorldPtr box = WorldBuilder::buildBox(width, height);
 		Packing packer(box, decomposeResult);
@@ -177,7 +186,7 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 			break;
 		}
 
-		width = ceil(width + 0.1*width);
+		width = static_cast<int>(ceil(width + 0.1*width));
 		height = width;
 	} while (m_world->getWidth() >= width && m_world->getHeight() >= height);
 
@@ -198,7 +207,7 @@ std::shared_ptr<vector<GradeIndex>> DecomposeAndPack::getResultsByGrade()
 
 	// Computes the minimal bounding box of all results
 	int minBoundingBox = (*m_resultsBoundingBox)[0];
-	for (int i = 1; i < m_resultsBoundingBox->size(); i++) {
+	for (unsigned i = 1; i < m_resultsBoundingBox->size(); i++) {
 		if ((*m_resultsBoundingBox)[i] < minBoundingBox) {
 			minBoundingBox = (*m_resultsBoundingBox)[i];
 		}
@@ -206,14 +215,14 @@ std::shared_ptr<vector<GradeIndex>> DecomposeAndPack::getResultsByGrade()
 
 	// Computes the minimal number of parts of all results
 	int minNumberOfParts = (*m_resultsNumOfParts)[0];
-	for (int i = 1; i < m_resultsNumOfParts->size(); i++) {
+	for (unsigned i = 1; i < m_resultsNumOfParts->size(); i++) {
 		if ((*m_resultsNumOfParts)[i] < minNumberOfParts) {
 			minNumberOfParts = (*m_resultsNumOfParts)[i];
 		}
 	}
 
 	// Computes grades
-	for (int index = 0; index < m_resultsBoundingBox->size(); index++) {
+	for (unsigned index = 0; index < m_resultsBoundingBox->size(); index++) {
 		float boundingBoxGrade = ((1.0f*minBoundingBox) / (1.0f*((*m_resultsBoundingBox)[index]))) * BOUNDING_BOX_WEIGHT;
 		float numOfPartsGrade = ((1.0f*minNumberOfParts) / (1.0f*((*m_resultsNumOfParts)[index]))) * NUM_OF_PARTS_WEIGHT;
 		resultsByGrade->push_back(GradeIndex((boundingBoxGrade + numOfPartsGrade), index));

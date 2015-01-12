@@ -35,8 +35,8 @@ std::shared_ptr<vector<PartLocationListPtr>> SameDecompose::run()
 	std::shared_ptr<vector<PartLocationListPtr>> ret1(new vector<PartLocationListPtr>());
 	std::shared_ptr<vector<PartLocationListPtr>> ret2(new vector<PartLocationListPtr>());
 
-	for (int i = 0; i < partLocationListVector1->size(); i++) {
-		for (int j = 0; j < partLocationListVector1->size(); j++) {
+	for (unsigned i = 0; i < partLocationListVector1->size(); i++) {
+		for (unsigned j = 0; j < partLocationListVector1->size(); j++) {
 			if ((*partLocationListVector1)[i] == (*partLocationListVector1)[j]) {
 				ret1->push_back((*partLocationListVector1)[i]);
 				ret2->push_back((*partLocationListVector2)[j]);

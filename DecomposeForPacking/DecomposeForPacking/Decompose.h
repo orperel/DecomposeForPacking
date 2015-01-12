@@ -28,7 +28,7 @@ public:
 	virtual ~Decompose();
 	
 	/** Implements the class purposes and returns the decomposition result. */
-	std::shared_ptr<DecomposeResult> decompose();
+	std::shared_ptr<DecomposeResult> decompose(bool isPartial = true);
 
 private:
 	WorldPtr m_world;	// The world to be decomposed

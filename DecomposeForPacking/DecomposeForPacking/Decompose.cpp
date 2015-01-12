@@ -13,7 +13,7 @@ Decompose::~Decompose()
 }
 
 /** Implements the class purposes and returns the decomposition result. */
-std::shared_ptr<DecomposeResult> Decompose::decompose()
+std::shared_ptr<DecomposeResult> Decompose::decompose(bool isPartial /*= true*/)
 {
 	shared_ptr<DLXSolver> dlxSolver(new DLXSolver(m_world->getNumberOfPoints())); // Creates DLXSolver for the decomposition
 
@@ -23,7 +23,7 @@ std::shared_ptr<DecomposeResult> Decompose::decompose()
 		m_world->accept(visitor);
 	}
 
-	auto solutions = dlxSolver->solve(true); // Runs solver
+	auto solutions = dlxSolver->solve(isPartial); // Runs solver
 	
 	// Creates the result vectors of the decomposition:
 	// 1) Parts count list of all solutions in the decomposition

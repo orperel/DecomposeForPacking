@@ -58,7 +58,7 @@ std::shared_ptr<PackResult> Packing::pack()
 			std::shared_ptr<vector<int>> boundingBoxes = getBoundingBoxes(listOfPartLocationLists);
 			int minBoundingBox = (*boundingBoxes)[0];
 			int indexOfMin = 0;
-			for (int i = 1; i < boundingBoxes->size(); i++) {
+			for (unsigned i = 1; i < boundingBoxes->size(); i++) {
 				if ((*boundingBoxes)[i] < minBoundingBox) {
 					minBoundingBox = (*boundingBoxes)[i];
 					indexOfMin = i;

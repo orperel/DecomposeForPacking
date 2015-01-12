@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 
 using std::string;
@@ -33,3 +35,7 @@ static const bool IS_LIMIT_NUMBER_OF_PARTIAL_SOLUTIONS = true;
 /** The grade percentage of the bounding box and the number of parts. */
 static const int BOUNDING_BOX_WEIGHT = 60;
 static const int NUM_OF_PARTS_WEIGHT = 40;
+
+
+/** Part Size as percent of world - For decompose and pack logic. */
+static const float PART_SIZE_PRECENT_OF_WORLD = 20;

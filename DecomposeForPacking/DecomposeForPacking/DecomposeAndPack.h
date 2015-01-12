@@ -53,7 +53,7 @@ private:
 
 	shared_ptr<DecomposeResult> extendDecompose(WorldPtr world, PartListPtr partList,
 												PartsCountPtr partsCount, PartLocationListPtr partLocationList,
-												shared_ptr<DecomposeResult> totalDecomposeResults);
+												shared_ptr<DecomposeResult> totalDecomposeResults, bool isPartial);
 
 	static bool sortIntDesc(int i, int j) { return (i>j); }
 

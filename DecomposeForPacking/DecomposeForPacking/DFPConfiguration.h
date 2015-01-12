@@ -38,4 +38,4 @@ static const int NUM_OF_PARTS_WEIGHT = 40;
 
 
 /** Part Size as percent of world - For decompose and pack logic. */
-static const float PART_SIZE_PRECENT_OF_WORLD = 20;
+static const float PART_SIZE_PRECENT_OF_WORLD = 0;

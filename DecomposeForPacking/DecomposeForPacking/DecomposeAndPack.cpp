@@ -30,7 +30,7 @@ DecomposeAndPackResult DecomposeAndPack::run()
 {
 	shared_ptr<DecomposeResult> decomposeResult = decompose();
 
-	return std::make_tuple(decomposeResult->getListOfPartLocationLists(), decomposeResult->getListOfPartLocationLists());
+	//return std::make_tuple(decomposeResult->getListOfPartLocationLists(), decomposeResult->getListOfPartLocationLists());
 
 	shared_ptr<PackResult> packResult = pack(decomposeResult);
 
@@ -107,6 +107,10 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 	//int numberOfIteration = 4;
 	
 	int minEdge = static_cast<int>(round(min(m_world->getWidth(), m_world->getHeight()) * PART_SIZE_PRECENT_OF_WORLD / 100));
+
+	if (0 == minEdge) {
+		minEdge = 1;
+	}
 
 	shared_ptr<DecomposeResult> decomposeResult;
 

@@ -13,31 +13,26 @@ using std::unordered_map;
 using std::tuple;
 typedef tuple<float, float, float> RGB_COLOR;
 
-class GLDisplayHelper: public IInputListener
+/** Abstract class for displaying the logic results - 
+ *  contains common code for 2d & 3d: dealing with the render loop, geenrating color tables,
+ *  input callbacks, etc.
+ */
+class AbstractGLDisplayHelper: public IInputListener
 {
-private:
-	class WorldDisplayVisitor: public IWorldVisitor
-	{
-	public:
-		WorldDisplayVisitor(shared_ptr<OpenGLRenderContext> renderContext);
-		void visit(World& world, Point point) override;
-	private:
-		shared_ptr<OpenGLRenderContext> _renderContext;
-	};
-
 public:
-	GLDisplayHelper();
-	virtual ~GLDisplayHelper();
+	AbstractGLDisplayHelper();
+	virtual ~AbstractGLDisplayHelper();
 	void displayResults(WorldPtr world, DecomposeAndPackResult dapResults);
 	void onKeyPressed(KEYBOARD_KEY key) override;
-private:
+protected:
 	void displayDecomposePackResults(WorldPtr world, FinalDecomposeResults decomposeResult, FinalPackResults packResult);
 	void initRenderingLoop();
-	void paintWorld(WorldPtr world);
-	void paintSingleSolution(WorldPtr world, PartLocationListPtr parts);
-	void paintSquare(WorldPtr world, float x, float y, float r, float g, float b, float a);
 
-	OpenGLRenderer _renderer;
+	// Visualization methods are implmented differently for 2d & 3d
+	virtual void paintWorld(WorldPtr world) = 0;
+	virtual void paintSingleSolution(WorldPtr world, PartLocationListPtr parts) = 0;
+
+	unique_ptr<OpenGLRenderer> _renderer;
 	shared_ptr<OpenGLRenderContext> _renderContext;
 	bool _isCallbackReceived;
 	KEYBOARD_KEY _lastCallbackKey;

@@ -4,7 +4,7 @@
 #include "Decompose.h"
 #include "DecomposeResult.h"
 #include "Packing.h"
-#include "GLDisplayHelper.h"
+#include "GL2DDisplayHelper.h"
 
 SameDecompose::SameDecompose(WorldPtr world1, WorldPtr world2) : m_world1(world1), m_world2(world2)
 {
@@ -46,7 +46,7 @@ std::shared_ptr<vector<PartLocationListPtr>> SameDecompose::run()
 
 	std::tuple<std::shared_ptr<std::vector<PartLocationListPtr>>, std::shared_ptr<std::vector<PartLocationListPtr>> > bla = std::make_tuple(ret1, ret2);
 
-	GLDisplayHelper displayHelper;
+	GL2DDisplayHelper displayHelper;
 	displayHelper.displayResults(m_world1, bla);
 
 	return ret1;

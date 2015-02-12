@@ -19,7 +19,7 @@
 	#include "DecomposeResult.h"
 	#include "Packing.h"
 	#include "ObjMesh.h"
-	#include "GLDisplayHelper.h"
+	#include "GL2DDisplayHelper.h"
 	#include "PrimeNumbersModule.h"
 
 	using namespace cimg_library;
@@ -59,11 +59,11 @@
 		// Example #2
 		//std::string path = "../../pptSample2.bmp";
 		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		//WorldPtr world = WorldBuilder::fromImage(orig, 10);
+		//WorldPtr world = WorldBuilder::fromImage(orig, 1);
 
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();
-		GLDisplayHelper displayHelper;
+		GL2DDisplayHelper displayHelper;
 		displayHelper.displayResults(world, decomposeResult);
 
 		// Same Decompose

@@ -5,15 +5,13 @@
 #include <memory>
 #include <vector>
 
-#include "OpenGLShaderProgram.h"
-#include "OpenGL2DDefaultProgramSetup.h"
 #include "OpenGLBatch.h"
-
 #include "IInputListener.h"
 
 using std::unique_ptr;
 using std::vector;
 
+/** Rendering engine abstract code common for 2d & 3d */
 class OpenGLRenderer
 {
 public:
@@ -22,26 +20,28 @@ public:
 
 	int initRenderingLoop();
 
-	void setup();
+	// Load shaders and initialize batches according to 2d or 3d
+	virtual void setup() = 0;
+	// Render the GPU buffered geometry for the current frame
+	virtual void renderFrame() = 0;
 	void commitContext(shared_ptr<OpenGLRenderContext> context);
-	void renderBatch(GLenum geometryType, OpenGLBatch& batch);
-	void renderFrame();
 
 	void addInputListener(IInputListener* listener);
 
 	const bool isReady() const { return _isReady; }
+
+protected:
+	// Buffer the geometry to the GPU
+	virtual void bufferData(shared_ptr<OpenGLRenderContext> context) = 0;
+
+	shared_ptr<OpenGLRenderContext> _renderContext;
+	int _windowWidth;
+	int _windowHeight;
+
 private:
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void updateScene(shared_ptr<OpenGLRenderContext> context, GLFWwindow* window);
-	shared_ptr<MATRIX_4X4> generateMVPMatrix(); // Generates the model view projection matrix
 
-	unique_ptr<OpenGLShaderProgram> _default2DProgram;
-	unique_ptr<OpenGL2DDefaultProgramSetup> _default2DProgramSetup;
-	OpenGLBatch _pointsBatch;
-	OpenGLBatch _linesBatch;
-	OpenGLBatch _boldLinesBatch;
-	OpenGLBatch _trianglesBatch;
-	shared_ptr<OpenGLRenderContext> _renderContext;
 	bool _isReady;
 	bool _isDirty;
 

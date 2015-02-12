@@ -86,9 +86,14 @@
     <ClCompile Include="DLXSolver.cpp" />
     <ClCompile Include="dlxSolverTester.cpp" />
     <ClCompile Include="DFPLogger.cpp" />
+    <ClCompile Include="GL2DDisplayHelper.cpp" />
+    <ClCompile Include="GL3DDisplayHelper.cpp" />
     <ClCompile Include="ObjMesh.cpp" />
-    <ClCompile Include="GLDisplayHelper.cpp" />
+    <ClCompile Include="AbstractGLDisplayHelper.cpp" />
     <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp" />
+    <ClCompile Include="OpenGL2DRenderer.cpp" />
+    <ClCompile Include="OpenGL3DDefaultProgramSetup.cpp" />
+    <ClCompile Include="OpenGL3DRenderer.cpp" />
     <ClCompile Include="OpenGLBatch.cpp" />
     <ClCompile Include="OpenGLShader.cpp" />
     <ClCompile Include="OpenGLShaderProgram.cpp" />
@@ -122,10 +127,15 @@
     <ClInclude Include="dlxSolverTester.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DFPLogger.h" />
+    <ClInclude Include="GL2DDisplayHelper.h" />
+    <ClInclude Include="GL3DDisplayHelper.h" />
     <ClInclude Include="ObjMesh.h" />
+    <ClInclude Include="OpenGL2DRenderer.h" />
+    <ClInclude Include="OpenGL3DDefaultProgramSetup.h" />
+    <ClInclude Include="OpenGL3DRenderer.h" />
     <ClInclude Include="OpenGLLibs.h" />
     <ClInclude Include="ExpandableBuffer.h" />
-    <ClInclude Include="GLDisplayHelper.h" />
+    <ClInclude Include="AbstractGLDisplayHelper.h" />
     <ClInclude Include="IInputListener.h" />
     <ClInclude Include="OpenGL2DDefaultProgramSetup.h" />
     <ClInclude Include="OpenGLBatch.h" />
@@ -153,6 +163,8 @@
   <ItemGroup>
     <None Include="Default2DFragmentShader.frag" />
     <None Include="Default2DVertexShader.vert" />
+    <None Include="Default3DFragmentShader.frag" />
+    <None Include="Default3DVertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="PrimeNumbers.txt" />

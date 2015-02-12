@@ -67,6 +67,18 @@
     <Filter Include="Source Files\dataStructs">
       <UniqueIdentifier>{7d8c49f1-51d2-4ed1-b239-6e06299b7544}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\rendering\3d">
+      <UniqueIdentifier>{01e7cfef-c835-4641-b0ab-ec0de7e08e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rendering\3d">
+      <UniqueIdentifier>{11ecf291-51cd-4731-acec-1f8d16bfd53d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rendering\2d">
+      <UniqueIdentifier>{639cfafb-bac0-4497-af2d-b22eb09e7066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rendering\2d">
+      <UniqueIdentifier>{dca70948-2aa5-4205-8eb2-e94fe3d6a96f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -150,20 +162,35 @@
     <ClCompile Include="SameDecompose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GLDisplayHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLBatch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PrimeNumbersModule.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
     <ClCompile Include="DecomposeSolutionKey.cpp">
       <Filter>Source Files\logic\decompose</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLBatch.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GL3DDisplayHelper.cpp">
+      <Filter>Source Files\rendering\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="GL2DDisplayHelper.cpp">
+      <Filter>Source Files\rendering\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL2DDefaultProgramSetup.cpp">
+      <Filter>Source Files\rendering\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL2DRenderer.cpp">
+      <Filter>Source Files\rendering\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL3DRenderer.cpp">
+      <Filter>Source Files\rendering\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractGLDisplayHelper.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL3DDefaultProgramSetup.cpp">
+      <Filter>Source Files\rendering\3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,25 +284,7 @@
     <ClInclude Include="SameDecompose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DFPConfiguration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExpandableBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLDisplayHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IInputListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGL2DDefaultProgramSetup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLBatch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLProgramSetup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrimeNumbersModule.h">
@@ -287,10 +296,53 @@
     <ClInclude Include="StringUtils.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="DFPConfiguration.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpandableBuffer.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLBatch.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLProgramSetup.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GL3DDisplayHelper.h">
+      <Filter>Header Files\rendering\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="GL2DDisplayHelper.h">
+      <Filter>Header Files\rendering\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL2DDefaultProgramSetup.h">
+      <Filter>Header Files\rendering\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL2DRenderer.h">
+      <Filter>Header Files\rendering\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL3DRenderer.h">
+      <Filter>Header Files\rendering\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractGLDisplayHelper.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL3DDefaultProgramSetup.h">
+      <Filter>Header Files\rendering\3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Default2DFragmentShader.frag" />
-    <None Include="Default2DVertexShader.vert" />
+    <None Include="Default2DVertexShader.vert">
+      <Filter>Header Files\rendering\2d</Filter>
+    </None>
+    <None Include="Default2DFragmentShader.frag">
+      <Filter>Header Files\rendering\2d</Filter>
+    </None>
+    <None Include="Default3DVertexShader.vert">
+      <Filter>Header Files\rendering\3d</Filter>
+    </None>
+    <None Include="Default3DFragmentShader.frag">
+      <Filter>Header Files\rendering\3d</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PrimeNumbers.txt">

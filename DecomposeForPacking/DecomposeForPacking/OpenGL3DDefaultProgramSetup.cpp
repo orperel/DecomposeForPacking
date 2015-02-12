@@ -1,34 +1,35 @@
-#include "OpenGL2DDefaultProgramSetup.h"
+#include "OpenGL3DDefaultProgramSetup.h"
 
-static const int POSITION_SIZE = 2;
+static const int POSITION_SIZE = 3;
 static const int COLOR_SIZE = 4;
 static const int STRIDE = (POSITION_SIZE + COLOR_SIZE) * 4;
 
-OpenGL2DDefaultProgramSetup::OpenGL2DDefaultProgramSetup()
+OpenGL3DDefaultProgramSetup::OpenGL3DDefaultProgramSetup()
 {
 }
 
-OpenGL2DDefaultProgramSetup::~OpenGL2DDefaultProgramSetup()
+
+OpenGL3DDefaultProgramSetup::~OpenGL3DDefaultProgramSetup()
 {
 }
 
-void OpenGL2DDefaultProgramSetup::createAttributes(OpenGLShaderProgram& program)
+void OpenGL3DDefaultProgramSetup::createAttributes(OpenGLShaderProgram& program)
 {
 	_positionIndex = program.addAttribute("aPosition");
 	_colorIndex = program.addAttribute("aColor");
 }
 
-void OpenGL2DDefaultProgramSetup::createUniforms(OpenGLShaderProgram& program)
+void OpenGL3DDefaultProgramSetup::createUniforms(OpenGLShaderProgram& program)
 {
 	_mvpMatrixIndex = program.addUniform("uMVP");
 }
 
-void OpenGL2DDefaultProgramSetup::setUniformValues(MATRIX_4X4& mvp)
+void OpenGL3DDefaultProgramSetup::setUniformValues(MATRIX_4X4& mvp)
 {
 	glUniformMatrix4fv(_mvpMatrixIndex, 1, GL_FALSE, &mvp[0][0]);
 }
 
-void OpenGL2DDefaultProgramSetup::setup()
+void OpenGL3DDefaultProgramSetup::setup()
 {
 	// Enable vertex attribute 0 (position)
 	glEnableVertexAttribArray(_positionIndex);
@@ -49,11 +50,11 @@ void OpenGL2DDefaultProgramSetup::setup()
 		GL_FLOAT,           // type
 		GL_FALSE,           // is normalized
 		STRIDE,             // stride
-		(void*)(POSITION_SIZE*4) // array buffer offset
+		(void*)(POSITION_SIZE * 4) // array buffer offset
 		);
 }
 
-void OpenGL2DDefaultProgramSetup::tearDown()
+void OpenGL3DDefaultProgramSetup::tearDown()
 {
 	glDisableVertexAttribArray(_positionIndex);
 	glDisableVertexAttribArray(_colorIndex);

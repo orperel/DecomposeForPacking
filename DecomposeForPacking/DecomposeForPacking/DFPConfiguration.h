@@ -12,7 +12,8 @@ static const string SHADERS_PATH = "..\\DecomposeForPacking\\";
 /** The relative paths (filename included) for the default 2d shaders */
 static const string DEFAULT_2D_VERTSHADER_PATH = SHADERS_PATH + "Default2DVertexShader.vert";
 static const string DEFAULT_2D_FRAGSHADER_PATH = SHADERS_PATH + "Default2DFragmentShader.frag";
-
+static const string DEFAULT_3D_VERTSHADER_PATH = SHADERS_PATH + "Default3DVertexShader.vert";
+static const string DEFAULT_3D_FRAGSHADER_PATH = SHADERS_PATH + "Default3DFragmentShader.frag";
 
 // Logic configuration parameters (controls how the algorithm behaves)
 

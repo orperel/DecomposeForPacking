@@ -1,13 +1,14 @@
 #pragma once
+
 #include "OpenGLLibs.h"
 #include "OpenGLProgramSetup.h"
 #include "OpenGLShaderProgram.h"
 
-class OpenGL2DDefaultProgramSetup : public OpenGLProgramSetup
+class OpenGL3DDefaultProgramSetup : public OpenGLProgramSetup
 {
 public:
-	OpenGL2DDefaultProgramSetup();
-	virtual ~OpenGL2DDefaultProgramSetup();
+	OpenGL3DDefaultProgramSetup();
+	~OpenGL3DDefaultProgramSetup();
 
 	void setUniformValues(MATRIX_4X4& mvp);
 	void setup() override;

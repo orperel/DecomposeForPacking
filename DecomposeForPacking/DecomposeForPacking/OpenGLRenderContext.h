@@ -9,9 +9,15 @@ using std::string;
 /** ------------------------------------------------------------------------ */
 /** Buffer structs should match their counter-part attributes in the shaders */
 /** ------------------------------------------------------------------------ */
-struct ColoredVertexEntry
+struct Colored2DVertexEntry
 {
 	GLfloat x, y;
+	GLfloat colorR, colorG, colorB, colorA;
+};
+
+struct Colored3DVertexEntry
+{
+	GLfloat x, y, z;
 	GLfloat colorR, colorG, colorB, colorA;
 };
 
@@ -28,22 +34,31 @@ public:
 	void writePoint(float x, float y);
 	void writeLine(float xStart, float yStart, float xEnd, float yEnd);
 	void writeBoldLine(float v1X, float v1Y, float v2X, float v2Y);
-	void writeTriangle(float v1X, float v1Y, float v2X, float v2Y, float v3X, float v3Y, float r, float g, float b, float a);
+	void write2DTriangle(float v1X, float v1Y,
+		                 float v2X, float v2Y,
+						 float v3X, float v3Y, 
+						 float r, float g, float b, float a);
+	void write3DTriangle(float v1X, float v1Y, float v1Z,
+		                 float v2X, float v2Y, float v2Z,
+						 float v3X, float v3Y, float v3Z,
+						 float r, float g, float b, float a);
 
-	ExpandableBuffer<ColoredVertexEntry>& points() { return _pointsVBO; };
-	ExpandableBuffer<ColoredVertexEntry>& lines() { return _linesVBO; };
-	ExpandableBuffer<ColoredVertexEntry>& boldLines() { return _boldLinesVBO; };
-	ExpandableBuffer<ColoredVertexEntry>& triangles() { return _trianglesVBO; };
+	ExpandableBuffer<Colored2DVertexEntry>& points() { return _pointsVBO; };
+	ExpandableBuffer<Colored2DVertexEntry>& lines() { return _linesVBO; };
+	ExpandableBuffer<Colored2DVertexEntry>& boldLines() { return _boldLinesVBO; };
+	ExpandableBuffer<Colored2DVertexEntry>& triangles2D() { return _triangles2DVBO; };
+	ExpandableBuffer<Colored3DVertexEntry>& triangles3D() { return _triangles3DVBO; };
 	const int width() const { return _width; };
 	const int height() const { return _height; };
 	const int pixelResolution() const { return _pixelResolution; };
 	const void setContentDescription(string& description) { _contentDescription = description; };
 	const string contentDescription() const { return _contentDescription; };
 private: 
-	ExpandableBuffer<ColoredVertexEntry> _pointsVBO;
-	ExpandableBuffer<ColoredVertexEntry> _linesVBO;
-	ExpandableBuffer<ColoredVertexEntry> _boldLinesVBO;
-	ExpandableBuffer<ColoredVertexEntry> _trianglesVBO;
+	ExpandableBuffer<Colored2DVertexEntry> _pointsVBO;
+	ExpandableBuffer<Colored2DVertexEntry> _linesVBO;
+	ExpandableBuffer<Colored2DVertexEntry> _boldLinesVBO;
+	ExpandableBuffer<Colored2DVertexEntry> _triangles2DVBO;
+	ExpandableBuffer<Colored3DVertexEntry> _triangles3DVBO;
 
 	int _width;
 	int _height;

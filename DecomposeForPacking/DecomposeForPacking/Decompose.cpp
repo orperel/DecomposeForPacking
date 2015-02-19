@@ -55,7 +55,7 @@ std::shared_ptr<DecomposeResult> Decompose::decompose(bool isPartial /*= true*/)
 
 		// Check duplicate decompose solutions here, we index the decomposition results and check
 		// them by hash-code for fast comparison.
-		// (the hash-code depends on the part type and its number of occurences)
+		// (the hash-code depends on the part type and its number of occurrences)
 		DecomposeSolutionKey solutionKey(partsCount);
 		unordered_set<DecomposeSolutionKey>::const_iterator indexedResult = m_duplicatesFilter.find(solutionKey);
 		if (indexedResult == m_duplicatesFilter.end())

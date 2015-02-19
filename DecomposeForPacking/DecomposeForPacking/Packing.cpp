@@ -64,7 +64,7 @@ std::shared_ptr<PackResult> Packing::pack()
 			// Finds the minimal bounding box
 			int minBoundingBox = (*boundingBoxes)[0];
 			int indexOfMin = 0;
-			for (int i = 1; i < boundingBoxes->size(); i++) {
+			for (unsigned i = 1; i < boundingBoxes->size(); i++) {
 				if ((*boundingBoxes)[i] < minBoundingBox) {
 					minBoundingBox = (*boundingBoxes)[i];
 					indexOfMin = i;
@@ -95,6 +95,8 @@ std::shared_ptr<vector<int>> Packing::getBoundingBoxes(std::shared_ptr<vector<Pa
 		int maxHorizontal = 0;
 		int minVertical = std::numeric_limits<int>::max();
 		int maxVertical = 0;
+		//int minHeight = std::numeric_limits<int>::max();
+		//int maxHeight = 0;
 
 		// Goes over each part in the current solution
 		for each (const tuple<PartOrientationPtr, Point>& orientOrigin in *partLocationList) {		
@@ -103,6 +105,7 @@ std::shared_ptr<vector<int>> Packing::getBoundingBoxes(std::shared_ptr<vector<Pa
 				Point relatedPoint = point + (std::get<1>(orientOrigin));
 				int x = relatedPoint.getX();
 				int y = relatedPoint.getY();
+				//int z = relatedPoint.getZ();
 				if (x < minHorizontal) {
 					minHorizontal = x;
 				}
@@ -115,11 +118,18 @@ std::shared_ptr<vector<int>> Packing::getBoundingBoxes(std::shared_ptr<vector<Pa
 				if (y > maxVertical) {
 					maxVertical = y;
 				}
+				//if (z < minHeight) {
+				//	minHeight = z;
+				//}
+				//if (z > maxHeight) {
+				//	maxHeight = z;
+				//}
 			}
 		}
 
 		// Adds the current bounding box to the output vector
 		boundingBoxes->push_back((maxHorizontal - minHorizontal + 1)*(maxVertical - minVertical + 1));
+		//boundingBoxes->push_back((maxHorizontal - minHorizontal + 1)*(maxVertical - minVertical + 1)*(maxHeight - minHeight + 1));
 	}
 
 	return boundingBoxes;

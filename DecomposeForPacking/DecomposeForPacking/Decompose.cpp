@@ -8,6 +8,7 @@ Decompose::Decompose(WorldPtr world, PartListPtr partList) : m_world(world), m_p
 {
 }
 
+/** Dtor. */
 Decompose::~Decompose()
 {
 }
@@ -48,7 +49,7 @@ std::shared_ptr<DecomposeResult> Decompose::decompose(bool isPartial /*= true*/)
 			}
 
 			// Computes part location list
-			// Pushes-back tuple of part orientation and its origin point to the vector
+			// Adds the tuple of part orientation and its origin point to the vector
 			partLocationList->push_back(m_locationSetToOrient->at(locationSet));
 		}
 

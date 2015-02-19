@@ -30,8 +30,6 @@ DecomposeAndPackResult DecomposeAndPack::run()
 {
 	shared_ptr<DecomposeResult> decomposeResult = decompose();
 
-	//return std::make_tuple(decomposeResult->getListOfPartLocationLists(), decomposeResult->getListOfPartLocationLists());
-
 	shared_ptr<PackResult> packResult = pack(decomposeResult);
 
 	FinalDecomposeResults decomposePartLocationLists = decomposeResult->getListOfPartLocationLists();
@@ -185,8 +183,8 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 
 		if (packResult->hasSolution()) {
 			cout << "Found Solution!!!" << endl;
-			m_resultsNumOfParts = packer.publicSolutionsNumOfParts();
-			m_resultsBoundingBox = packer.getResultsBoundingBox();
+			m_resultsNumOfParts = packer.publicSolutionsNumOfParts();	// Saves the number of parts per solution - used for grading 
+			m_resultsBoundingBox = packer.getResultsBoundingBox();	// Saves the bounding box per solution - used for grading
 			break;
 		}
 
@@ -203,7 +201,8 @@ shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomp
 bool wayToSort(const GradeIndex& x, const GradeIndex& y) { return (std::get<0>(x) > std::get<0>(y)); }
 
 /** Returns indices of the results vector ordered by grade.
- *  Grade: ....
+ *  The grade is composed of 60% bounding box and 40% number of parts, relatively to the minimal values.
+ *  The percentages are configurable (in DFPConfiguration).
  */
 std::shared_ptr<vector<GradeIndex>> DecomposeAndPack::getResultsByGrade()
 {

@@ -25,6 +25,7 @@ public:
 	/** Constructs a new decompose object from a world and part list. */
 	Decompose(WorldPtr world, PartListPtr partList);
 	
+	/** Dtor. */
 	virtual ~Decompose();
 	
 	/** Implements the class purposes and returns the decomposition result. */

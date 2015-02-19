@@ -19,15 +19,15 @@ typedef std::shared_ptr<PartLocationList> PartLocationListPtr;
 class DecomposeResult
 {
 public:
-	DecomposeResult();
-
 	/** Constructs a new decomposition result. It is composed of:
 	 *  1) Parts count list of all solutions in the decomposition process
 	 *  2) List of part location lists of all solutions in the decomposition process
 	 */
 	DecomposeResult(std::shared_ptr<vector<PartsCountPtr>> partsCountList, std::shared_ptr<vector<PartLocationListPtr>> listOfPartLocationLists);
 	
-	/** Dtor to release resources allocated by the DecomposeResult. */
+	DecomposeResult();
+
+	/** Dtor. */
 	virtual ~DecomposeResult();
 
 	void extend(PartsCountPtr partsCount, PartLocationListPtr partLocationList);

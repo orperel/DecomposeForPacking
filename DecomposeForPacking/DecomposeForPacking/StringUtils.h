@@ -10,6 +10,8 @@ using std::tuple;
 using std::cout;
 using std::endl;
 
+/** This class is used for string utilities, for debugging the grading procedure. */
+
 void printVectorOfInt(std::shared_ptr<vector<int>> vec) {
 	cout << "[";
 	for (unsigned i = 0; i < vec->size(); i++) {

@@ -17,7 +17,7 @@ DecomposeResult::DecomposeResult()
 	_listOfPartLocationLists = std::shared_ptr<vector<PartLocationListPtr>>(new vector<PartLocationListPtr>);
 }
 
-/** Dtor to release resources allocated by the DecomposeResult. */
+/** Dtor. */
 DecomposeResult::~DecomposeResult()
 {
 }

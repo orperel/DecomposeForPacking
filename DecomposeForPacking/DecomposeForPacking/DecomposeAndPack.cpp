@@ -11,6 +11,7 @@
 #include "DFPConfiguration.h"
 
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 
@@ -168,16 +169,18 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 
 shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomposeResult)
 {
-	int width, height;
+	int width, height, depth;
 
 	shared_ptr<PackResult> packResult;
 
 	cout << "Starting packing..." << endl;
 
 	do {
-		width = static_cast<int>(ceil(sqrt(m_world->getNumberOfPoints())));
+		width = static_cast<int>(ceil(pow(m_world->getNumberOfPoints(), 1.0/3.0)));
+		//width = static_cast<int>(ceil(sqrt(m_world->getNumberOfPoints())));
 		height = width;
-		WorldPtr box = WorldBuilder::buildBox(width, height);
+		depth = width;
+		WorldPtr box = WorldBuilder::buildBox(width, height, depth);
 		Packing packer(box, decomposeResult);
 		packResult = packer.pack();
 

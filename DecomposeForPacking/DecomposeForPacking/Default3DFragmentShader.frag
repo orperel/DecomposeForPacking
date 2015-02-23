@@ -10,9 +10,9 @@ void main()
 {
 	// Constants for controlling the light-source color and intensity
 	vec3 lightColor = vec3(1.0, 1.0, 1.0);
-	float lightPower = 100f;
+	float lightPower = 100.0f;
 	vec3 materialSpecularColor = vec3(1.0, 1.0, 1.0);
-	float specularLobeThickness = 5f; // The higher, the thinner
+	float specularLobeThickness = 5.0f; // The higher, the thinner
 
 	vec3 normal = normalize(vNormalDirection_cameraspace); // Normal of the computed fragment, in camera space
 	vec3 lightDirection = normalize(vLightDirection_cameraspace);  // Direction of the light (from the fragment to the light)

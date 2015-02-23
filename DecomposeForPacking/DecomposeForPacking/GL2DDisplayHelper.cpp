@@ -13,12 +13,12 @@ GL2DDisplayHelper::~GL2DDisplayHelper()
 {
 }
 
-GL2DDisplayHelper::WorldDisplayVisitor::WorldDisplayVisitor(shared_ptr<OpenGLRenderContext> renderContext) :
+GL2DDisplayHelper::World2DDisplayVisitor::World2DDisplayVisitor(shared_ptr<OpenGLRenderContext> renderContext) :
 _renderContext(renderContext)
 {
 }
 
-void GL2DDisplayHelper::WorldDisplayVisitor::visit(World& world, Point point)
+void GL2DDisplayHelper::World2DDisplayVisitor::visit(World& world, Point point)
 {
 	// Paint a square for each unmasked pixel in the world
 	float v1x = point.getX();
@@ -55,13 +55,8 @@ void GL2DDisplayHelper::paintSquare(WorldPtr world, float x, float y, float r, f
 
 void GL2DDisplayHelper::paintWorld(WorldPtr world)
 {
-	int height = world->getHeight();
-	int width = world->getWidth();
-	int pixelResolution = world->getPixelResolution();
-	_renderContext = std::make_shared<OpenGLRenderContext>(width, height, pixelResolution);
-
 	// Paint the world pixels to the context
-	auto worldPainter = std::make_shared<WorldDisplayVisitor>(_renderContext);
+	auto worldPainter = std::make_shared<World2DDisplayVisitor>(_renderContext);
 	world->accept(worldPainter);
 }
 

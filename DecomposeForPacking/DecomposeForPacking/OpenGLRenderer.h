@@ -4,12 +4,14 @@
 #include "OpenGLRenderContext.h"
 #include <memory>
 #include <vector>
+#include <tuple>
 
 #include "OpenGLBatch.h"
 #include "IInputListener.h"
 
 using std::unique_ptr;
 using std::vector;
+using std::tuple;
 
 /** Rendering engine abstract code common for 2d & 3d */
 class OpenGLRenderer
@@ -35,11 +37,16 @@ protected:
 	virtual void bufferData(shared_ptr<OpenGLRenderContext> context) = 0;
 
 	shared_ptr<OpenGLRenderContext> _renderContext;
-	int _windowWidth;
-	int _windowHeight;
+	static int _windowWidth;
+	static int _windowHeight;
+	tuple<float, float, float> _bgColor;
+
+	// GLFW window object  
+	GLFWwindow* _window;
 
 private:
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 	void updateScene(shared_ptr<OpenGLRenderContext> context, GLFWwindow* window);
 
 	bool _isReady;

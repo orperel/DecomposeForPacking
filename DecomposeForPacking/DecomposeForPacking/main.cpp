@@ -20,6 +20,7 @@
 	#include "Packing.h"
 	#include "ObjMesh.h"
 	#include "GL2DDisplayHelper.h"
+	#include "GL3DDisplayHelper.h"
 	#include "PrimeNumbersModule.h"
 
 	using namespace cimg_library;
@@ -39,10 +40,14 @@
 #else
 	void runProd()
 	{
-		//// 3D Object
+		// 3D Object
 		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj"));
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
-		//WorldPtr world = WorldBuilder::fromMesh(teapot);
+		//ObjMeshPtr lowTeapot(new ObjMesh(L"../../lowpolyTeapot.obj"));
+		//ObjMeshPtr knot(new ObjMesh(L"../../knot.obj", 20));
+		//ObjMeshPtr sample(new ObjMesh(L"../../sample.obj", 4));
+		ObjMeshPtr sample2(new ObjMesh(L"../../sample2.obj", 6));
+		WorldPtr world = WorldBuilder::fromMesh(sample2);
 
 		// Other stuff
 		//std::string path = "../../tet.bmp";
@@ -52,9 +57,9 @@
 
 
 		// Example #1
-		std::string path = "../../pptSample.bmp";
-		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 4);
+		//std::string path = "../../pptSample.bmp";
+		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		//WorldPtr world = WorldBuilder::fromImage(orig, 4);
 
 		// Example #2
 		//std::string path = "../../pptSample2.bmp";
@@ -63,7 +68,8 @@
 
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();
-		GL2DDisplayHelper displayHelper;
+		GL3DDisplayHelper displayHelper;
+
 		displayHelper.displayResults(world, decomposeResult);
 
 		// Same Decompose

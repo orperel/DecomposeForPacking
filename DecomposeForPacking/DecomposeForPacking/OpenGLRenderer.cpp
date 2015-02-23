@@ -7,6 +7,8 @@
 #include "DFPConfiguration.h"
 
 vector<IInputListener*> OpenGLRenderer::_inputListeners;
+int OpenGLRenderer::_windowWidth;
+int OpenGLRenderer::_windowHeight;
 
 OpenGLRenderer::OpenGLRenderer() : _isReady(false), _isDirty(false)
 {
@@ -40,10 +42,6 @@ void OpenGLRenderer::updateScene(shared_ptr<OpenGLRenderContext> context, GLFWwi
 	// Data is buffered to openGL buffers, so the next render will capture this new data.
 	// This actually implements double buffering as well.
 	bufferData(context); // According to 2d / 3d
-
-	_windowWidth = 400;
-	_windowHeight = 600;
-	glfwSetWindowSize(window, _windowWidth, _windowHeight);
 
 	glfwSetWindowTitle(window, _renderContext->contentDescription().c_str());
 
@@ -81,6 +79,16 @@ void OpenGLRenderer::key_callback(GLFWwindow* window, int key, int scancode, int
 	}
 }
 
+/** Updates the viewport of the current window (so OpenGL knows how to mao [-1,1] coordinates
+ *  to the correct window size)
+ */
+void OpenGLRenderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	_windowWidth = width;
+	_windowHeight = height;
+	glViewport(0, 0, width, height);
+}
+
 int OpenGLRenderer::initRenderingLoop()
 {
 	//Set the error callback for GLFW
@@ -98,14 +106,14 @@ int OpenGLRenderer::initRenderingLoop()
 	//glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing  
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
 
-	// Declare a window object  
-	GLFWwindow* window;
+	_windowWidth = 640;
+	_windowHeight = 480;
 
 	// Create a window and create its OpenGL context  
-	window = glfwCreateWindow(640, 480, "Decompose for Packing", NULL, NULL);
+	_window = glfwCreateWindow(_windowWidth, _windowHeight, "Decompose for Packing", NULL, NULL);
 
 	//If the window couldn't be created  
-	if (!window)
+	if (!_window)
 	{
 		DFPLogger::getInstance().log("Failed to open GLFW window", DFPLogger::ERROR);
 		glfwTerminate();
@@ -113,10 +121,13 @@ int OpenGLRenderer::initRenderingLoop()
 	}
 
 	//This function makes the context of the specified window current on the calling thread.   
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(_window);
 
 	//Sets the key callback  
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(_window, key_callback);
+
+	//Window resize callback (frame buffer is the active area, excluding the title bar, etc)
+	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 
 	//Initialize GLEW
 	GLenum err = glewInit();
@@ -136,14 +147,14 @@ int OpenGLRenderer::initRenderingLoop()
 	// Renderer is ready to accept data
 	_isReady = true;
 
-	//Set a background color  
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	// Set a background color  
+	glClearColor(std::get<0>(_bgColor), std::get<1>(_bgColor), std::get<2>(_bgColor), 1.0f);
 
-	//Main Loop  
+	// Main Loop  
 	do
 	{
 		// Buffer the render context if it has been changed
-		updateScene(_renderContext, window);
+		updateScene(_renderContext, _window);
 
 		#ifdef RENDERER_DEBUG_MODE
 			GLenum errorCode = glGetError();
@@ -161,16 +172,16 @@ int OpenGLRenderer::initRenderingLoop()
 		renderFrame();
 
 		// Swap buffers  
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(_window);
 
 		// Get and organize events, like keyboard and mouse input, window resizing, etc...  
 		glfwPollEvents();
 
 	} //Check if the ESC key had been pressed or if the window had been closed  
-	while (!glfwWindowShouldClose(window));
+	while (!glfwWindowShouldClose(_window));
 
 	//Close OpenGL window and terminate GLFW  
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(_window);
 	//Finalize and clean up GLFW  
 	glfwTerminate();
 

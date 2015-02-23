@@ -50,9 +50,21 @@ void AbstractGLDisplayHelper::displayResults(WorldPtr world, DecomposeAndPackRes
 	displayDecomposePackResults(world, decomposeResult, packResult);
 }
 
+void AbstractGLDisplayHelper::initRenderingContext(WorldPtr world)
+{
+	int height = world->getHeight();
+	int width = world->getWidth();
+	int depth = world->getDepth();
+	int pixelResolution = world->getPixelResolution();
+	_renderContext = std::make_shared<OpenGLRenderContext>(width, height, depth, pixelResolution);
+	//_renderContext = std::make_shared<OpenGLRenderContext>(3, 3, 3, pixelResolution); // TODO: Remove
+}
+
 void AbstractGLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalDecomposeResults decomposeResult, FinalPackResults packResult)
 {
 	std::thread openGLThread(&AbstractGLDisplayHelper::initRenderingLoop, this);
+	initRenderingContext(world);
+
 	paintWorld(world);
 
 	while (!_renderer->isReady())

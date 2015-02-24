@@ -126,7 +126,7 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 		cout << "Start iteration with part size " << partSize << endl;
 		shared_ptr<DecomposeResult> newDecomposeResult(new DecomposeResult());
 
-		PartListPtr partList = PartBuilder::buildStandartPartPack(partSize);
+		PartListPtr partList = PartBuilder::buildStandartPartPack(partSize, m_world->getDepth() > 1);
 
 		bool isPartial = (partSize > 1);
 
@@ -169,17 +169,24 @@ shared_ptr<DecomposeResult> DecomposeAndPack::decompose()
 
 shared_ptr<PackResult> DecomposeAndPack::pack(shared_ptr<DecomposeResult> decomposeResult)
 {
-	int width, height, depth;
+	int width = 0, height, depth;
 
 	shared_ptr<PackResult> packResult;
 
 	cout << "Starting packing..." << endl;
 
 	do {
-		width = static_cast<int>(ceil(pow(m_world->getNumberOfPoints(), 1.0/3.0)));
-		//width = static_cast<int>(ceil(sqrt(m_world->getNumberOfPoints())));
+		if (m_world->getDepth() > 1) {
+			width = static_cast<int>(ceil(pow(m_world->getNumberOfPoints(), 1.0 / 3.0)));
+			depth = width;
+		}
+		else {
+			width = static_cast<int>(ceil(sqrt(m_world->getNumberOfPoints())));
+			depth = 1;
+		}
+		
 		height = width;
-		depth = width;
+		
 		WorldPtr box = WorldBuilder::buildBox(width, height, depth);
 		Packing packer(box, decomposeResult);
 		packResult = packer.pack();

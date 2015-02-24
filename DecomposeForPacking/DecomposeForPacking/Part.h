@@ -6,7 +6,7 @@
 
 class Part {
 public:
-	Part(PartOrientationPtr partOrient);
+	Part(PartOrientationPtr partOrient, bool is3D = false);
 	~Part();
 
 	PartOrientationListPtr getPartOrientations();
@@ -22,7 +22,9 @@ public:
 	}
 
 private:
-	void extendPartOrientations();
+	void extendPartOrientations(bool is3D = false);
+
+	void addUniquePartOrientation(PartOrientationPtr partOrient);
 
 	PartOrientationListPtr m_partOrientations;
 	int m_partId;

@@ -63,6 +63,12 @@ public:
 	*/
 	bool operator==(const Point& point) const;
 
+	/*
+	* Operator== - check if two points are not equale.
+	* NOTICE:	The color is NOT taken in consideration when checking equality.
+	*/
+	bool operator!=(const Point& point) const;
+
 private:
 	int m_x; // X
 	int m_y; // Y

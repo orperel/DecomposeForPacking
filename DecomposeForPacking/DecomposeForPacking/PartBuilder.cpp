@@ -27,7 +27,7 @@ std::shared_ptr<CImg<unsigned char>> PartBuilder::toImage(PartPtr part)
 	return img;
 }
 
-PartPtr PartBuilder::buildLongPart(int partWidth, int pixelSize /*= 1*/)
+PartPtr PartBuilder::buildLongPart(int partWidth, int pixelSize /*= 1*/, bool is3D /*= false*/)
 {
 	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
@@ -36,19 +36,19 @@ PartPtr PartBuilder::buildLongPart(int partWidth, int pixelSize /*= 1*/)
 		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
-	PartPtr part(new Part(partOrient));
+	PartPtr part(new Part(partOrient, is3D));
 	return part;
 }
 
-PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
+PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/, bool is3D /*= false*/)
 {
 	PartListPtr partList(new PartList());
 
-	partList->push_back(buildZigzagPart(STANDART_ZIGZAG_PART_WIDTH, pixelSize));
-	partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize));
-	partList->push_back(buildLongPart(STANDART_LONG_PART_WIDTH, pixelSize));
-	partList->push_back(buildLongPart(2, pixelSize));
-	partList->push_back(buildTPart(STANDART_T_PART_WIDTH, pixelSize));
+	partList->push_back(buildLongPart(STANDART_LONG_PART_WIDTH, pixelSize, is3D));
+	partList->push_back(buildLongPart(2, pixelSize, is3D));
+	partList->push_back(buildZigzagPart(STANDART_ZIGZAG_PART_WIDTH, pixelSize, is3D));
+	partList->push_back(buildCornerPart(STANDART_CORNER_PART_WIDTH, pixelSize, is3D));	
+	partList->push_back(buildTPart(STANDART_T_PART_WIDTH, pixelSize, is3D));
 
 	// Display Part - TODO: should be deleted
 	//shared_ptr<CImg<unsigned char>> img = PartBuilder::toImage((*partList)[0]);
@@ -57,7 +57,7 @@ PartListPtr PartBuilder::buildStandartPartPack(int pixelSize /*= 1*/)
 	return partList;
 }
 
-PartPtr PartBuilder::buildCornerPart(int partWidth, int pixelSize /*= 1*/)
+PartPtr PartBuilder::buildCornerPart(int partWidth, int pixelSize /*= 1*/, bool is3D /*= false*/)
 {
 	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 	
@@ -71,11 +71,11 @@ PartPtr PartBuilder::buildCornerPart(int partWidth, int pixelSize /*= 1*/)
 		lastIndex = partOrient->addPointBelow(lastIndex);
 	}
 
-	PartPtr part(new Part(partOrient));
+	PartPtr part(new Part(partOrient, is3D));
 	return part;
 }
 
-PartPtr PartBuilder::buildZigzagPart(int partWidth, int pixelSize /*= 1*/)
+PartPtr PartBuilder::buildZigzagPart(int partWidth, int pixelSize /*= 1*/, bool is3D /*= false*/)
 {
 	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
@@ -89,11 +89,11 @@ PartPtr PartBuilder::buildZigzagPart(int partWidth, int pixelSize /*= 1*/)
 		lastIndex = partOrient->addPointToRight(lastIndex);
 	}
 
-	PartPtr part(new Part(partOrient));
+	PartPtr part(new Part(partOrient, is3D));
 	return part;
 }
 
-PartPtr PartBuilder::buildTPart(int partWidth, int pixelSize /*= 1*/)
+PartPtr PartBuilder::buildTPart(int partWidth, int pixelSize /*= 1*/, bool is3D /*= false*/)
 {
 	PartOrientationPtr partOrient(new PartOrientation(pixelSize));
 
@@ -115,6 +115,6 @@ PartPtr PartBuilder::buildTPart(int partWidth, int pixelSize /*= 1*/)
 		lastIndex = partOrient->addPointBelow(lastIndex);
 	}
 
-	PartPtr part(new Part(partOrient));
+	PartPtr part(new Part(partOrient, is3D));
 	return part;
 }

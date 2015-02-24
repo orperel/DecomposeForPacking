@@ -34,6 +34,8 @@ public:
 	bool isContainsPointLeftPoint(Point);
 	const int getId() const;
 
+	bool operator!=(PartOrientation& partOrient) const;
+
 private:
 	PointListPtr m_pointList;
 	std::unordered_map<Point, bool, PointHash<Point>> m_pointMap;
@@ -48,20 +50,16 @@ private:
 	void addPoint(Point startPoint);
 
 
-	PartOrientationPtr rotate();
-	PartOrientationPtr verticalMirror();
-	PartOrientationPtr horizonalMirror();
-
-	bool isVerticalSymmetrical(PartOrientationPtr partOrient);
-	bool isHorizonalSymmetrical(PartOrientationPtr partOrient);
-	bool isSymmetrical();
+	PartOrientationPtr XYRotate();
+	PartOrientationPtr YZMirror();
+	PartOrientationPtr XZMirror();
+	PartOrientationPtr ZYRotate();
+	PartOrientationPtr ZXRotate();
 
 	bool isContainsPointAtLocation(int x, int y);
 
 	friend Part;
 };
 
-
-// TODO: check symmetrical...
 
 // TODO: add lock part orientation so addPoint won't work

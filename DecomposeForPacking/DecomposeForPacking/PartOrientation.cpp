@@ -67,83 +67,6 @@ Point PartOrientation::getAnchor()
 }
 
 
-PartOrientationPtr PartOrientation::verticalMirror()
-{
-	PointListPtr newPointList = PointListPtr(new PointList());
-
-	for each (const Point& point in *m_pointList) {
-		newPointList->push_back(Point(point.getX() * -1, point.getY()));
-	}
-
-	return PartOrientationPtr(new PartOrientation(newPointList));
-}
-
-PartOrientationPtr PartOrientation::rotate()
-{
-	PointListPtr newPointList = PointListPtr(new PointList());
-
-	for each (const Point& point in *m_pointList) {
-		newPointList->push_back(Point(point.getY(), point.getX()));
-	}
-
-	return PartOrientationPtr(new PartOrientation(newPointList));
-}
-
-PartOrientationPtr PartOrientation::horizonalMirror()
-{
-	PointListPtr newPointList = PointListPtr(new PointList());
-
-	for each (const Point& point in *m_pointList) {
-		newPointList->push_back(Point(point.getX(), point.getY() * -1));
-	}
-
-	return PartOrientationPtr(new PartOrientation(newPointList));
-}
-
-bool PartOrientation::isVerticalSymmetrical(PartOrientationPtr partOrient)
-{
-	int width = 0;
-	for each (const Point& point in *getPointList()) {
-		if (point.getX() > width) width = point.getX();
-	}
-
-
-	for each (const Point& point in *partOrient->getPointList()) {
-		if (m_pointMap.find(Point(point.getX() + width, point.getY())) == m_pointMap.end()) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool PartOrientation::isHorizonalSymmetrical(PartOrientationPtr partOrient)
-{
-	int height = 0;
-	for each (const Point& point in *getPointList()) {
-		if (point.getY() > height) height = point.getY();
-	}
-
-	for each (const Point& point in *partOrient->getPointList()) {
-		if (m_pointMap.find(Point(point.getX(), point.getY() + height)) == m_pointMap.end()) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool PartOrientation::isSymmetrical()
-{
-	for each (const Point& point in *m_pointList) {
-		if (m_pointMap.find(Point(point.getY(), point.getX())) == m_pointMap.end()) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 bool PartOrientation::isContainsPointAtLocation(int x, int y)
 {
 	for (auto& orientationPoint : *m_pointList)
@@ -190,4 +113,123 @@ bool PartOrientation::isContainsPointLeftPoint(Point point)
 const int PartOrientation::getId() const
 {
 	return m_orientationId;
+}
+
+PartOrientationPtr PartOrientation::XYRotate()
+{
+	PointListPtr tempPointList = PointListPtr(new PointList());
+
+	int minX = 0;
+	int minY = 0;
+	int minZ = 0;
+
+	for each (const Point& point in *m_pointList) {
+		Point newPoint(point.getY()*-1, point.getX(), point.getZ());
+		tempPointList->push_back(newPoint);
+
+		if (newPoint.getX() < minX) minX = newPoint.getX();
+		if (newPoint.getY() < minY) minY = newPoint.getY();
+		if (newPoint.getZ() < minZ) minZ = newPoint.getZ();
+
+	}
+
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *tempPointList) {
+		Point newPoint(-1 * minX + point.getX(), -1 * minY + point.getY(), -1 * minZ + point.getZ());
+		newPointList->push_back(newPoint);
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+bool PartOrientation::operator!=(PartOrientation& partOrient) const
+{
+	PointListPtr partOrientPointList = partOrient.getPointList();
+
+	for each (const Point& point in *partOrientPointList) {
+		if (m_pointMap.find(point) == m_pointMap.end()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+PartOrientationPtr PartOrientation::ZYRotate()
+{
+	PointListPtr tempPointList = PointListPtr(new PointList());
+
+	int minX = 0;
+	int minY = 0;
+	int minZ = 0;
+
+	for each (const Point& point in *m_pointList) {
+		Point newPoint(point.getX(), point.getZ(), point.getY()*-1);
+		tempPointList->push_back(newPoint);
+
+		if (newPoint.getX() < minX) minX = newPoint.getX();
+		if (newPoint.getY() < minY) minY = newPoint.getY();
+		if (newPoint.getZ() < minZ) minZ = newPoint.getZ();
+
+	}
+
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *tempPointList) {
+		Point newPoint(-1 * minX + point.getX(), -1 * minY + point.getY(), -1 * minZ + point.getZ());
+		newPointList->push_back(newPoint);
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+PartOrientationPtr PartOrientation::ZXRotate()
+{
+	PointListPtr tempPointList = PointListPtr(new PointList());
+
+	int minX = 0;
+	int minY = 0;
+	int minZ = 0;
+
+	for each (const Point& point in *m_pointList) {
+		Point newPoint(point.getZ(), point.getY(), point.getX()*-1);
+		tempPointList->push_back(newPoint);
+
+		if (newPoint.getX() < minX) minX = newPoint.getX();
+		if (newPoint.getY() < minY) minY = newPoint.getY();
+		if (newPoint.getZ() < minZ) minZ = newPoint.getZ();
+
+	}
+
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *tempPointList) {
+		Point newPoint(-1 * minX + point.getX(), -1 * minY + point.getY(), -1 * minZ + point.getZ());
+		newPointList->push_back(newPoint);
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+PartOrientationPtr PartOrientation::YZMirror()
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *m_pointList) {
+		newPointList->push_back(Point(point.getX(), point.getZ(), point.getY()));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
+}
+
+PartOrientationPtr PartOrientation::XZMirror()
+{
+	PointListPtr newPointList = PointListPtr(new PointList());
+
+	for each (const Point& point in *m_pointList) {
+		newPointList->push_back(Point(point.getZ(), point.getY(), point.getX()));
+	}
+
+	return PartOrientationPtr(new PartOrientation(newPointList));
 }

@@ -44,3 +44,8 @@ int Point::getZ() const
 {
 	return m_z;
 }
+
+bool Point::operator!=(const Point& point) const
+{
+	return !(*this == point);
+}

@@ -17,7 +17,7 @@ static float scale;
 
 const std::wstring BINVOX_FILENAME = L"binvox.exe";
 const std::wstring BINVOX_EXTENSION = L".binvox";
-const int OBJECT_DIMENSION = 10;
+const int OBJECT_DIMENSION = 1;
 
 
 ObjMesh::ObjMesh(std::wstring objPath, int dimension)
@@ -50,7 +50,8 @@ void ObjMesh::createVortexFile(std::wstring objPath, int dimension) {
     si.cb = sizeof(si);
     ZeroMemory( &pi, sizeof(pi) );
 
-	std::wstring binvoxParams = fullPath + L" -d 10 " + objPath;
+	std::wstring dimensionStr = std::to_wstring(dimension);
+	std::wstring binvoxParams = fullPath + L" -d " + dimensionStr + L" " + objPath;
 
 	// Call binvox process
 	if( !::CreateProcess( NULL, &binvoxParams[0], NULL, NULL, false, 0, NULL, NULL, &si, &pi ) ) {

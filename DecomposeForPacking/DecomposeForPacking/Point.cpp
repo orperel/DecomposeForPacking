@@ -16,7 +16,7 @@ Point::~Point()
 
 Point Point::operator+(Point p)
 {
-	return Point(this->m_x + p.m_x, this->m_y + p.m_y, this->m_color);
+	return Point(this->m_x + p.m_x, this->m_y + p.m_y, this->m_z + p.m_z, this->m_color);
 }
 
 int Point::getX() const
@@ -32,7 +32,7 @@ int Point::getY() const
 
 bool Point::operator==(const Point& point) const
 {
-	return (this->getX() == point.getX() && this->getY() == point.getY());
+	return (this->getX() == point.getX() && this->getY() == point.getY() && this->getZ() == point.getZ());
 }
 
 int Point::getColor() const

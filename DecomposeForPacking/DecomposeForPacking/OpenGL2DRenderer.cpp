@@ -37,6 +37,8 @@ void OpenGL2DRenderer::setup()
 	_linesBatch.generate();
 	_boldLinesBatch.generate();
 	_triangles2DBatch.generate();
+
+	_bgColor = std::make_tuple(1.0f, 1.0f, 1.0f); // Set background color to white
 }
 
 shared_ptr<MATRIX_4X4> OpenGL2DRenderer::generateMVPMatrix(int windowWidth, int windowHeight)

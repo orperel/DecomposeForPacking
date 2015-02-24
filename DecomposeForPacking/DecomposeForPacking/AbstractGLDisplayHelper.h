@@ -37,5 +37,8 @@ protected:
 	bool _isCallbackReceived;
 	KEYBOARD_KEY _lastCallbackKey;
 	unordered_map< int, RGB_COLOR > _partOrientationToColor;
+
+private:
+	void initRenderingContext(WorldPtr world);
 };
 

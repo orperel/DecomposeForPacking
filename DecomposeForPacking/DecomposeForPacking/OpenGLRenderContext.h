@@ -18,6 +18,7 @@ struct Colored2DVertexEntry
 struct Colored3DVertexEntry
 {
 	GLfloat x, y, z;
+	GLfloat nx, ny, nz; // Joint surface normals sum - normalized
 	GLfloat colorR, colorG, colorB, colorA;
 };
 
@@ -27,6 +28,7 @@ class OpenGLRenderContext
 {	
 public:
 	OpenGLRenderContext(int width, int height, int pixelResolution);
+	OpenGLRenderContext(int width, int height, int depth, int pixelResolution);
 	virtual ~OpenGLRenderContext();
 
 	void clearDataBuffers();
@@ -38,10 +40,9 @@ public:
 		                 float v2X, float v2Y,
 						 float v3X, float v3Y, 
 						 float r, float g, float b, float a);
-	void write3DTriangle(float v1X, float v1Y, float v1Z,
-		                 float v2X, float v2Y, float v2Z,
-						 float v3X, float v3Y, float v3Z,
-						 float r, float g, float b, float a);
+	void write3DTriangle(Colored3DVertexEntry& v1,
+						 Colored3DVertexEntry& v2,
+						 Colored3DVertexEntry& v3);
 
 	ExpandableBuffer<Colored2DVertexEntry>& points() { return _pointsVBO; };
 	ExpandableBuffer<Colored2DVertexEntry>& lines() { return _linesVBO; };
@@ -50,6 +51,7 @@ public:
 	ExpandableBuffer<Colored3DVertexEntry>& triangles3D() { return _triangles3DVBO; };
 	const int width() const { return _width; };
 	const int height() const { return _height; };
+	const int depth() const { return _depth; };
 	const int pixelResolution() const { return _pixelResolution; };
 	const void setContentDescription(string& description) { _contentDescription = description; };
 	const string contentDescription() const { return _contentDescription; };
@@ -62,6 +64,7 @@ private:
 
 	int _width;
 	int _height;
+	int _depth;
 	int _pixelResolution;
 	string _contentDescription;
 };

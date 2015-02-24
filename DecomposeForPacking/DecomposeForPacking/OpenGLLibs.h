@@ -14,3 +14,4 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 using MATRIX_4X4 = glm::mat4;
+using VECTOR_3D = glm::vec3;

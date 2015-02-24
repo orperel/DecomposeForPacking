@@ -129,6 +129,7 @@
     <ClInclude Include="DFPLogger.h" />
     <ClInclude Include="GL2DDisplayHelper.h" />
     <ClInclude Include="GL3DDisplayHelper.h" />
+    <ClInclude Include="VectorMathUtil.h" />
     <ClInclude Include="ObjMesh.h" />
     <ClInclude Include="OpenGL2DRenderer.h" />
     <ClInclude Include="OpenGL3DDefaultProgramSetup.h" />

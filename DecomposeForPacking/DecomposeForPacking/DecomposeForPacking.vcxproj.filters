@@ -329,6 +329,9 @@
     <ClInclude Include="OpenGL3DDefaultProgramSetup.h">
       <Filter>Header Files\rendering\3d</Filter>
     </ClInclude>
+    <ClInclude Include="VectorMathUtil.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default2DVertexShader.vert">

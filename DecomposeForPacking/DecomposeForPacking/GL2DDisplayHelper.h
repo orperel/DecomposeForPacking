@@ -7,10 +7,10 @@ class GL2DDisplayHelper : public AbstractGLDisplayHelper
 {
 
 private:
-	class WorldDisplayVisitor : public IWorldVisitor
+	class World2DDisplayVisitor : public IWorldVisitor
 	{
 	public:
-		WorldDisplayVisitor(shared_ptr<OpenGLRenderContext> renderContext);
+		World2DDisplayVisitor(shared_ptr<OpenGLRenderContext> renderContext);
 		void visit(World& world, Point point) override;
 	private:
 		shared_ptr<OpenGLRenderContext> _renderContext;

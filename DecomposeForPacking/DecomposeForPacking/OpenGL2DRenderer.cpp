@@ -16,6 +16,12 @@ OpenGL2DRenderer::~OpenGL2DRenderer()
 
 #pragma region - Rendering Logic
 
+void OpenGL2DRenderer::determineWindowSize()
+{
+	_windowWidth = 480;
+	_windowHeight = 480 * ((1.0f*_renderContext->height()) / (1.0f*_renderContext->width()));
+}
+
 void OpenGL2DRenderer::setup()
 {
 	// Load shaders
@@ -43,10 +49,10 @@ void OpenGL2DRenderer::setup()
 
 shared_ptr<MATRIX_4X4> OpenGL2DRenderer::generateMVPMatrix(int windowWidth, int windowHeight)
 {
-	float scale = 0.5;
+	float scale = 1.0f;
 	float screen_width = _renderContext->width();
 	float screen_height = _renderContext->height();
-	glm::mat4 projection = glm::ortho(0.0f, 1.0f*screen_height / scale, 0.0f, 1.0f*screen_width / scale);
+	glm::mat4 projection = glm::ortho(0.0f, 1.0f*screen_width / scale, 0.0f, 1.0f*screen_height / scale);
 	return std::make_shared<MATRIX_4X4>(projection);
 
 	/*

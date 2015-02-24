@@ -44,7 +44,7 @@
 		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj", 3));
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
 		//ObjMeshPtr lowTeapot(new ObjMesh(L"../../lowpolyTeapot.obj"));
-		//ObjMeshPtr knot(new ObjMesh(L"../../knot.obj", 20));
+		//ObjMeshPtr knot(new ObjMesh(L"../../knot.obj", 10));
 		//ObjMeshPtr sample(new ObjMesh(L"../../sample.obj", 4));
 		//ObjMeshPtr sample2(new ObjMesh(L"../../sample2.obj", 6));
 		//WorldPtr world = WorldBuilder::fromMesh(sample2);
@@ -68,9 +68,18 @@
 
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();
-		GL3DDisplayHelper displayHelper;
 
-		displayHelper.displayResults(world, decomposeResult);
+		// Display 2d results
+		if (world->getDepth() == 1)
+		{
+			GL2DDisplayHelper displayHelper;
+			displayHelper.displayResults(world, decomposeResult);
+		}
+		else // Display 3d results
+		{
+			GL3DDisplayHelper displayHelper;
+			displayHelper.displayResults(world, decomposeResult);
+		}
 
 		// Same Decompose
 		//std::string h_img = "../../h.bmp";

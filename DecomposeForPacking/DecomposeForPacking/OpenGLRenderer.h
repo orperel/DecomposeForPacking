@@ -20,7 +20,7 @@ public:
 	OpenGLRenderer();
 	virtual ~OpenGLRenderer();
 
-	int initRenderingLoop();
+	int initRenderingLoop(shared_ptr<OpenGLRenderContext> context);
 
 	// Load shaders and initialize batches according to 2d or 3d
 	virtual void setup() = 0;
@@ -35,6 +35,8 @@ public:
 protected:
 	// Buffer the geometry to the GPU
 	virtual void bufferData(shared_ptr<OpenGLRenderContext> context) = 0;
+
+	virtual void determineWindowSize() = 0;
 
 	shared_ptr<OpenGLRenderContext> _renderContext;
 	static int _windowWidth;

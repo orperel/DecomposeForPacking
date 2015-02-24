@@ -22,7 +22,7 @@ void GL2DDisplayHelper::World2DDisplayVisitor::visit(World& world, Point point)
 {
 	// Paint a square for each unmasked pixel in the world
 	float v1x = point.getX();
-	float v1y = world.getHeight() - point.getY(); // OpenGL Y axis is inverted
+	float v1y = world.getHeight() - point.getY() - 1; // OpenGL Y axis is inverted
 	float v2x = v1x + SQUARE_SIZE;
 	float v2y = v1y;
 	float v3x = v1x;
@@ -94,7 +94,7 @@ void GL2DDisplayHelper::paintSingleSolution(WorldPtr world, PartLocationListPtr 
 
 			// Paint a square for each unmasked pixel in the world
 			float v1x = point.getX();
-			float v1y = world->getHeight() - point.getY(); // OpenGL Y axis is inverted
+			float v1y = world->getHeight() - point.getY() - 1; // OpenGL Y axis is inverted
 			float v2x = v1x + SQUARE_SIZE;
 			float v2y = v1y;
 			float v3x = v1x;

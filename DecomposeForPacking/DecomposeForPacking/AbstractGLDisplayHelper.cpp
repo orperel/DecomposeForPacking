@@ -39,7 +39,7 @@ void AbstractGLDisplayHelper::onKeyPressed(KEYBOARD_KEY key)
 void AbstractGLDisplayHelper::initRenderingLoop()
 {
 	DFPLogger::getInstance().log("Starting OpenGL render thread", DFPLogger::LogLevel::DEBUG_MODE);
-	_renderer->initRenderingLoop();
+	_renderer->initRenderingLoop(_renderContext);
 	DFPLogger::getInstance().log("Quitting OpenGL render thread", DFPLogger::LogLevel::DEBUG_MODE);
 }
 
@@ -57,13 +57,12 @@ void AbstractGLDisplayHelper::initRenderingContext(WorldPtr world)
 	int depth = world->getDepth();
 	int pixelResolution = world->getPixelResolution();
 	_renderContext = std::make_shared<OpenGLRenderContext>(width, height, depth, pixelResolution);
-	//_renderContext = std::make_shared<OpenGLRenderContext>(3, 3, 3, pixelResolution); // TODO: Remove
 }
 
 void AbstractGLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalDecomposeResults decomposeResult, FinalPackResults packResult)
 {
-	std::thread openGLThread(&AbstractGLDisplayHelper::initRenderingLoop, this);
 	initRenderingContext(world);
+	std::thread openGLThread(&AbstractGLDisplayHelper::initRenderingLoop, this);
 
 	paintWorld(world);
 

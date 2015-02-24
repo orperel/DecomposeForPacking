@@ -19,6 +19,13 @@ OpenGL3DRenderer::~OpenGL3DRenderer()
 
 #pragma region - Rendering Logic
 
+
+void OpenGL3DRenderer::determineWindowSize()
+{
+	_windowWidth = 640;
+	_windowHeight = 480;
+}
+
 void OpenGL3DRenderer::setup()
 {
 	// Load shaders

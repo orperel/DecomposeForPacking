@@ -89,7 +89,7 @@ void OpenGLRenderer::framebuffer_size_callback(GLFWwindow* window, int width, in
 	glViewport(0, 0, width, height);
 }
 
-int OpenGLRenderer::initRenderingLoop()
+int OpenGLRenderer::initRenderingLoop(shared_ptr<OpenGLRenderContext> context)
 {
 	//Set the error callback for GLFW
 	glfwSetErrorCallback(error_callback);
@@ -106,11 +106,11 @@ int OpenGLRenderer::initRenderingLoop()
 	//glfwWindowHint(GLFW_SAMPLES, 4); //Request 4x antialiasing  
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
 
-	_windowWidth = 640;
-	_windowHeight = 480;
+	_renderContext = context; // For world dimensions
+	determineWindowSize();
 
 	// Create a window and create its OpenGL context  
-	_window = glfwCreateWindow(_windowWidth, _windowHeight, "Decompose for Packing", NULL, NULL);
+	_window = glfwCreateWindow(_windowWidth, _windowHeight, "World (object mask view)", NULL, NULL);
 
 	//If the window couldn't be created  
 	if (!_window)

@@ -35,6 +35,8 @@ protected:
 	// Buffer the geometry to the GPU
 	virtual void bufferData(shared_ptr<OpenGLRenderContext> context) override;
 
+	virtual void determineWindowSize() override;
+
 private:
 	unique_ptr<OpenGLShaderProgram> _default3DProgram;
 	unique_ptr<OpenGL3DDefaultProgramSetup> _default3DProgramSetup;

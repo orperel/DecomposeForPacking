@@ -46,10 +46,12 @@ private:
 	shared_ptr<MATRIX_4X4> _lastViewMatrix;
 	shared_ptr<MATRIX_4X4> _lastModelMatrix;
 	shared_ptr<glm::vec3> _lastCameraPosition;
+	shared_ptr<glm::mat4> _tempRotationMatrix;
 	shared_ptr<glm::mat4> _rotationMatrix;
 	double _lastFrameRenderTime;
 	double _pressPositionX;
 	double _pressPositionY;
 	shared_ptr<glm::vec3> _pressCameraPosition;
+	float _zoom;
 };
 

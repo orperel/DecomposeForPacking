@@ -3,6 +3,7 @@
 #include "VectorMathUtil.h"
 
 static const float CUBE_SIZE = 1;
+static const float CUBE_ALPHA = 0.55f / 2;
 
 GL3DDisplayHelper::GL3DDisplayHelper() : AbstractGLDisplayHelper()
 {
@@ -76,21 +77,33 @@ void GL3DDisplayHelper::paintCube(shared_ptr<OpenGLRenderContext> renderContext,
 	// Front square
 	renderContext->write3DTriangle(v2, v1, v5);
 	renderContext->write3DTriangle(v2, v5, v6);
+	renderContext->write3DTriangle(v2, v5, v1);
+	renderContext->write3DTriangle(v2, v6, v5);
 	// Back square
 	renderContext->write3DTriangle(v3, v4, v8);
 	renderContext->write3DTriangle(v3, v7, v8);
+	renderContext->write3DTriangle(v3, v8, v4);
+	renderContext->write3DTriangle(v3, v8, v7);
 	// Left square
 	renderContext->write3DTriangle(v1, v4, v5);
 	renderContext->write3DTriangle(v4, v5, v8);
+	renderContext->write3DTriangle(v1, v5, v4);
+	renderContext->write3DTriangle(v4, v8, v5);
 	// Right square
 	renderContext->write3DTriangle(v2, v3, v6);
 	renderContext->write3DTriangle(v3, v6, v7);
+	renderContext->write3DTriangle(v2, v6, v3);
+	renderContext->write3DTriangle(v3, v7, v6);
 	// Top square
 	renderContext->write3DTriangle(v1, v2, v3);
 	renderContext->write3DTriangle(v1, v3, v4);
+	renderContext->write3DTriangle(v1, v3, v2);
+	renderContext->write3DTriangle(v1, v4, v3);
 	// Bottom square
 	renderContext->write3DTriangle(v5, v6, v7);
 	renderContext->write3DTriangle(v5, v7, v8);
+	renderContext->write3DTriangle(v5, v7, v6);
+	renderContext->write3DTriangle(v5, v8, v7);
 }
 
 
@@ -103,7 +116,7 @@ void GL3DDisplayHelper::World3DDisplayVisitor::visit(World& world, Point point)
 {
 	// Paint a cube for each unmasked voxel in the world
 	float r, g, b, a;
-	a = 0.55f;
+	a = CUBE_ALPHA;
 	r = 255;
 	r /= 255.0;
 	g = 255;
@@ -145,7 +158,7 @@ void testPaint(WorldPtr world, PartLocationListPtr parts)
 
 void GL3DDisplayHelper::paintSingleSolution(WorldPtr world, PartLocationListPtr parts)
 {
-	float alpha = 0.55f;
+	float alpha = CUBE_ALPHA;
 
 	for (tuple<PartOrientationPtr, Point>& partLocation : *parts)
 	{

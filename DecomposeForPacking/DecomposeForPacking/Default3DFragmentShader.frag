@@ -22,7 +22,8 @@ void main()
 	//  - light is at the vertical of the triangle -> 1
 	//  - light is perpendicular to the triangle -> 0
 	//  - light is behind the triangle -> 0
-	float cosTheta = clamp( dot(normal, lightDirection), 0, 1 );
+	//float cosTheta = clamp( dot(normal, lightDirection), 0, 1 );
+	float cosTheta = clamp( abs( dot(normal, lightDirection) ), 0, 1 );
 
 	// Distance of the fragment from the light-source position
 	float distance = length(uLightPosition - vPosition_worldspace);

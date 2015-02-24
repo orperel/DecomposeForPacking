@@ -54,11 +54,26 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateModelMatrix(int windowWidth, in
 
 shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int windowHeight)
 {
+	// Handle zoom change
+	if (_viewState != UNINITIALIZED)
+	{
+		if (glfwGetKey(_window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS) // Zoom out
+		{
+			float width = _renderContext->width();
+			_zoom = std::min(float(_renderContext->width() * 20), float(_zoom + 0.01));
+		}
+		else if (glfwGetKey(_window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) // Zoom in
+		{
+			_zoom = std::max(0.1f, float(_zoom - 0.01));
+		}
+	}
+
 	switch (_viewState)
 	{
 		case (UNINITIALIZED) :
 		{
 			_rotationMatrix = std::make_shared<MATRIX_4X4>(1.0f);
+			_zoom = 1.0f;
 
 			// Initialize to world center
 			shared_ptr<VECTOR_3D> worldCenter = std::make_shared<VECTOR_3D>(_renderContext->width()*1.0f / 2,
@@ -75,6 +90,8 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 				);
 
 			_lastViewMatrix = std::make_shared<MATRIX_4X4>(view);
+			_viewState = STANDBY_MODE;
+			break;
 		}
 
 		case (STANDBY_MODE) :
@@ -88,9 +105,19 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 				_pressPositionX = xpos;
 				_pressPositionY = ypos;
 				_pressCameraPosition = _lastCameraPosition;
+
 				_lastFrameRenderTime = glfwGetTime();
 				_viewState = ROTATE_MODE;
 			}
+
+			glm::mat4 view = glm::lookAt(
+				_zoom * (*_lastCameraPosition), // Camera position in World Space
+				glm::vec3(0, 0, 0), // and looks at the origin
+				glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+				);
+
+			_lastViewMatrix = std::make_shared<MATRIX_4X4>(view*(*_rotationMatrix));
+			break;
 		}
 
 		case (ROTATE_MODE) :
@@ -100,6 +127,7 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 			{
 				_pressPositionX = NO_PRESS;
 				_pressPositionY = NO_PRESS;
+				//_rotationMatrix = _tempRotationMatrix;
 				_viewState = STANDBY_MODE;
 			}
 			else // Perform rotate
@@ -152,7 +180,7 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 				//glm::vec3 cameraPosition = *_lastCameraPosition;
 
 				glm::mat4 view = glm::lookAt(
-					cameraPosition, // Camera position in World Space
+					_zoom*cameraPosition, // Camera position in World Space
 					glm::vec3(0, 0, 0), // and looks at the origin
 					glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 					);
@@ -160,6 +188,8 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 				_lastCameraPosition = std::make_shared<VECTOR_3D>(cameraPosition);
 				_lastViewMatrix = std::make_shared<MATRIX_4X4>(view*rotationMatrix);
 			}
+
+			break;
 		}
 	}
 
@@ -188,7 +218,10 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateMVPMatrix(int windowWidth, int 
 
 shared_ptr<VECTOR_3D> OpenGL3DRenderer::generateLightSource()
 {
-	glm::vec3 spotLight = glm::vec3(10.0f, 10.0f, 10.0f);
+	VECTOR_3D spotLight = VECTOR_3D(_renderContext->width()*1.0f * 1.5,
+									_renderContext->height()*1.0f * 1.5,
+									_renderContext->depth()*1.0f * 1.5);
+
 	return std::make_shared<VECTOR_3D>(spotLight);
 }
 

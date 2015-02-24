@@ -41,7 +41,7 @@
 	void runProd()
 	{
 		// 3D Object
-		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj"));
+		//ObjMeshPtr cube(new ObjMesh(L"../../cube.obj", 3));
 		//ObjMeshPtr teapot(new ObjMesh(L"../../teapot.obj"));
 		//ObjMeshPtr lowTeapot(new ObjMesh(L"../../lowpolyTeapot.obj"));
 		//ObjMeshPtr knot(new ObjMesh(L"../../knot.obj", 20));

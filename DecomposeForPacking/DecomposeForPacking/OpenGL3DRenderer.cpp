@@ -7,9 +7,10 @@
 #include "DFPConfiguration.h"
 
 static const double NO_PRESS = -1;
+shared_ptr<Arcball> OpenGL3DRenderer::_arcball = std::make_shared<Arcball>(); // Static variable allocation
 
 OpenGL3DRenderer::OpenGL3DRenderer() :
-OpenGLRenderer(), _lastFrameRenderTime(0), _pressPositionX(NO_PRESS), _pressPositionY(NO_PRESS), _viewState(UNINITIALIZED)
+OpenGLRenderer(), _lastFrameRenderTime(0), _viewState(UNINITIALIZED)
 {
 }
 
@@ -45,7 +46,29 @@ void OpenGL3DRenderer::setup()
 	// Generate VertexArrayBuffers and VertexBufferObjects in OpenGL
 	_triangles3DBatch.generate();
 
-	_bgColor = std::make_tuple(0.0f, 0.0f, 0.0f); // Set background color to black
+	_bgColor = std::make_tuple(1.0f, 1.0f, 1.0f); // Set background color to black
+
+	glfwSetCursorPosCallback(_window, cursor_position_callback);
+	glfwSetMouseButtonCallback(_window, mouse_button_callback);
+}
+
+void OpenGL3DRenderer::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	_arcball->handleMouseMove(xpos, ypos);
+}
+
+void OpenGL3DRenderer::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button != GLFW_MOUSE_BUTTON_LEFT)
+		return;
+
+	bool isLeftMouseButtonPressed = ((button == GLFW_MOUSE_BUTTON_LEFT) && (action == GLFW_PRESS));
+
+	// Get mouse position
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+
+	_arcball->handleMousePress(isLeftMouseButtonPressed, xpos, ypos);
 }
 
 shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateModelMatrix(int windowWidth, int windowHeight)
@@ -53,17 +76,37 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateModelMatrix(int windowWidth, in
 	VECTOR_3D worldCenter = VECTOR_3D(-_renderContext->width()*1.0f / 2,
 									  -_renderContext->height()*1.0f / 2,
 									  -_renderContext->depth()*1.0f / 2);
-	glm::mat4 model = glm::translate(glm::mat4(1.0f), worldCenter); // Center object around (0, 0, 0)
+	glm::mat4 translation = glm::translate(glm::mat4(1.0f), worldCenter); // Center object around (0, 0, 0)
 
-	_lastModelMatrix = std::make_shared<MATRIX_4X4>(model);
-	return _lastModelMatrix;
+	// Arcball code starts here
+
+	_arcball->updateScreenSize(windowWidth, windowHeight);
+
+	if (_lastViewMatrix == nullptr) // Handle first frame case
+		_lastViewMatrix = generateViewMatrix(windowWidth, windowHeight);
+
+	auto rotation = _arcball->modelRotationMatrix(std::make_shared<MATRIX_4X4>(translation), _lastViewMatrix);
+
+	// TODO: handle FPS
+	double currentTime = glfwGetTime();
+	float deltaTime = float(currentTime - _lastFrameRenderTime);
+	_lastFrameRenderTime = currentTime;
+
+	// Arcball code ends here
+
+	//_lastModelMatrix = std::make_shared<MATRIX_4X4>(translation * (*rotation));
+	return std::make_shared<MATRIX_4X4>((*rotation) * translation);
 }
 
 shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int windowHeight)
 {
-	// Handle zoom change
-	if (_viewState != UNINITIALIZED)
+	if (_viewState == UNINITIALIZED)
 	{
+			_zoom = 1.0f;
+			_viewState = READY;
+	}
+	else
+	{ // Handle zoom change
 		if (glfwGetKey(_window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS) // Zoom out
 		{
 			float width = _renderContext->width();
@@ -75,130 +118,16 @@ shared_ptr<MATRIX_4X4> OpenGL3DRenderer::generateViewMatrix(int windowWidth, int
 		}
 	}
 
-	switch (_viewState)
-	{
-		case (UNINITIALIZED) :
-		{
-			_rotationMatrix = std::make_shared<MATRIX_4X4>(1.0f);
-			_zoom = 1.0f;
+	VECTOR_3D cameraPos =
+		glm::vec3(_renderContext->width() * 3, _renderContext->height() * 3, _renderContext->depth() * 3);
 
-			// Initialize to world center
-			shared_ptr<VECTOR_3D> worldCenter = std::make_shared<VECTOR_3D>(_renderContext->width()*1.0f / 2,
-																		    _renderContext->height()*1.0f / 2,
-																		    _renderContext->depth()*1.0f / 2);
+	glm::mat4 view = glm::lookAt(
+		_zoom * cameraPos, // Camera position in World Space
+		glm::vec3(0, 0, 0), // and looks at the origin
+		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+		);
 
-			_lastCameraPosition =
-				std::make_shared<VECTOR_3D>(glm::vec3(_renderContext->width() * 3, _renderContext->height() * 3, _renderContext->depth() * 3));
-
-			glm::mat4 view = glm::lookAt(
-				*_lastCameraPosition, // Camera position in World Space
-				glm::vec3(0, 0, 0), // and looks at the origin
-				glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-				);
-
-			_lastViewMatrix = std::make_shared<MATRIX_4X4>(view);
-			_viewState = STANDBY_MODE;
-			break;
-		}
-
-		case (STANDBY_MODE) :
-		{
-			// Go into rotate mode
-			if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-			{
-				// Get mouse position
-				double xpos, ypos;
-				glfwGetCursorPos(_window, &xpos, &ypos);
-				_pressPositionX = xpos;
-				_pressPositionY = ypos;
-				_pressCameraPosition = _lastCameraPosition;
-
-				_lastFrameRenderTime = glfwGetTime();
-				_viewState = ROTATE_MODE;
-			}
-
-			glm::mat4 view = glm::lookAt(
-				_zoom * (*_lastCameraPosition), // Camera position in World Space
-				glm::vec3(0, 0, 0), // and looks at the origin
-				glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-				);
-
-			_lastViewMatrix = std::make_shared<MATRIX_4X4>(view*(*_rotationMatrix));
-			break;
-		}
-
-		case (ROTATE_MODE) :
-		{
-			// Go back to standby mode
-			if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
-			{
-				_pressPositionX = NO_PRESS;
-				_pressPositionY = NO_PRESS;
-				//_rotationMatrix = _tempRotationMatrix;
-				_viewState = STANDBY_MODE;
-			}
-			else // Perform rotate
-			{
-				// Get mouse position
-				double xpos, ypos;
-				glfwGetCursorPos(_window, &xpos, &ypos);
-
-				// As the mouse goes away from the anchor, we update the view matrix
-				double deltaX = glm::radians((_pressPositionX - xpos) / 2);
-				double deltaY = glm::radians((_pressPositionY - ypos) / 2);
-
-				_pressPositionX = xpos;
-				_pressPositionY = ypos;
-
-				double currentTime = glfwGetTime();
-				float deltaTime = float(currentTime - _lastFrameRenderTime);
-				_lastFrameRenderTime = currentTime;
-				/*
-				glm::mat3x3 rotateXTransform = glm::mat3x3(glm::vec3(1, 0, 0),
-					glm::vec3(0, cos(deltaY), -sin(deltaY)),
-					glm::vec3(0, sin(deltaY), cos(deltaY)));
-				glm::mat3x3 rotateYTransform = glm::mat3x3(glm::vec3(cos(deltaX), 0, sin(deltaX)),
-					glm::vec3(0, 1, 0),
-					glm::vec3(-sin(deltaX), 0, cos(deltaX)));
-				glm::mat3x3 rotateZTransform = glm::mat3x3(glm::vec3(cos(deltaX), -sin(deltaX), 0),
-					glm::vec3(sin(deltaX), cos(deltaX), 0),
-					glm::vec3(0, 0, 1));
-
-				glm::vec3 cameraPosition = rotateYTransform * glm::inverse(rotateXTransform) *  (*_pressCameraPosition);
-				*/
-				
-				MATRIX_4X4 rotationMatrix = *_rotationMatrix; 
-
-				glm::vec3 xAxis = glm::vec3(glm::inverse(rotationMatrix) * glm::vec4(1.0f, 0.0f, 0.0f, 1.0));
-				rotationMatrix = glm::rotate(rotationMatrix, float(deltaY), xAxis);
-				glm::vec3 yAxis = glm::vec3(glm::inverse(rotationMatrix) * glm::vec4(0.0f, 1.0f, 0.0f, 1.0));
-				rotationMatrix = glm::rotate(rotationMatrix, float(deltaX), yAxis);
-
-				//glm::mat4 cubeInv = glm::inverse(*_lastViewMatrix * *_lastModelMatrix);
-				//glm::vec4 rX = cubeInv * (*_lastViewMatrix) * glm::vec4(0.f, -1.f, 0.f, 1.f);
-				//glm::vec4 rY = cubeInv * (*_lastViewMatrix) * glm::vec4(-1.f, 0.f, 0.f, 1.f);
-				//rotationMatrix = glm::rotate(rotationMatrix, float(deltaY), glm::vec3(rX.x, rX.y, rX.z));
-				//rotationMatrix = glm::rotate(rotationMatrix, float(deltaX), glm::vec3(rY.x, rY.y, rY.z));
-
-
-				glm::vec3 cameraPosition = glm::vec3(glm::vec4((*_pressCameraPosition), 0.0f));
-				_rotationMatrix = std::make_shared<MATRIX_4X4>(rotationMatrix);
-
-				//glm::vec3 cameraPosition = *_lastCameraPosition;
-
-				glm::mat4 view = glm::lookAt(
-					_zoom*cameraPosition, // Camera position in World Space
-					glm::vec3(0, 0, 0), // and looks at the origin
-					glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-					);
-
-				_lastCameraPosition = std::make_shared<VECTOR_3D>(cameraPosition);
-				_lastViewMatrix = std::make_shared<MATRIX_4X4>(view*rotationMatrix);
-			}
-
-			break;
-		}
-	}
+	_lastViewMatrix = std::make_shared<MATRIX_4X4>(view);
 
 	return _lastViewMatrix;
 }

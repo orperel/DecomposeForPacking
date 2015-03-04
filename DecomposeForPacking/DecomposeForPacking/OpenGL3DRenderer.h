@@ -4,12 +4,12 @@
 #include "OpenGLRenderer.h"
 #include "OpenGLShaderProgram.h"
 #include "OpenGL3DDefaultProgramSetup.h"
+#include "Arcball.h"
 
 enum VIEW_STATE
 {
 	UNINITIALIZED,
-	STANDBY_MODE, // No mouse pressed
-	ROTATE_MODE // Mouse pressed
+	READY, // No mouse pressed
 };
 
 class OpenGL3DRenderer : public OpenGLRenderer
@@ -41,19 +41,16 @@ private:
 	unique_ptr<OpenGLShaderProgram> _default3DProgram;
 	unique_ptr<OpenGL3DDefaultProgramSetup> _default3DProgramSetup;
 
-	void OpenGL3DRenderer::renderBatch(GLenum geometryType, OpenGLBatch& batch);
-
 	// Camera control
 	VIEW_STATE _viewState;
+	static shared_ptr<Arcball> _arcball;
 	shared_ptr<MATRIX_4X4> _lastViewMatrix;
-	shared_ptr<MATRIX_4X4> _lastModelMatrix;
-	shared_ptr<glm::vec3> _lastCameraPosition;
-	shared_ptr<glm::mat4> _tempRotationMatrix;
-	shared_ptr<glm::mat4> _rotationMatrix;
 	double _lastFrameRenderTime;
-	double _pressPositionX;
-	double _pressPositionY;
-	shared_ptr<glm::vec3> _pressCameraPosition;
 	float _zoom;
+
+
+	void renderBatch(GLenum geometryType, OpenGLBatch& batch);
+	static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 };
 

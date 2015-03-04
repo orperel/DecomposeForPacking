@@ -39,19 +39,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
-    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(SolutionDir)\DecomposeForPacking\glm;$(SolutionDir)\DecomposeForPacking\glm\gtc;$(SolutionDir)\DecomposeForPacking\glm\gtx;$(SolutionDir)\DecomposeForPacking\glm\glm;$(SolutionDir)\DecomposeForPacking\glm\glm\gtc;$(SolutionDir)\DecomposeForPacking\glm\glm\gtx;$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)\DecomposeForPacking\glm;$(SourcePath)</SourcePath>
+    <ReferencePath>$(ProjectDir);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm;$(IncludePath)</IncludePath>
     <SourcePath>$(SourcePath)</SourcePath>
+    <ReferencePath>$(ProjectDir);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\opengl-wrappers\glew\include;C:\opengl-wrappers\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\opengl-wrappers\glew\include;C:\opengl-wrappers\glfw\include;C:\Users\Or Perel\Documents\Code\DecomposeForPacking\DecomposeForPacking\DecomposeForPacking\glm\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbstractPartFitVisitor.cpp" />
+    <ClCompile Include="Arcball.cpp" />
     <ClCompile Include="DecomposeAndPack.cpp" />
     <ClCompile Include="DecomposeResult.cpp" />
     <ClCompile Include="Decompose.cpp" />
@@ -116,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPartFitVisitor.h" />
+    <ClInclude Include="Arcball.h" />
     <ClInclude Include="DecomposeAndPack.h" />
     <ClInclude Include="DecomposeSolutionKey.h" />
     <ClInclude Include="DFPConfiguration.h" />
@@ -137,7 +141,6 @@
     <ClInclude Include="OpenGLLibs.h" />
     <ClInclude Include="ExpandableBuffer.h" />
     <ClInclude Include="AbstractGLDisplayHelper.h" />
-    <ClInclude Include="IInputListener.h" />
     <ClInclude Include="OpenGL2DDefaultProgramSetup.h" />
     <ClInclude Include="OpenGLBatch.h" />
     <ClInclude Include="OpenGLProgramSetup.h" />

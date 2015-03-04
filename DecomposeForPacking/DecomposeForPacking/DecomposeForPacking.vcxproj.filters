@@ -79,6 +79,12 @@
     <Filter Include="Source Files\rendering\2d">
       <UniqueIdentifier>{dca70948-2aa5-4205-8eb2-e94fe3d6a96f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\rendering\2d\shaders">
+      <UniqueIdentifier>{7acdf90d-3ec0-4f5e-b909-b2d88fc0365e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rendering\3d\shaders">
+      <UniqueIdentifier>{1344abc7-2b2f-40ad-a41c-8466deffb0f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -192,6 +198,9 @@
     <ClCompile Include="OpenGL3DDefaultProgramSetup.cpp">
       <Filter>Source Files\rendering\3d</Filter>
     </ClCompile>
+    <ClCompile Include="Arcball.cpp">
+      <Filter>Source Files\rendering\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLRenderer.h">
@@ -284,9 +293,6 @@
     <ClInclude Include="SameDecompose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IInputListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PrimeNumbersModule.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
@@ -332,19 +338,22 @@
     <ClInclude Include="VectorMathUtil.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="Arcball.h">
+      <Filter>Header Files\rendering\3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default2DVertexShader.vert">
-      <Filter>Header Files\rendering\2d</Filter>
+      <Filter>Header Files\rendering\2d\shaders</Filter>
     </None>
     <None Include="Default2DFragmentShader.frag">
-      <Filter>Header Files\rendering\2d</Filter>
+      <Filter>Header Files\rendering\2d\shaders</Filter>
     </None>
     <None Include="Default3DVertexShader.vert">
-      <Filter>Header Files\rendering\3d</Filter>
+      <Filter>Header Files\rendering\3d\shaders</Filter>
     </None>
     <None Include="Default3DFragmentShader.frag">
-      <Filter>Header Files\rendering\3d</Filter>
+      <Filter>Header Files\rendering\3d\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

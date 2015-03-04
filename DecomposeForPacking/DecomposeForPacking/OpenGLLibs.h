@@ -1,4 +1,5 @@
 /** Libraries used by OpenGL should be defined here for easier control over imports. */
+#pragma once 
 
 // GLEW is used to load OpenGL extensions, and also OpenGL api functions above version 1.1
 // The OpenGL Api is supplied by this library.
@@ -12,6 +13,9 @@
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
+using MATRIX_3X3 = glm::mat3;
 using MATRIX_4X4 = glm::mat4;
 using VECTOR_3D = glm::vec3;
+using VECTOR_4D = glm::vec4;

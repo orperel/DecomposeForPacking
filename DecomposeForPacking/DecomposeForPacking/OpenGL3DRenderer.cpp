@@ -46,7 +46,7 @@ void OpenGL3DRenderer::setup()
 	// Generate VertexArrayBuffers and VertexBufferObjects in OpenGL
 	_triangles3DBatch.generate();
 
-	_bgColor = std::make_tuple(1.0f, 1.0f, 1.0f); // Set background color to black
+	_bgColor = std::make_tuple(0.0f, 0.0f, 0.0f); // Set background color to black
 
 	glfwSetCursorPosCallback(_window, cursor_position_callback);
 	glfwSetMouseButtonCallback(_window, mouse_button_callback);

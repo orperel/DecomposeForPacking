@@ -46,8 +46,9 @@
 		//ObjMeshPtr lowTeapot(new ObjMesh(L"../../lowpolyTeapot.obj"));
 		//ObjMeshPtr knot(new ObjMesh(L"../../knot.obj", 10));
 		//ObjMeshPtr sample(new ObjMesh(L"../../sample.obj", 4));
-		//ObjMeshPtr sample2(new ObjMesh(L"../../sample2.obj", 6));
-		//WorldPtr world = WorldBuilder::fromMesh(sample2);
+		ObjMeshPtr sample2(new ObjMesh(L"../../sample2.obj", 6));
+		//ObjMeshPtr lamp(new ObjMesh(L"../../lamp.obj", 11));
+		WorldPtr world = WorldBuilder::fromMesh(sample2);
 
 		// Other stuff
 		//std::string path = "../../tet.bmp";
@@ -62,9 +63,9 @@
 		//WorldPtr world = WorldBuilder::fromImage(orig, 4);
 
 		// Example #2
-		std::string path = "../../pptSample2.bmp";
-		std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
-		WorldPtr world = WorldBuilder::fromImage(orig, 1);
+		//std::string path = "../../pptSample2.bmp";
+		//std::shared_ptr<CImg<int>> orig(new CImg<int>(path.c_str()));
+		//WorldPtr world = WorldBuilder::fromImage(orig, 1);
 
 		DecomposeAndPack dp(world);
 		DecomposeAndPackResult decomposeResult = dp.run();

@@ -233,3 +233,13 @@ PartOrientationPtr PartOrientation::XZMirror()
 
 	return PartOrientationPtr(new PartOrientation(newPointList));
 }
+
+const int PartOrientation::getPartId() const
+{
+	return m_partId;
+}
+
+void PartOrientation::setPartId(int partId)
+{
+	m_partId = partId;
+}

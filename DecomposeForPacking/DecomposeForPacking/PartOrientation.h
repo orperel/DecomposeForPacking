@@ -34,6 +34,9 @@ public:
 	bool isContainsPointLeftPoint(Point);
 	const int getId() const;
 
+	const int getPartId() const;
+	void setPartId(int partId);
+
 	bool operator!=(PartOrientation& partOrient) const;
 
 private:
@@ -46,6 +49,8 @@ private:
 
 	int m_orientationId;
 	static int sequentialPartsOrientationId;
+
+	int m_partId;
 
 	void addPoint(Point startPoint);
 

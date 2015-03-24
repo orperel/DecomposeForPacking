@@ -6,12 +6,6 @@ unique_ptr<PrimeNumbersGenerator> Part::idAllocator = NULL;
 
 Part::Part(PartOrientationPtr partOrient, bool is3D /*= false*/)
 {
-	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
-
-	m_partOrientations->push_back(partOrient);
-
-	extendPartOrientations(is3D);
-
 	// If the id allocator is accessed for the first time, create it here.
 	// The reason this initialization is done here and not at the static variable initialization line
 	// is the generator creation involves accessing external files, and doing that during the static
@@ -25,6 +19,12 @@ Part::Part(PartOrientationPtr partOrient, bool is3D /*= false*/)
 	// The ids are assigned as prime numbers to make the hash function of solutions made of
 	// combinations of multiple parts more efficient.
 	m_partId = idAllocator->nextPrime();
+
+	m_partOrientations = PartOrientationListPtr(new PartOrientationList());
+	partOrient->setPartId(m_partId);
+	m_partOrientations->push_back(partOrient);
+
+	extendPartOrientations(is3D);
 }
 
 Part::~Part()
@@ -87,5 +87,6 @@ void Part::addUniquePartOrientation(PartOrientationPtr partOrient)
 		}
 	}
 
+	partOrient->setPartId(m_partId);
 	m_partOrientations->push_back(partOrient);
 }

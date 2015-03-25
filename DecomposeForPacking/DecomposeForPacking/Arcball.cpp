@@ -75,7 +75,7 @@ VECTOR_3D Arcball::getArcballVector(int x, int y)
 
 shared_ptr<MATRIX_4X4> Arcball::modelRotationMatrix(shared_ptr<MATRIX_4X4> model, shared_ptr<MATRIX_4X4> view)
 {
-	VECTOR_3D rotationAxis = glm::inverse(glm::mat3(*view)) * _axis_in_camera_coord;
+	VECTOR_3D rotationAxis = glm::inverse(glm::mat3(*view) *  glm::inverse(glm::mat3(*model))) * _axis_in_camera_coord;
 	MATRIX_4X4 rotationMatrix = glm::rotate(glm::degrees(_angle) / 10.0f, rotationAxis);
 
 	_lastModelRotationMatrix = std::make_shared<MATRIX_4X4>(rotationMatrix * (*_prevModelRotationMatrix));

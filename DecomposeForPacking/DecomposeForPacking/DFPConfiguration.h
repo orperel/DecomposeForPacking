@@ -21,7 +21,7 @@ static const string DEFAULT_3D_FRAGSHADER_PATH = SHADERS_PATH + "Default3DFragme
  *  This cap is used to control the amount of processing Algorithm X does, to avoid
  *  very long running times at the cost of missing some solutions.
  */
-static const int DLX_SOLVER_SOLUTIONS_LIMIT = 64;	
+static const int DLX_SOLVER_SOLUTIONS_LIMIT = 4;	
 
 /** When Algorithm X is configured to return the best partial cover solutions available if no exact
  *  cover solution is available, this parameter comes into use.

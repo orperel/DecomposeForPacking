@@ -127,33 +127,11 @@ void GL3DDisplayHelper::World3DDisplayVisitor::visit(World& world, Point point)
 	paintCube(_renderContext, world, point.getX(), point.getY(), point.getZ(), r, g, b, a);
 }
 
-
 void GL3DDisplayHelper::paintWorld(WorldPtr world)
 {
 	// Paint the world pixels to the context
 	auto worldPainter = std::make_shared<World3DDisplayVisitor>(_renderContext);
 	world->accept(worldPainter);
-}
-
-// TODO: Remove
-void testPaint(WorldPtr world, PartLocationListPtr parts)
-{
-	//paintCube(_renderContext, *world, 3.0f, 2.0f, 2.0f, 1.0f, 0.0f, 1.0f, alpha);
-	//paintCube(_renderContext, *world, 3.0f, 2.0f, 1.0f, 1.0f, 0.0f, 1.0f, alpha);
-	//paintCube(_renderContext, *world, 3.0f, 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, alpha);
-
-	//paintCube(_renderContext, *world, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, alpha);
-	//paintCube(_renderContext, *world, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, alpha);
-
-	//paintCube(_renderContext, *world, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, alpha);
-	//paintCube(_renderContext, *world, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, alpha);
-	//paintCube(_renderContext, *world, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, alpha);
-	//paintCube(_renderContext, *world, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, alpha);
-
-	//paintCube(_renderContext, *world, 3.0f, 3.0f, 3.0f, 0.5f, 0.4f, 0.0f, alpha);
-	//paintCube(_renderContext, *world, 3.0f, 2.0f, 3.0f, 0.5f, 0.4f, 0.0f, alpha);
-	//paintCube(_renderContext, *world, 2.0f, 3.0f, 3.0f, 0.5f, 0.4f, 0.0f, alpha);
-	//paintCube(_renderContext, *world, 3.0f, 3.0f, 2.0f, 0.5f, 0.4f, 0.0f, alpha);
 }
 
 void GL3DDisplayHelper::paintSingleSolution(WorldPtr world, PartLocationListPtr parts)
@@ -165,18 +143,7 @@ void GL3DDisplayHelper::paintSingleSolution(WorldPtr world, PartLocationListPtr 
 		PartOrientationPtr currentOrientation = std::get<0>(partLocation);
 		Point anchorPartPoint = std::get<1>(partLocation);
 
-		int orientationId = currentOrientation->getId();
-		if (_partOrientationToColor.find(orientationId) == _partOrientationToColor.end())
-		{
-			float r, g, b;
-			r = (rand() % 255);
-			g = (rand() % 255);
-			b = (rand() % 255);
-			RGB_COLOR color = std::make_tuple(r, g, b);
-			_partOrientationToColor[orientationId] = color;
-		}
-
-		RGB_COLOR orientationColor = _partOrientationToColor.at(currentOrientation->getId());
+		RGB_COLOR orientationColor = _colorManager->getColor(*currentOrientation);
 		float r = std::get<0>(orientationColor);
 		float g = std::get<1>(orientationColor);
 		float b = std::get<2>(orientationColor);

@@ -201,6 +201,9 @@
     <ClCompile Include="Arcball.cpp">
       <Filter>Source Files\rendering\3d</Filter>
     </ClCompile>
+    <ClCompile Include="PartsColorManager.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLRenderer.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="Arcball.h">
       <Filter>Header Files\rendering\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="PartsColorManager.h">
+      <Filter>Header Files\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

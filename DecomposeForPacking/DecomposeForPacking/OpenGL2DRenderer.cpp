@@ -19,7 +19,7 @@ OpenGL2DRenderer::~OpenGL2DRenderer()
 void OpenGL2DRenderer::determineWindowSize()
 {
 	_windowWidth = 480;
-	_windowHeight = 480 * ((1.0f*_renderContext->height()) / (1.0f*_renderContext->width()));
+	_windowHeight = 480 * ((1.0f*_renderContext->worldHeight()) / (1.0f*_renderContext->worldWidth()));
 }
 
 void OpenGL2DRenderer::setup()
@@ -50,26 +50,10 @@ void OpenGL2DRenderer::setup()
 shared_ptr<MATRIX_4X4> OpenGL2DRenderer::generateMVPMatrix(int windowWidth, int windowHeight)
 {
 	float scale = 1.0f;
-	float screen_width = _renderContext->width();
-	float screen_height = _renderContext->height();
+	float screen_width = _renderContext->worldWidth();
+	float screen_height = _renderContext->worldHeight();
 	glm::mat4 projection = glm::ortho(0.0f, 1.0f*screen_width / scale, 0.0f, 1.0f*screen_height / scale);
 	return std::make_shared<MATRIX_4X4>(projection);
-
-	/*
-	//float scale = glutGet(GLUT_ELAPSED_TIME) / 1000.0 * .2;  // 20% per second
-	float scale = 1;
-	float screen_width = _renderContext->width() + 1;
-	float screen_height = _renderContext->height() + 1;
-
-	float aspectRatio = (1.0f*windowHeight) / (1.0f*windowWidth);
-
-	// Object to world matrix
-	glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f)) *
-	glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f));
-
-	glm::mat4 projection = glm::ortho(0.0f, 1.0f*screen_width * 4 / 3 / scale, 0.0f, 1.0f*screen_height/aspectRatio* 4 / 3 / scale);
-	return std::make_shared<MATRIX_4X4>(model*projection);
-	*/
 }
 
 void OpenGL2DRenderer::bufferData(shared_ptr<OpenGLRenderContext> context)

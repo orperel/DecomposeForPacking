@@ -69,6 +69,14 @@ void OpenGLRenderer::key_callback(GLFWwindow* window, int key, int scancode, int
 		keyPressed = KEYBOARD_KEY::KEY_RIGHT;
 	else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
 		keyPressed = KEYBOARD_KEY::KEY_LEFT;
+	else if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+		keyPressed = KEYBOARD_KEY::KEY_1;
+	else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+		keyPressed = KEYBOARD_KEY::KEY_2;
+	else if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+		keyPressed = KEYBOARD_KEY::KEY_3;
+	else if (key == GLFW_KEY_R && action == GLFW_PRESS)
+		keyPressed = KEYBOARD_KEY::KEY_R;
 
 	if (keyPressed != KEYBOARD_KEY::UNSUPPORTED)
 	{

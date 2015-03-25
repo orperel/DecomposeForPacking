@@ -49,9 +49,12 @@ public:
 	ExpandableBuffer<Colored2DVertexEntry>& boldLines() { return _boldLinesVBO; };
 	ExpandableBuffer<Colored2DVertexEntry>& triangles2D() { return _triangles2DVBO; };
 	ExpandableBuffer<Colored3DVertexEntry>& triangles3D() { return _triangles3DVBO; };
-	const int width() const { return _width; };
-	const int height() const { return _height; };
-	const int depth() const { return _depth; };
+	const int width() const { return _maxX - _minX; };
+	const int height() const { return _maxY - _minY; };
+	const int depth() const { return _maxZ - _minZ; };
+	const int worldWidth() const { return _worldWidth; };
+	const int worldHeight() const { return _worldHeight; };
+	const int worldDepth() const { return _worldDepth; };
 	const int pixelResolution() const { return _pixelResolution; };
 	const void setContentDescription(string& description) { _contentDescription = description; };
 	const string contentDescription() const { return _contentDescription; };
@@ -62,10 +65,9 @@ private:
 	ExpandableBuffer<Colored2DVertexEntry> _triangles2DVBO;
 	ExpandableBuffer<Colored3DVertexEntry> _triangles3DVBO;
 
-	int _width;
-	int _height;
-	int _depth;
 	int _pixelResolution;
 	string _contentDescription;
+	int _minX, _minY, _minZ, _maxX, _maxY, _maxZ;
+	int _worldWidth, _worldHeight, _worldDepth;
 };
 

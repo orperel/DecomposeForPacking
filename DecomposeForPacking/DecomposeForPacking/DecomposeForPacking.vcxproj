@@ -110,6 +110,7 @@
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="PartBuilder.cpp" />
     <ClCompile Include="PartOrientation.cpp" />
+    <ClCompile Include="PartsColorManager.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="PrimeNumbersModule.cpp" />
     <ClCompile Include="SameDecompose.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="DFPLogger.h" />
     <ClInclude Include="GL2DDisplayHelper.h" />
     <ClInclude Include="GL3DDisplayHelper.h" />
+    <ClInclude Include="PartsColorManager.h" />
     <ClInclude Include="VectorMathUtil.h" />
     <ClInclude Include="ObjMesh.h" />
     <ClInclude Include="OpenGL2DRenderer.h" />

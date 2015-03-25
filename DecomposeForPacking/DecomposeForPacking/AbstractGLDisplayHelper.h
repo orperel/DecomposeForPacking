@@ -6,10 +6,9 @@
 #include "OpenGLRenderContext.h"
 #include "IInputListener.h"
 #include "DecomposeAndPack.h"
-#include <unordered_map>
+#include "PartsColorManager.h"
 #include <tuple>
 
-using std::unordered_map;
 using std::tuple;
 typedef tuple<float, float, float> RGB_COLOR;
 
@@ -36,7 +35,7 @@ protected:
 	shared_ptr<OpenGLRenderContext> _renderContext;
 	bool _isCallbackReceived;
 	KEYBOARD_KEY _lastCallbackKey;
-	unordered_map< int, RGB_COLOR > _partOrientationToColor;
+	shared_ptr<PartsColorManager> _colorManager;
 
 private:
 	void initRenderingContext(WorldPtr world);

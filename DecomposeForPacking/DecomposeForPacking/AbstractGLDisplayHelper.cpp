@@ -1,28 +1,11 @@
 #include "AbstractGLDisplayHelper.h"
 #include <thread>
 #include "DFPLogger.h"
-#include <time.h>
 #include <string>
 
 AbstractGLDisplayHelper::AbstractGLDisplayHelper() : _isCallbackReceived(false)
 {
-	srand(time(NULL));
 
-	_partOrientationToColor[0] = std::make_tuple(255, 0, 0);
-	_partOrientationToColor[1] = std::make_tuple(0, 0, 255);
-	_partOrientationToColor[2] = std::make_tuple(0, 255, 0);
-	_partOrientationToColor[7] = std::make_tuple(255, 255, 0);
-	_partOrientationToColor[4] = std::make_tuple(255, 0, 255);
-	_partOrientationToColor[5] = std::make_tuple(0, 255, 255);
-	_partOrientationToColor[6] = std::make_tuple(205, 50, 155);
-	_partOrientationToColor[3] = std::make_tuple(255, 192, 0);
-	_partOrientationToColor[8] = std::make_tuple(149, 55, 55);
-	_partOrientationToColor[9] = std::make_tuple(255, 0, 128);
-	_partOrientationToColor[10] = std::make_tuple(74, 69, 42);
-	_partOrientationToColor[11] = std::make_tuple(100, 150, 42);
-	_partOrientationToColor[12] = std::make_tuple(30, 169, 250);
-	_partOrientationToColor[13] = std::make_tuple(0, 140, 120);
-	_partOrientationToColor[14] = std::make_tuple(200, 69, 200);
 }
 
 
@@ -47,6 +30,7 @@ void AbstractGLDisplayHelper::displayResults(WorldPtr world, DecomposeAndPackRes
 {
 	FinalDecomposeResults decomposeResult = std::get<0>(dapResults);
 	FinalPackResults packResult = std::get<1>(dapResults);
+	_colorManager = std::make_shared<PartsColorManager>(decomposeResult, packResult);
 	displayDecomposePackResults(world, decomposeResult, packResult);
 }
 
@@ -89,17 +73,35 @@ void AbstractGLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalD
 				{
 					decomposeResultsIndex--;
 				}
+
+				isCurrentDisplayDecompose = !isCurrentDisplayDecompose;
 			}
-			if (_lastCallbackKey == KEYBOARD_KEY::KEY_RIGHT)
+			else if (_lastCallbackKey == KEYBOARD_KEY::KEY_RIGHT)
 			{
 				if (!isCurrentDisplayDecompose)
 				{
 					decomposeResultsIndex++;
 				}
+
+				isCurrentDisplayDecompose = !isCurrentDisplayDecompose;
+			}
+			else if (_lastCallbackKey == KEYBOARD_KEY::KEY_1)
+			{
+				_colorManager->changeMode(ColorMode::CONSISTENT);
+			}
+			else if (_lastCallbackKey == KEYBOARD_KEY::KEY_2)
+			{
+				_colorManager->changeMode(ColorMode::BY_INSTANCE);
+			}
+			else if (_lastCallbackKey == KEYBOARD_KEY::KEY_3)
+			{
+				_colorManager->changeMode(ColorMode::ORIGINAL);
+			}
+			else if (_lastCallbackKey == KEYBOARD_KEY::KEY_R)
+			{
+				_colorManager->regenerateColorsCache();
 			}
 			
-			isCurrentDisplayDecompose = !isCurrentDisplayDecompose;
-
 			if (decomposeResultsIndex <= -1)
 			{
 				decomposeResultsIndex = -1;
@@ -121,6 +123,7 @@ void AbstractGLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalD
 			}
 			else if (isCurrentDisplayDecompose)
 			{
+				_colorManager->resetColorsToSolution(decomposeResultsIndex, true);
 				paintSingleSolution(world, decomposeResult->at(decomposeResultsIndex));
 
 				string solutionIndex = std::to_string(decomposeResultsIndex + 1);
@@ -129,6 +132,7 @@ void AbstractGLDisplayHelper::displayDecomposePackResults(WorldPtr world, FinalD
 			}
 			else
 			{
+				_colorManager->resetColorsToSolution(decomposeResultsIndex, false);
 				paintSingleSolution(world, packResult->at(decomposeResultsIndex));
 
 				string solutionIndex = std::to_string(decomposeResultsIndex + 1);
